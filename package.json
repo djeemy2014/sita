@@ -4,7 +4,8 @@
   "description": "sita - react service",
   "main": "index.js",
   "scripts": {
-    "test": "test index.js"
+    "start": "cd './sita-react-div/' && npm start",
+    "test": "index.js test"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/djeemy2014/sita/issues"
   },
-  "homepage": "https://github.com/djeemy2014/sita#readme"
+  "homepage": "https://github.com/djeemy2014/sita#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
 }
