@@ -1,0 +1,19 @@
+{
+  "name": "sita",
+  "version": "1.0.0",
+  "description": "sita - react service",
+  "main": "index.js",
+  "scripts": {
+    "test": "test index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djeemy2014/sita.git"
+  },
+  "author": "Dmitriy Demidyuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djeemy2014/sita/issues"
+  },
+  "homepage": "https://github.com/djeemy2014/sita#readme"
+}
