@@ -6,6 +6,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <h1>Cesium version 3.0 =P</h1>
+        <h2>Sita</h2>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
