@@ -2,7 +2,7 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 
 const Cesium = dynamic(
-  () => import('../components/Cesium'),
+  () => import('../src/components/Cesium'),
   { ssr: false }
 )
 
