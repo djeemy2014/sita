@@ -1,5 +1,5 @@
 
-import { useRef, useEffect } from "react";
+import {Component, useRef, useEffect, createRef, useLayoutEffect } from "react";
 import { 
   Viewer, 
   Entity, 
@@ -11,7 +11,9 @@ import {
   Cesium3DTileset,
   CameraFlyTo,
   ScreenSpaceEventHandler,
-  ScreenSpaceEvent 
+  ScreenSpaceEvent,
+  CesiumComponentRef,
+  
 } from "resium";
 import { Cartesian3 } from "cesium";
 import {
@@ -22,7 +24,9 @@ import {
   Matrix4,
   Cartographic,
   Camera as Camera_Cesium,
+  Viewer as Viewer_Cesium,
   Math as Math_Cesium,
+  ScreenSpaceEventHandler as ScreenSpaceEventHandler_Cesium,
   ScreenSpaceEventType as ScreenSpaceEventType_Cesium,
   Scene as Scene_Cesium
 } from "cesium"
@@ -41,60 +45,60 @@ const position_cam = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 10000);
   roll:0
 }; */
 
+
 function Test_Scene() {
   //Camera_0.defaultProps.position=position_cam
   //console.log(Camera_0.defaultProps.direction)
+
   let position_camera=Cartographic.fromCartesian(position_cam)
-  const viewRef = useRef(null);
-  const sceneRef =useRef(null);
+  const viewRef = createRef();
+  const sceneRef = useRef(null);
   const moveCamRef = useRef(null);
   const moveMouse = useRef(null);
+  console.log(1, moveMouse)
   let move_position=null
+
+  function onResize() {
+    console.log(2,moveMouse.current)
+    setTimeout((ev)=>{
+      if (moveMouse.current?.cesiumElement&&sceneRef.current?.cesiumElement) {
+        console.log(3,moveMouse)
+        moveMouse.current.cesiumElement.setInputAction((ev)=>{
+          //console.log(sceneRef.current.cesiumElement.pickPosition(ev))
+          let posit=Cartographic.fromCartesian(position_cam)
+          console.log("longitude",Math_Cesium.toDegrees (posit.longitude))
+          console.log("latitude" ,Math_Cesium.toDegrees (posit.latitude))
+          console.log("height",posit.height)
+          console.log(ev)
+          console.log(sceneRef.current.cesiumElement)
+          console.log(Cartographic.fromCartesian(sceneRef.current.cesiumElement.pickPosition(ev.position)))
+
+        },ScreenSpaceEventType_Cesium.LEFT_CLICK)
+
+      } else{}
+    },1)
     
-  useEffect(async () => {
-    if (viewRef.current?.cesiumElement) {
-      const csEl = viewRef.current.cesiumElement;
-      csEl.scene.primitives.add(await createOsmBuildingsAsync());
+    }
+    //window.addEventListener("resize", onResize);
+   //--> call it after component is rendered
+ 
+  useEffect( () => {
+    onResize()
+    
+    //return window.removeEventListener("resize", onResize);
 
-      console.log(viewRef)
-    }
-    if (moveCamRef.current?.cesiumElement) {
-      move_position=moveCamRef.current.cesiumElement.positionCartographic
-      console.log(move_position)
-    }
-    if (sceneRef.current?.cesiumElement) {
-      //pickPosition
-      console.log(sceneRef.current.cesiumElement)
-    }
-    if (moveMouse.current?.cesiumElement) {
-      const action=moveMouse.current.cesiumElement
-      console.log(action)
-    }
-
-  },[])
+  },)
+  
 
   return (
     <div>
       <h1>Привет</h1>
-    <Viewer  full  timeline={false} terrainProvider={terrainProvider} baseLayer={osm} ref={viewRef}>
+    <Viewer full timeline={false} terrainProvider={terrainProvider} baseLayer={osm} ref={viewRef}>
       {/* <Cesium3DTileset url={IonResource.fromAssetId(96188)} /> */}
       <Camera ref={moveCamRef} position={position_cam}>
       </Camera>
-      <ScreenSpaceEventHandler ref={moveMouse} >
-            <ScreenSpaceEvent action={(move)=>{
-              //let feature = new Scene_Cesium.pickPosition(move)
-
-              let posit=Cartographic.fromCartesian(position_cam)
-              console.log('LFFF')
-              console.log("longitude",Math_Cesium.toDegrees (posit.longitude))
-              console.log("latitude" ,Math_Cesium.toDegrees (posit.latitude))
-              console.log("height",posit.height)
-              console.log("move",move) 
-              //console.log(move_position) 
-            }} type={ScreenSpaceEventType_Cesium.LEFT_CLICK}>
-              
-            </ScreenSpaceEvent>
-      </ScreenSpaceEventHandler>
+      
+      <ScreenSpaceEventHandler ref={moveMouse} />
       <Scene pickTranslucentDepth={true} ref={sceneRef}>
       
       <Entity position={position} name="Tokyo">

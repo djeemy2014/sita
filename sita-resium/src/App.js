@@ -3,6 +3,8 @@ import './App.css';
 import {BrowserRouter, Routes, Route, Outlet, Link } from "react-router-dom";
 import Cesium from './components/Cesium.js'
 import Test_Scene from './components/TestComponent.js'
+import ExampleComponent from './components/useEfect.js'
+import AssetMap from './components/Problem_2020'
 
 
 
@@ -15,6 +17,8 @@ function App() {
         <Route path="/" element={<Layout />} />
         <Route path="/startCesium" element={<Cesium />} />
         <Route path="/testCesium" element={<Test_Scene />} />
+        <Route path="/useEfect" element={<ExampleComponent />} />
+        <Route path="/problen" element={<AssetMap />} />
       </Routes>
     </BrowserRouter>
     
@@ -37,6 +41,15 @@ function Layout(){
           </li>
           <li>
             <Link to="/startCesium">startCesium</Link>
+          </li>
+          <li>
+            <Link to="/testCesium">testCesium</Link>
+          </li>
+          <li>
+            <Link to="/useEfect">useEfect</Link>
+          </li>
+          <li>
+            <Link to="/problen">useEfect</Link>
           </li>
         </ul>
       </nav>
