@@ -1,0 +1,11 @@
+div#toolbar{
+    border: solid 2px;
+    border-color: brown;
+}
+div.viewer{
+    position: absolute;
+    height: 65%;
+    width: 100%;
+    border: solid 2px;
+    border-color: rgb(159, 255, 4);
+}
