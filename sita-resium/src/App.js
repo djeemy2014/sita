@@ -5,6 +5,7 @@ import Cesium from './components/Cesium.js'
 // import './components/css/TestComponent.css'
 import Test_Scene from './components/TestComponent.js'
 import ExampleComponent from './components/useEfect.js'
+import MyComponentCesium from './components/Cesium_Work.jsx'
 import AssetMap from './components/Problem_2020'
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Layout />} />
         <Route path="/startCesium" element={<Cesium />} />
         <Route path="/testCesium" element={<Test_Scene />} />
+        <Route path="/testCesium2" element={<MyComponentCesium />} />
         <Route path="/useEfect" element={<ExampleComponent />} />
         <Route path="/problen" element={<AssetMap />} />
       </Routes>
@@ -45,6 +47,9 @@ function Layout(){
           </li>
           <li>
             <Link to="/testCesium">testCesium</Link>
+          </li>
+          <li>
+            <Link to="/testCesium2">testCesium2</Link>
           </li>
           <li>
             <Link to="/useEfect">useEfect</Link>
