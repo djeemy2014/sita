@@ -62,6 +62,41 @@ async function testCesiumElemet(ref,i=0){
     //return promis.then((ev)=>{console.log(ev); return ev}).catch((ev)=>{console.log(ev);  return ev})
 
 }
+class MyComponentButton extends Component{
+    constructor(props){
+        super(props)
+        
+        this.ref=createRef()
+
+        state = {checked:true}
+
+    }
+    checkedShow(e){
+        //https://react.dev/reference/react/Component#defining-a-class-component
+        //
+    }
+
+
+    componentDidUpdate(prevState,prevProps){
+        if(prevProps.checked !== this.ref.current.checked) {
+            console.log('JGGF')
+        }
+    }
+
+    render(){
+        return (
+            <div>
+                <p>БАТОН</p>
+                <button onClick={()=>{
+                    if (this.ref.current.checked){this.ref.current.checked=false}else{this.ref.current.checked=true}
+                }}>привет</button>
+                <input type={'checkbox'} ref={this.ref} name="scales" defaultChecked></input>
+                <label >Scales</label>
+                <p>{JSON.stringify( this.ref.current)}</p>
+            </div>
+        )}
+}
+
 
 class MyComponentCesium extends Component{
     constructor(props) {
@@ -137,6 +172,7 @@ class MyComponentCesium extends Component{
 
                 </div>
                 <div id="toolbar">
+                    <MyComponentButton/>
                     <p>
                         Кнопка
                     </p>
