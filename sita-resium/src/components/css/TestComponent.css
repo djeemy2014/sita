@@ -1,10 +1,18 @@
 div#toolbar{
+    position:relative;
     border: solid 2px;
     border-color: brown;
+    height: 20%;
+    width: 100%;
 }
-div.viewer{
-    position: absolute;
-    height: 65%;
+#viewerTest{
+    position:relative;
+    height: 80%;
+    width: 100%;
+}
+div#viewer{
+    position: fixed;
+    height: 100%;
     width: 100%;
     border: solid 2px;
     border-color: rgb(159, 255, 4);

@@ -1,11 +1,14 @@
 import "./css/TestComponent.css"
+import "./layer/VDC_3857.geojson" 
 
 import {createRef, Component} from 'react'
 import { 
     Viewer,
     Scene,
     Camera,
-    Entity
+    Entity,
+    CustomDataSource,
+    GeoJsonDataSource
  } from 'resium'
 import{
     //Ion,
@@ -16,7 +19,8 @@ import{
     PointGraphics as PointGraphicsCesium,
     Color as ColorCesium,
     HeightReference as HeightReferenceCesium,
-    Cartographic as CartographicCesium
+    Cartographic as CartographicCesium,
+    GeoJsonDataSource as GeoJsonDataSourceCesium
     //CesiumTerrainProvider as CesiumTerrainProviderCesium,
 } from 'cesium'
 //функция ожидания cesiumElement
@@ -65,32 +69,37 @@ async function testCesiumElemet(ref,i=0){
 class MyComponentButton extends Component{
     constructor(props){
         super(props)
-        
         this.ref=createRef()
 
-        state = {checked:true}
+        this.checked = true
+        this.state = {checked:true}
 
     }
-    checkedShow(e){
+    checkedShow=()=>{
         //https://react.dev/reference/react/Component#defining-a-class-component
         //
+        if (this.ref.current.checked){this.ref.current.checked=false}else{this.ref.current.checked=true}
+        console.log('=)')
     }
 
 
     componentDidUpdate(prevState,prevProps){
-        if(prevProps.checked !== this.ref.current.checked) {
+        //console.log(prevProps)
+        //console.log(this.state.checked)
+        if(prevProps.checked !== this.state.checked) {
             console.log('JGGF')
         }
     }
 
     render(){
+        //console.log(this.ref)
         return (
             <div>
                 <p>БАТОН</p>
                 <button onClick={()=>{
                     if (this.ref.current.checked){this.ref.current.checked=false}else{this.ref.current.checked=true}
                 }}>привет</button>
-                <input type={'checkbox'} ref={this.ref} name="scales" defaultChecked></input>
+                <input type={'checkbox'} ref={this.ref} name="scales" onChange={this.checkedShow}></input>
                 <label >Scales</label>
                 <p>{JSON.stringify( this.ref.current)}</p>
             </div>
@@ -105,7 +114,19 @@ class MyComponentCesium extends Component{
         this.scenaRef = createRef();
         this.cameraRef = createRef();
         this.pointRef=createRef()
+        this.checked=createRef()
+        this.layer=createRef()
         
+        
+      }
+      checkedShow(e){
+        
+        let shower=e.current.cesiumElement.show
+        console.log(e)
+        console.log(shower)
+        shower?shower=false:shower=true
+        console.log(shower)
+
       }
       async componentDidMount() {
         //Ion.defaultAccessToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NzJjNjYzYi1jMmMzLTQ4YmMtYjQ3OC0zOTFhZjE4MWFlNmMiLCJpZCI6NjQyMjUsImlhdCI6MTY5Mzk5ODY4NX0.ptWchwMm8LuwnypYqoS1T4hSZ2JxKFxAcioki5FZczU"
@@ -141,16 +162,17 @@ class MyComponentCesium extends Component{
         testCesiumElemet(this.pointRef)
         .then(async (point)=>{
             //настройка pointRef
-            const pointGrap=new PointGraphicsCesium
+            const pointGrap=PointGraphicsCesium
             pointGrap.color = ColorCesium.fromRgba('0xFF0000ff')
             pointGrap.pixelSize = 10
             pointGrap.heightReference=HeightReferenceCesium.CLAMP_TO_GROUND
-            pointGrap.show = false
+            pointGrap.show = true
             point.current.cesiumElement.position=Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 100)
             point.current.cesiumElement.name="Red Point"
 
             point.current.cesiumElement.point=pointGrap
             point.current.cesiumElement.description =`<h1>Установленная высота</h1></br><p> ${CartographicCesium.fromCartesian(point.current.cesiumElement.position._value).height}`
+            point.current.cesiumElement.show=this.checked.current.checked
             
             //console.log(point.current.cesiumElement)
             //console.log(CartographicCesium.fromCartesian(point.current.cesiumElement.position._value))
@@ -158,27 +180,51 @@ class MyComponentCesium extends Component{
             
         })
         .catch(console.log)
+
+        testCesiumElemet(this.layer)
+        .then(async (layer)=>{
+            //console.log(await layer.current.cesiumElement)
+            fetch('http://10.0.5.190:18077/cesium_test/geodata/geojson/react/VDC_100058.geojson')
+            .then(console.log)
+            //let commits = await response.json()
+            //console.log(commits)
+            //await layer.current.cesiumElement.load(lay)
+        })
       }
 
     render(){
         return (
-            <div>
+            <div id="viewer">
                 <div>
-                    <Viewer style={{ top: 0, left: 0, right: 0, bottom: 0 }} ref={this.viewerRef} timeline={false}>
+                    <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false}>
                         <Camera ref={this.cameraRef} />
                         <Scene ref={this.scenaRef} />
+                        <GeoJsonDataSource ref={this.layer} />
                         <Entity ref={this.pointRef} />
                     </Viewer>
 
                 </div>
                 <div id="toolbar">
-                    <MyComponentButton/>
                     <p>
-                        Кнопка
+                        Кнопки
                     </p>
-                    <input type="checkbox">
+                    <input defaultChecked type="checkbox" ref={this.checked} onChange={()=>{
+                        this.pointRef.current.cesiumElement.show=this.checked.current.checked
+                        //console.log(this.pointRef);console.log(this.checked)
+                        //можно сделать отдельный конмонент/функцию чтобы рисовать основываясь на входных параметрах
+                        }}>
 
                     </input>
+                    <label>Red Point</label>
+                    <br></br>
+                    <input type="checkbox"  onChange={()=>{
+                        //this.pointRef.current.cesiumElement.show=this.checked.current.checked
+                        //console.log(this.pointRef);console.log(this.checked)
+                        //можно сделать отдельный конмонент/функцию чтобы рисовать основываясь на входных параметрах
+                        }}>
+
+                    </input>
+                    <label>Layer</label>
                 </div>
             </div> 
         )

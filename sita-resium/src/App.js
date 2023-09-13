@@ -22,6 +22,7 @@ function App() {
         <Route path="/testCesium2" element={<MyComponentCesium />} />
         <Route path="/useEfect" element={<ExampleComponent />} />
         <Route path="/problen" element={<AssetMap />} />
+        <Route path="/layer" />
       </Routes>
     </BrowserRouter>
     
