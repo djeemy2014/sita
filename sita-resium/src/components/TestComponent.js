@@ -1,6 +1,8 @@
 import "./css/TestComponent.css"
 
-import {Component, useRef, useEffect, createRef, useState } from "react";
+import {
+  //Component, 
+  useRef, useEffect, createRef, useState } from "react";
 import { 
   Viewer, 
   Entity, 
@@ -8,28 +10,29 @@ import {
   EntityDescription, 
   Camera, 
   Scene, 
-  Primitive, 
-  Cesium3DTileset,
-  CameraFlyTo,
+  //Primitive, 
+  //Cesium3DTileset,
+  //CameraFlyTo,
   ScreenSpaceEventHandler,
-  ScreenSpaceEvent,
-  CesiumComponentRef,
+  //ScreenSpaceEvent,
+  //CesiumComponentRef,
   
 } from "resium";
 import { Cartesian3 } from "cesium";
 import {
-  Ion, IonResource,
+  Ion, 
+  //IonResource,
   createWorldTerrainAsync, 
   UrlTemplateImageryProvider, 
-  createOsmBuildingsAsync,
-  Matrix4,
+  //createOsmBuildingsAsync,
+  //Matrix4,
   Cartographic,
-  Camera as Camera_Cesium,
-  Viewer as Viewer_Cesium,
+  //Camera as Camera_Cesium,
+  //Viewer as Viewer_Cesium,
   Math as Math_Cesium,
-  ScreenSpaceEventHandler as ScreenSpaceEventHandler_Cesium,
+  //ScreenSpaceEventHandler as ScreenSpaceEventHandler_Cesium,
   ScreenSpaceEventType as ScreenSpaceEventType_Cesium,
-  Scene as Scene_Cesium,
+  //Scene as Scene_Cesium,
   PointGraphics as PointGraphics_Cesium,
   Color as Color_Cesium
 } from "cesium"
@@ -37,7 +40,7 @@ import {
 
 
 Ion.defaultAccessToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NzJjNjYzYi1jMmMzLTQ4YmMtYjQ3OC0zOTFhZjE4MWFlNmMiLCJpZCI6NjQyMjUsImlhdCI6MTY5Mzk5ODY4NX0.ptWchwMm8LuwnypYqoS1T4hSZ2JxKFxAcioki5FZczU"
-const terrainProvider = await createWorldTerrainAsync();
+//const terrainProvider = await createWorldTerrainAsync();
 const osm = UrlTemplateImageryProvider({
   url: 'https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
 })
@@ -64,7 +67,7 @@ function Test_Scene() {
   //Camera_0.defaultProps.position=position_cam
   //console.log(Camera_0.defaultProps.direction)
 
-  let position_camera=Cartographic.fromCartesian(position_cam)
+  //let position_camera=Cartographic.fromCartesian(position_cam)
   const viewRef = createRef();
   const sceneRef = useRef(null);
   const positCamRef = useRef(null);

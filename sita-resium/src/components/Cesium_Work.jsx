@@ -1,5 +1,4 @@
 import "./css/TestComponent.css"
-import "./layer/VDC_3857.geojson" 
 
 import {createRef, Component} from 'react'
 import { 
@@ -7,7 +6,7 @@ import {
     Scene,
     Camera,
     Entity,
-    CustomDataSource,
+    //CustomDataSource,
     GeoJsonDataSource
  } from 'resium'
 import{
@@ -20,7 +19,7 @@ import{
     Color as ColorCesium,
     HeightReference as HeightReferenceCesium,
     Cartographic as CartographicCesium,
-    GeoJsonDataSource as GeoJsonDataSourceCesium
+    //GeoJsonDataSource as GeoJsonDataSourceCesium
     //CesiumTerrainProvider as CesiumTerrainProviderCesium,
 } from 'cesium'
 //функция ожидания cesiumElement
@@ -53,13 +52,13 @@ async function testCesiumElemet(ref,i=0){
         //console.log()
         if (ref.current?.cesiumElement) {
             resolve (ref)
-            } else if (i<100){
+            } else if (i<500){
                 i=i+1;
                 setTimeout(()=>{
                     testCesiumElemet(ref, i).then(resolve).catch(reject)
-                },500)
+                },10)
             }else {
-                reject (new Error(`Ожидание больше ${100*500/1000} секунд.`))
+                reject (new Error(`Ожидание больше ${500*10/1000} секунд.`))
             }
     })
     //promis.then(console.log)
@@ -184,8 +183,18 @@ class MyComponentCesium extends Component{
         testCesiumElemet(this.layer)
         .then(async (layer)=>{
             //console.log(await layer.current.cesiumElement)
-            fetch('http://10.0.5.190:18077/cesium_test/geodata/geojson/react/VDC_100058.geojson')
-            .then(console.log)
+            let lay={}
+            fetch('http://10.0.5.190:18077/cesium_test/geodata/geojson/react/VDC_4326.geojson',{
+                            //mode: 'no-cors',
+                            method: "get",
+                            headers: {
+                                 "Content-Type": "application/json"
+                            },
+                            //body: JSON.stringify(ob)
+                        })
+                        .then((res) => res.json())
+                        .then((ev)=>{layer.current.cesiumElement.load(ev)})
+                //.then(console.log)
             //let commits = await response.json()
             //console.log(commits)
             //await layer.current.cesiumElement.load(lay)
@@ -218,6 +227,30 @@ class MyComponentCesium extends Component{
                     <label>Red Point</label>
                     <br></br>
                     <input type="checkbox"  onChange={()=>{
+                        console.log(1)
+                        fetch('http://10.0.5.190:18077/cesium_test/geodata/geojson/react/VDC_100058.geojson',{
+                            //mode: 'no-cors',
+                            method: "get",
+                            headers: {
+                                 "Content-Type": "application/json"
+                            },
+                            //body: JSON.stringify(ob)
+                        })
+                        .then((res) => res.json())
+                        .then(console.log)
+                        .catch(console.log)
+                        fetch('https://jsonplaceholder.typicode.com/posts',{
+                            //mode: 'no-cors',
+                            /* method: "get",
+                            headers: {
+                                 "Content-Type": "application/json"
+                            }, */
+                            //body: JSON.stringify(ob)
+                        })
+                        .then((res) => res.json())
+                        .then(console.log)
+                            //.then(console.log)
+                        //.catch(console.log)
                         //this.pointRef.current.cesiumElement.show=this.checked.current.checked
                         //console.log(this.pointRef);console.log(this.checked)
                         //можно сделать отдельный конмонент/функцию чтобы рисовать основываясь на входных параметрах

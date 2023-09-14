@@ -1,12 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Cartesian3, SceneMode, IonImageryProvider } from 'cesium';
-import { BillboardGraphics, Camera, Entity, Viewer } from 'resium';
+import React, { 
+  //useState, 
+  useRef, useEffect } from 'react';
+import { Cartesian3, SceneMode, 
+  //IonImageryProvider 
+} from 'cesium';
+import { BillboardGraphics, 
+  //Camera,
+   Entity, Viewer } from 'resium';
 
 const dummyElement = document.createElement('div');
 
 function AssetMap(props) {
-const [billboardClicked, setBillboardClicked] = useState(false);
-const [selectedEntity, setSelectedEntity] = useState({});
+//const [billboardClicked, setBillboardClicked] = useState(false);
+//const [selectedEntity, setSelectedEntity] = useState({});
 
 const ref = useRef(null);  // Ref for <Viewer>
 const entityRef = useRef(null); //Ref for <Entity>

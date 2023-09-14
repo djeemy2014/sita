@@ -1,6 +1,6 @@
-import { render } from 'react-dom';
+//import { render } from 'react-dom';
 import './App.css';
-import {BrowserRouter, Routes, Route, Outlet, Link } from "react-router-dom";
+import {BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Cesium from './components/Cesium.js'
 // import './components/css/TestComponent.css'
 import Test_Scene from './components/TestComponent.js'
