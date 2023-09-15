@@ -10,8 +10,9 @@ import {
     GeoJsonDataSource
  } from 'resium'
 import{
-    //Ion,
+    Ion,
     //Terrain as TerrainCesium,
+    EllipsoidTerrainProvider,
     createWorldTerrainAsync,
     Math as MathCesium,
     Cartesian3 as Cartesian3Cesium,
@@ -20,7 +21,7 @@ import{
     HeightReference as HeightReferenceCesium,
     Cartographic as CartographicCesium,
     //GeoJsonDataSource as GeoJsonDataSourceCesium
-    //CesiumTerrainProvider as CesiumTerrainProviderCesium,
+    CesiumTerrainProvider as CesiumTerrainProviderCesium,
 } from 'cesium'
 //функция ожидания cesiumElement
 /* async function getData(th,i=0){
@@ -110,7 +111,7 @@ class MyComponentCesium extends Component{
     constructor(props) {
         super(props);
         this.viewerRef = createRef();
-        this.scenaRef = createRef();
+        this.sceneRef = createRef();
         this.cameraRef = createRef();
         this.pointRef=createRef()
         this.checked=createRef()
@@ -128,16 +129,25 @@ class MyComponentCesium extends Component{
 
       }
       async componentDidMount() {
-        //Ion.defaultAccessToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NzJjNjYzYi1jMmMzLTQ4YmMtYjQ3OC0zOTFhZjE4MWFlNmMiLCJpZCI6NjQyMjUsImlhdCI6MTY5Mzk5ODY4NX0.ptWchwMm8LuwnypYqoS1T4hSZ2JxKFxAcioki5FZczU"
+        Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NzJjNjYzYi1jMmMzLTQ4YmMtYjQ3OC0zOTFhZjE4MWFlNmMiLCJpZCI6NjQyMjUsImlhdCI6MTY5Mzk5ODY4NX0.ptWchwMm8LuwnypYqoS1T4hSZ2JxKFxAcioki5FZczU";
         testCesiumElemet(this.viewerRef)
         .then(async (viewer)=>{
             //настройка viewer
             viewer.current.cesiumElement.terrainProvider= await createWorldTerrainAsync()
+            viewer.current.cesiumElement.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(2279465)
+            
+            
             //console.log(viewer.current.cesiumElement)
             //viewer.ref.current.cesiumElement.ConstructorOptions
             
         })
         .catch(console.log)
+        testCesiumElemet(this.sceneRef)
+        .then(async (scene)=>{
+            //scene.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(1144816)
+          
+        }
+        )
 
         testCesiumElemet(this.cameraRef)
         .then(async (camera)=>{
@@ -184,7 +194,7 @@ class MyComponentCesium extends Component{
         .then(async (layer)=>{
             //console.log(await layer.current.cesiumElement)
             let lay={}
-            fetch('http://10.0.5.190:18077/cesium_test/geodata/geojson/react/VDC_4326.geojson',{
+            fetch('http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/VDC_4326.geojson',{
                             //mode: 'no-cors',
                             method: "get",
                             headers: {
@@ -207,7 +217,7 @@ class MyComponentCesium extends Component{
                 <div>
                     <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false}>
                         <Camera ref={this.cameraRef} />
-                        <Scene ref={this.scenaRef} />
+                        <Scene ref={this.sceneRef} />
                         <GeoJsonDataSource ref={this.layer} />
                         <Entity ref={this.pointRef} />
                     </Viewer>
@@ -228,27 +238,7 @@ class MyComponentCesium extends Component{
                     <br></br>
                     <input type="checkbox"  onChange={()=>{
                         console.log(1)
-                        fetch('http://10.0.5.190:18077/cesium_test/geodata/geojson/react/VDC_100058.geojson',{
-                            //mode: 'no-cors',
-                            method: "get",
-                            headers: {
-                                 "Content-Type": "application/json"
-                            },
-                            //body: JSON.stringify(ob)
-                        })
-                        .then((res) => res.json())
-                        .then(console.log)
-                        .catch(console.log)
-                        fetch('https://jsonplaceholder.typicode.com/posts',{
-                            //mode: 'no-cors',
-                            /* method: "get",
-                            headers: {
-                                 "Content-Type": "application/json"
-                            }, */
-                            //body: JSON.stringify(ob)
-                        })
-                        .then((res) => res.json())
-                        .then(console.log)
+                        
                             //.then(console.log)
                         //.catch(console.log)
                         //this.pointRef.current.cesiumElement.show=this.checked.current.checked
