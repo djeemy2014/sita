@@ -5,7 +5,7 @@ export default async function testCesiumElemet(ref,i=0){
         if (ref.current?.cesiumElement) {
             resolve (ref)
             } else if (i<500){
-                i=i+1;
+                i++;
                 setTimeout(()=>{
                     testCesiumElemet(ref, i).then(resolve).catch(reject)
                 },10)

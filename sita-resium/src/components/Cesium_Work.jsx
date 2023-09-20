@@ -30,6 +30,10 @@ import{
     CesiumTerrainProvider as CesiumTerrainProviderCesium,
 } from 'cesium'
 
+const setingScene = await fetch('http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/testScena.json')
+const setingSceneJSON = await setingScene.json()
+
+
 class MyComponentCesium extends Component{
     constructor(props) {
         super(props);
@@ -39,6 +43,9 @@ class MyComponentCesium extends Component{
         this.pointRef=createRef()
         this.checked=createRef()
         this.layer=createRef()
+        this.layer2=createRef()
+        this.layer3=createRef()
+        //записываеться в один this как массив дальше циклом со пробегаеться по всем параметром и обявляет создание ссылки и работает с кадым параметром отдельно.
         
         
       }
@@ -112,11 +119,84 @@ class MyComponentCesium extends Component{
             
         })
         .catch(console.log)
+        let lay=setingSceneJSON.layer[0]
         testCesiumElemet(this.layer)
         .then(async (layer)=>{
             //console.log(await layer.current.cesiumElement)
-            let lay={}
-            fetch('http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/VDC_4326.geojson',{
+            
+            let url = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson'+setingSceneJSON.layer[0].path
+            fetch(url,{
+                            //mode: 'no-cors',
+                            method: "get",
+                            headers: {
+                                 "Content-Type": "application/json"
+                            },
+                            //body: JSON.stringify(ob)
+                        })
+                        .then((res) => res.json())
+                        .then((ev)=>{layer.current.cesiumElement.load(ev)})
+            //layer.current.cesiumElement.show=document.getElementById('chek').checked
+                //.then(console.log)
+            //let commits = await response.json()
+            //console.log(commits)
+            //await layer.current.cesiumElement.load(lay)
+        })
+        testCesiumElemet(this.layer2)
+        .then(async (layer)=>{
+            //console.log(await layer.current.cesiumElement)
+            
+            let url = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson'+setingSceneJSON.layer[1].path
+            fetch(url,{
+                            //mode: 'no-cors',
+                            method: "get",
+                            headers: {
+                                 "Content-Type": "application/json"
+                            },
+                            //body: JSON.stringify(ob)
+                        })
+                        .then((res) => res.json())
+                        .then((ev)=>{
+                            layer.current.cesiumElement.load(ev).then((dataSource)=>{
+                                dataSource.entities.values.forEach((elem)=>{
+                                    //elem.polygon.extrudedHeight=5
+                                    //elem.polygon.extrudedHeightReference =1
+                                    elem.polygon.heightReference=1
+                                    elem.polygon.material=ColorCesium.fromBytes(
+                                        255/elem.properties.fid.valueOf(),
+                                        255/elem.properties.fid.valueOf(),
+                                        255/elem.properties.fid.valueOf(),
+                                        255)
+                                })
+                            })
+                            
+                            layer.current.cesiumElement.entities.values.forEach((elem)=>{
+                                elem.polygon=undefined
+                                /* console.log(elem.properties.fid.valueOf())
+                                console.log(elem.polygon.heightReference)
+                                elem.polygon.height =5
+                                elem.polygon.heightReference='CLAMP_TO_GROUND'
+                                console.log(elem.polygon.heightReference)
+                                console.log(elem.polygon.material)
+                                elem.polygon.material=ColorCesium.BLUE *//* (
+                                    1/elem.properties.fid.valueOf(),
+                                    1/elem.properties.fid.valueOf(),
+                                    1/elem.properties.fid.valueOf(),
+                                    1) */
+                            })
+                            //console.log(layer.current.cesiumElement.entities.values)
+                        })
+            //layer.current.cesiumElement.show=document.getElementById('chek').checked
+                //.then(console.log)
+            //let commits = await response.json()
+            //console.log(commits)
+            //await layer.current.cesiumElement.load(lay)
+        })
+        testCesiumElemet(this.layer3)
+        .then(async (layer)=>{
+            //console.log(await layer.current.cesiumElement)
+            
+            let url = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson'+setingSceneJSON.layer[2].path
+            fetch(url,{
                             //mode: 'no-cors',
                             method: "get",
                             headers: {
@@ -137,6 +217,7 @@ class MyComponentCesium extends Component{
       }
 
     render(){
+
         return (
             <div id="viewer">
                 <div id="toolbar">
@@ -152,14 +233,18 @@ class MyComponentCesium extends Component{
                     </input>
                     <label>Red Point</label>
                     <br></br>
-                    <InputChekbox id={"ce"} name={"Layer"} reff={this.layer} defaultChecked={false} />
+                    <InputChekbox id={setingSceneJSON.layer[0].uid} name={setingSceneJSON.layer[0].name} reff={this.layer} defaultChecked={setingSceneJSON.layer[0].default} />
+                    <InputChekbox id={setingSceneJSON.layer[1].uid} name={setingSceneJSON.layer[1].name} reff={this.layer2} defaultChecked={setingSceneJSON.layer[1].default} />
+                    <InputChekbox id={setingSceneJSON.layer[2].uid} name={setingSceneJSON.layer[2].name} reff={this.layer3} defaultChecked={setingSceneJSON.layer[2].default} />
                 </div>
                 <div>
-                    <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false}>
-                        <Camera ref={this.cameraRef} />
+                    <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false} homeButton={false} animation={false}>
+                        <Camera ref={this.cameraRef} /> 
                         <Scene ref={this.sceneRef} />
                         <>
                             <GeoJsonDataSource ref={this.layer} />
+                            <GeoJsonDataSource ref={this.layer2} />
+                            <GeoJsonDataSource ref={this.layer3} />
                         </>
                         <Entity ref={this.pointRef} />
                     </Viewer>
