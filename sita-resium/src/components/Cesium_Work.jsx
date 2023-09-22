@@ -1,6 +1,9 @@
 import "./css/TestComponent.css"
 import testCesiumElemet from './testCesiumElemet'
-import InputChekbox from "./InputChecked"
+import InputChekbox from "./workerComponents/InputChecked"
+import NavBarLayer from "./workerComponents/NavBarLayer"
+//import CreateGeoJsonComponents from "./workerComponents/CreateGeoJsonComponents"
+import CreateGeoJsonComponent from "./workerComponents/CreateGeoJsonComponent"
 
 import {
     createRef, 
@@ -32,9 +35,9 @@ import{
 
 const setingScene = await fetch('http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/testScena.json')
 const setingSceneJSON = await setingScene.json()
+//const setingSceneObj = await setingSceneJSON добавить createRef()?
 
-
-class MyComponentCesium extends Component{
+class DJeemyComponentCesium extends Component{
     constructor(props) {
         super(props);
         this.viewerRef = createRef();
@@ -42,22 +45,24 @@ class MyComponentCesium extends Component{
         this.cameraRef = createRef();
         this.pointRef=createRef()
         this.checked=createRef()
+        this.server= 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'
+        this.layersParams=setingSceneJSON.layer
+        this.layers2=[]
+        this.layers={
+            layer:createRef(),
+            layer2:createRef(),
+            layer3:createRef(),
+        }
+
         this.layer=createRef()
         this.layer2=createRef()
         this.layer3=createRef()
+        
         //записываеться в один this как массив дальше циклом со пробегаеться по всем параметром и обявляет создание ссылки и работает с кадым параметром отдельно.
         
         
       }
-      checkedShow(e){
-        
-        let shower=e.current.cesiumElement.show
-        console.log(e)
-        console.log(shower)
-        shower?shower=false:shower=true
-        console.log(shower)
 
-      }
       async componentDidMount() {
         Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NzJjNjYzYi1jMmMzLTQ4YmMtYjQ3OC0zOTFhZjE4MWFlNmMiLCJpZCI6NjQyMjUsImlhdCI6MTY5Mzk5ODY4NX0.ptWchwMm8LuwnypYqoS1T4hSZ2JxKFxAcioki5FZczU";
         testCesiumElemet(this.viewerRef)
@@ -141,7 +146,7 @@ class MyComponentCesium extends Component{
             //console.log(commits)
             //await layer.current.cesiumElement.load(lay)
         })
-        testCesiumElemet(this.layer2)
+        testCesiumElemet(this.layers.layer2)
         .then(async (layer)=>{
             //console.log(await layer.current.cesiumElement)
             
@@ -191,7 +196,7 @@ class MyComponentCesium extends Component{
             //console.log(commits)
             //await layer.current.cesiumElement.load(lay)
         })
-        testCesiumElemet(this.layer3)
+        testCesiumElemet(this.layers.layer3)
         .then(async (layer)=>{
             //console.log(await layer.current.cesiumElement)
             
@@ -217,10 +222,28 @@ class MyComponentCesium extends Component{
       }
 
     render(){
+        let litLayer2=[]
+        let listGeoJSON2=[]
+        this.layersParams.forEach((elem, index)=>{
+            this.layers2[index]=createRef();
+            litLayer2[index]=<InputChekbox id={elem.uid} name={elem.name} reff={this.layers2[index]} defaultChecked={elem.default} />;
+            listGeoJSON2[index]=<CreateGeoJsonComponent ref={this.layers2[index]} obj={elem} server={this.server}/>
+        })
+        const litLayer = this.layersParams.map((elem, index)=>
+            
+            <InputChekbox id={elem.uid} name={elem.name} reff={this.layers2[index]} defaultChecked={elem.default} />
+        )
+        const listGeoJSON = this.layersParams.map((elem, index)=>
+            <CreateGeoJsonComponent ref={this.layers2[index]} obj={elem} server={this.server}/>
+        )
+        console.log(listGeoJSON)
 
         return (
             <div id="viewer">
                 <div id="toolbar">
+                    <div>
+                        <NavBarLayer arr={litLayer2}/>
+                    </div>
                     <p>
                         Кнопки
                     </p>
@@ -231,20 +254,26 @@ class MyComponentCesium extends Component{
                         }}>
 
                     </input>
-                    <label>Red Point</label>
+                    <label> Red Point</label>
                     <br></br>
-                    <InputChekbox id={setingSceneJSON.layer[0].uid} name={setingSceneJSON.layer[0].name} reff={this.layer} defaultChecked={setingSceneJSON.layer[0].default} />
-                    <InputChekbox id={setingSceneJSON.layer[1].uid} name={setingSceneJSON.layer[1].name} reff={this.layer2} defaultChecked={setingSceneJSON.layer[1].default} />
-                    <InputChekbox id={setingSceneJSON.layer[2].uid} name={setingSceneJSON.layer[2].name} reff={this.layer3} defaultChecked={setingSceneJSON.layer[2].default} />
+                    <ul>
+                        <li><InputChekbox id={setingSceneJSON.layer[0].uid} name={setingSceneJSON.layer[0].name} reff={this.layer} defaultChecked={setingSceneJSON.layer[0].default} /></li>
+                        <li><InputChekbox id={setingSceneJSON.layer[1].uid} name={setingSceneJSON.layer[1].name} reff={this.layers.layer2} defaultChecked={setingSceneJSON.layer[1].default} /></li>
+                        <li><InputChekbox id={setingSceneJSON.layer[2].uid} name={setingSceneJSON.layer[2].name} reff={this.layers.layer3} defaultChecked={setingSceneJSON.layer[2].default} /></li>
+                    </ul>
+                    {/* <InputChekbox id={setingSceneJSON.layer[0].uid} name={setingSceneJSON.layer[0].name} reff={this.layer} defaultChecked={setingSceneJSON.layer[0].default} />
+                    <InputChekbox id={setingSceneJSON.layer[1].uid} name={setingSceneJSON.layer[1].name} reff={this.layers.layer2} defaultChecked={setingSceneJSON.layer[1].default} />
+                    <InputChekbox id={setingSceneJSON.layer[2].uid} name={setingSceneJSON.layer[2].name} reff={this.layers.layer3} defaultChecked={setingSceneJSON.layer[2].default} /> */}
                 </div>
                 <div>
                     <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false} homeButton={false} animation={false}>
                         <Camera ref={this.cameraRef} /> 
                         <Scene ref={this.sceneRef} />
                         <>
+                            {listGeoJSON2}
                             <GeoJsonDataSource ref={this.layer} />
-                            <GeoJsonDataSource ref={this.layer2} />
-                            <GeoJsonDataSource ref={this.layer3} />
+                            <GeoJsonDataSource ref={this.layers.layer2} />
+                            <GeoJsonDataSource ref={this.layers.layer3} />
                         </>
                         <Entity ref={this.pointRef} />
                     </Viewer>
@@ -256,4 +285,4 @@ class MyComponentCesium extends Component{
     }
 }
 
-export default MyComponentCesium
+export default DJeemyComponentCesium

@@ -1,4 +1,5 @@
 import "./css/TestComponent.css"
+import Example from "./workerComponents/NavBarLayer"
 
 import {
   //Component, 
@@ -150,7 +151,7 @@ function Test_Scene() {
 
   return (
     <div>
-      
+      <Example></Example>
       
       <div id="viewer" >
       <Viewer 

@@ -4,7 +4,7 @@ import {
     //useState, 
     //useRef
 } from 'react'
-import testCesiumElemet from './testCesiumElemet'
+import testCesiumElemet from '../testCesiumElemet'
 
 class InputChekbox extends Component{
     constructor(props){

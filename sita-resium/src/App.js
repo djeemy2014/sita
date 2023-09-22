@@ -5,7 +5,7 @@ import Cesium from './components/Cesium.js'
 // import './components/css/TestComponent.css'
 import Test_Scene from './components/TestComponent.js'
 import ExampleComponent from './components/useEfect.js'
-import MyComponentCesium from './components/Cesium_Work.jsx'
+import DJeemyComponentCesium from './components/Cesium_Work.jsx'
 import AssetMap from './components/Problem_2020'
 
 
@@ -13,13 +13,13 @@ import AssetMap from './components/Problem_2020'
 function App() {
   return(
   <div>
-    <h1>Начнем с нуля</h1>
+    {/* <h1>Начнем с нуля</h1> */}
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />} />
         <Route path="/startCesium" element={<Cesium />} />
         <Route path="/testCesium" element={<Test_Scene />} />
-        <Route path="/testCesium2" element={<MyComponentCesium />} />
+        <Route path="/testCesium2" element={<DJeemyComponentCesium />} />
         <Route path="/useEfect" element={<ExampleComponent />} />
         <Route path="/problen" element={<AssetMap />} />
         <Route path="/layer" />

@@ -1,18 +1,23 @@
 div#toolbar{
     padding: 7px;
-    position:relative;
+    position:fixed;
     border: solid 2px;
     border-color: brown;
-    height: calc(20%-18px);
-    width: calc(100%-18px);
+    /* height: 100%; */
+    /* width: 20%; */
+    z-index: 10;
+    background-color: #ffffff88;
+    
 }
 #viewerTest{
-    position:relative;
-    height: 80%;
+    position:absolute;
+    height: 100%;
     width: 100%;
+    
+
 }
 div#viewer{
-    padding: 7px;
+    padding: 1px;
     position: fixed;
     height: 100%;
     width: 100%;
