@@ -5,7 +5,7 @@ import React, {
     createRef, 
     Component, 
     //useState, 
-    //useRef
+    useRef
 } from 'react'
 import  { 
     //Viewer,
@@ -36,11 +36,12 @@ constructor(props){
     super(props);
     this.inputObj=props.obj
     this.server=props.server
-    this.layer=createRef()
+    //this.ref= props.ref
+    this.layerRef= props.layerRef
 }
 async componentDidMount() {
     //switch
-    testCesiumElemet(this.layer)
+    testCesiumElemet( this.layerRef)
         .then(async (layer)=>{
             let url = this.server+this.inputObj.path
             fetch(url)
@@ -51,13 +52,13 @@ async componentDidMount() {
 render(){
 
     return(
-            <GeoJsonDataSource ref={this.layer} />
+            <GeoJsonDataSource ref={this.layerRef} />
         )
 }
 }
-//export default CreateGeoJsonComponent
+export default CreateGeoJsonComponent
 
-export default React.forwardRef((props, ref) => <CreateGeoJsonComponent layer={ref} {...props}/>)
+//export default React.forwardRef((props, ref) => <CreateGeoJsonComponent ref={ref} {...props}/>)
 
 /* class ElemComponent extends Component {
     render() {

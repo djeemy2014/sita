@@ -1,0 +1,19 @@
+.btn-check {
+    border: 2px;
+    border-color: black;
+}
+
+.sita-img{
+    width:20px
+}
+.sita-button{
+    --bs-btn-color: brown;
+    border: 2px;
+    border-color: black;
+}
+.btn-flat{
+    background-color: purple;
+    color: white;
+    border: 2px;
+    border-color: black;
+}

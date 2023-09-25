@@ -1,3 +1,5 @@
+import './css/NavBarLayer.css'
+
 import { useState } from 'react';
 import {
     Button,
@@ -23,8 +25,18 @@ function NavBarLayer(props) {
   
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
-          Показать список слоёв
+        <style type="text/css">
+        {`
+    
+    .btn-xxl {
+      padding: 1rem 1.5rem;
+      font-size: 1.5rem;
+    }
+    `}
+      </style>
+        <Button   onClick={handleShow}className={'sita-button'}>
+          <img className={'sita-img'} src='https://svgsilh.com/svg/1986159.svg' alt={'ОЙ'}/>
+          {/* Показать список слоёв */}
         </Button>
   
         <Offcanvas show={show} onHide={handleClose} scroll={true} backdrop={false} >

@@ -1,4 +1,5 @@
 import "./css/TestComponent.css"
+
 import testCesiumElemet from './testCesiumElemet'
 import InputChekbox from "./workerComponents/InputChecked"
 import NavBarLayer from "./workerComponents/NavBarLayer"
@@ -47,16 +48,12 @@ class DJeemyComponentCesium extends Component{
         this.checked=createRef()
         this.server= 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'
         this.layersParams=setingSceneJSON.layer
-        this.layers2=[]
-        this.layers={
-            layer:createRef(),
-            layer2:createRef(),
-            layer3:createRef(),
-        }
+        this.layers=[]
 
-        this.layer=createRef()
-        this.layer2=createRef()
-        this.layer3=createRef()
+
+        this.litLayer=[]
+        this.listGeoJSON=[]
+        this.layersParams.forEach((elem, index)=>{this.layers[index]=createRef();})
         
         //записываеться в один this как массив дальше циклом со пробегаеться по всем параметром и обявляет создание ссылки и работает с кадым параметром отдельно.
         
@@ -64,6 +61,17 @@ class DJeemyComponentCesium extends Component{
       }
 
       async componentDidMount() {
+        //console.log(this.layers)
+        //this.layersParams.forEach((elem, index)=>{this.layers[index]=createRef();})
+        
+/*         const litLayer = this.layersParams.map((elem, index)=>
+            
+            <InputChekbox id={elem.uid} name={elem.name} reff={this.layers[index]} defaultChecked={elem.default} />
+        )
+        const listGeoJSON = this.layersParams.map((elem, index)=>
+            <CreateGeoJsonComponent ref={this.layers[index]} obj={elem} server={this.server}/>
+        ) */
+        
         Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NzJjNjYzYi1jMmMzLTQ4YmMtYjQ3OC0zOTFhZjE4MWFlNmMiLCJpZCI6NjQyMjUsImlhdCI6MTY5Mzk5ODY4NX0.ptWchwMm8LuwnypYqoS1T4hSZ2JxKFxAcioki5FZczU";
         testCesiumElemet(this.viewerRef)
         .then(async (viewer)=>{
@@ -124,129 +132,27 @@ class DJeemyComponentCesium extends Component{
             
         })
         .catch(console.log)
-        let lay=setingSceneJSON.layer[0]
-        testCesiumElemet(this.layer)
-        .then(async (layer)=>{
-            //console.log(await layer.current.cesiumElement)
-            
-            let url = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson'+setingSceneJSON.layer[0].path
-            fetch(url,{
-                            //mode: 'no-cors',
-                            method: "get",
-                            headers: {
-                                 "Content-Type": "application/json"
-                            },
-                            //body: JSON.stringify(ob)
-                        })
-                        .then((res) => res.json())
-                        .then((ev)=>{layer.current.cesiumElement.load(ev)})
-            //layer.current.cesiumElement.show=document.getElementById('chek').checked
-                //.then(console.log)
-            //let commits = await response.json()
-            //console.log(commits)
-            //await layer.current.cesiumElement.load(lay)
-        })
-        testCesiumElemet(this.layers.layer2)
-        .then(async (layer)=>{
-            //console.log(await layer.current.cesiumElement)
-            
-            let url = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson'+setingSceneJSON.layer[1].path
-            fetch(url,{
-                            //mode: 'no-cors',
-                            method: "get",
-                            headers: {
-                                 "Content-Type": "application/json"
-                            },
-                            //body: JSON.stringify(ob)
-                        })
-                        .then((res) => res.json())
-                        .then((ev)=>{
-                            layer.current.cesiumElement.load(ev).then((dataSource)=>{
-                                dataSource.entities.values.forEach((elem)=>{
-                                    //elem.polygon.extrudedHeight=5
-                                    //elem.polygon.extrudedHeightReference =1
-                                    elem.polygon.heightReference=1
-                                    elem.polygon.material=ColorCesium.fromBytes(
-                                        255/elem.properties.fid.valueOf(),
-                                        255/elem.properties.fid.valueOf(),
-                                        255/elem.properties.fid.valueOf(),
-                                        255)
-                                })
-                            })
-                            
-                            layer.current.cesiumElement.entities.values.forEach((elem)=>{
-                                elem.polygon=undefined
-                                /* console.log(elem.properties.fid.valueOf())
-                                console.log(elem.polygon.heightReference)
-                                elem.polygon.height =5
-                                elem.polygon.heightReference='CLAMP_TO_GROUND'
-                                console.log(elem.polygon.heightReference)
-                                console.log(elem.polygon.material)
-                                elem.polygon.material=ColorCesium.BLUE *//* (
-                                    1/elem.properties.fid.valueOf(),
-                                    1/elem.properties.fid.valueOf(),
-                                    1/elem.properties.fid.valueOf(),
-                                    1) */
-                            })
-                            //console.log(layer.current.cesiumElement.entities.values)
-                        })
-            //layer.current.cesiumElement.show=document.getElementById('chek').checked
-                //.then(console.log)
-            //let commits = await response.json()
-            //console.log(commits)
-            //await layer.current.cesiumElement.load(lay)
-        })
-        testCesiumElemet(this.layers.layer3)
-        .then(async (layer)=>{
-            //console.log(await layer.current.cesiumElement)
-            
-            let url = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson'+setingSceneJSON.layer[2].path
-            fetch(url,{
-                            //mode: 'no-cors',
-                            method: "get",
-                            headers: {
-                                 "Content-Type": "application/json"
-                            },
-                            //body: JSON.stringify(ob)
-                        })
-                        .then((res) => res.json())
-                        .then((ev)=>{layer.current.cesiumElement.load(ev)})
-            //layer.current.cesiumElement.show=document.getElementById('chek').checked
-                //.then(console.log)
-            //let commits = await response.json()
-            //console.log(commits)
-            //await layer.current.cesiumElement.load(lay)
-        })
+
 
         
       }
 
     render(){
-        let litLayer2=[]
-        let listGeoJSON2=[]
         this.layersParams.forEach((elem, index)=>{
-            this.layers2[index]=createRef();
-            litLayer2[index]=<InputChekbox id={elem.uid} name={elem.name} reff={this.layers2[index]} defaultChecked={elem.default} />;
-            listGeoJSON2[index]=<CreateGeoJsonComponent ref={this.layers2[index]} obj={elem} server={this.server}/>
-        })
-        const litLayer = this.layersParams.map((elem, index)=>
+            this.listGeoJSON[index]=<CreateGeoJsonComponent layerRef={this.layers[index]} obj={elem} server={this.server}/>;
+            this.litLayer[index]=<InputChekbox id={elem.uid} name={elem.name} elementRef={this.layers[index]} defaultChecked={elem.default} />;
             
-            <InputChekbox id={elem.uid} name={elem.name} reff={this.layers2[index]} defaultChecked={elem.default} />
-        )
-        const listGeoJSON = this.layersParams.map((elem, index)=>
-            <CreateGeoJsonComponent ref={this.layers2[index]} obj={elem} server={this.server}/>
-        )
-        console.log(listGeoJSON)
+        })
+        console.log(this.litLayer)
 
         return (
             <div id="viewer">
                 <div id="toolbar">
                     <div>
-                        <NavBarLayer arr={litLayer2}/>
+                        <NavBarLayer arr={this.litLayer}/>
                     </div>
-                    <p>
-                        Кнопки
-                    </p>
+                    <p>Кнопки</p>
+                    <label>
                     <input defaultChecked type="checkbox" id="chekPoint" onChange={()=>{
                         this.pointRef.current.cesiumElement.show=document.getElementById('chekPoint').checked
                         //console.log(this.pointRef);console.log(this.checked)
@@ -254,13 +160,13 @@ class DJeemyComponentCesium extends Component{
                         }}>
 
                     </input>
-                    <label> Red Point</label>
+                     Red Point</label>
                     <br></br>
-                    <ul>
+{/*                     <ul>
                         <li><InputChekbox id={setingSceneJSON.layer[0].uid} name={setingSceneJSON.layer[0].name} reff={this.layer} defaultChecked={setingSceneJSON.layer[0].default} /></li>
                         <li><InputChekbox id={setingSceneJSON.layer[1].uid} name={setingSceneJSON.layer[1].name} reff={this.layers.layer2} defaultChecked={setingSceneJSON.layer[1].default} /></li>
                         <li><InputChekbox id={setingSceneJSON.layer[2].uid} name={setingSceneJSON.layer[2].name} reff={this.layers.layer3} defaultChecked={setingSceneJSON.layer[2].default} /></li>
-                    </ul>
+                    </ul> */}
                     {/* <InputChekbox id={setingSceneJSON.layer[0].uid} name={setingSceneJSON.layer[0].name} reff={this.layer} defaultChecked={setingSceneJSON.layer[0].default} />
                     <InputChekbox id={setingSceneJSON.layer[1].uid} name={setingSceneJSON.layer[1].name} reff={this.layers.layer2} defaultChecked={setingSceneJSON.layer[1].default} />
                     <InputChekbox id={setingSceneJSON.layer[2].uid} name={setingSceneJSON.layer[2].name} reff={this.layers.layer3} defaultChecked={setingSceneJSON.layer[2].default} /> */}
@@ -270,10 +176,10 @@ class DJeemyComponentCesium extends Component{
                         <Camera ref={this.cameraRef} /> 
                         <Scene ref={this.sceneRef} />
                         <>
-                            {listGeoJSON2}
-                            <GeoJsonDataSource ref={this.layer} />
+                            {this.listGeoJSON}
+{/*                             <GeoJsonDataSource ref={this.layer} />
                             <GeoJsonDataSource ref={this.layers.layer2} />
-                            <GeoJsonDataSource ref={this.layers.layer3} />
+                            <GeoJsonDataSource ref={this.layers.layer3} /> */}
                         </>
                         <Entity ref={this.pointRef} />
                     </Viewer>
