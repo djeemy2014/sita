@@ -25,16 +25,8 @@ function NavBarLayer(props) {
   
     return (
       <>
-        <style type="text/css">
-        {`
-    
-    .btn-xxl {
-      padding: 1rem 1.5rem;
-      font-size: 1.5rem;
-    }
-    `}
-      </style>
-        <Button   onClick={handleShow}className={'sita-button'}>
+        
+        <Button variant='success' onClick={handleShow}className={'sita-button'}>
           <img className={'sita-img'} src='https://svgsilh.com/svg/1986159.svg' alt={'ОЙ'}/>
           {/* Показать список слоёв */}
         </Button>

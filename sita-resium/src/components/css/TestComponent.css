@@ -1,14 +1,4 @@
-div#toolbar{
-    padding: 7px;
-    position:fixed;
-    border: solid 2px;
-    border-color: brown;
-    /* height: 100%; */
-    /* width: 20%; */
-    z-index: 10;
-    background-color: #ffffff88;
-    
-}
+
 #viewerTest{
     position:absolute;
     height: 100%;
@@ -16,7 +6,7 @@ div#toolbar{
     
 
 }
-div#viewer{
+div.viewerBox{
     padding: 1px;
     position: fixed;
     height: 100%;

@@ -2,10 +2,10 @@
 import testCesiumElemet from '../testCesiumElemet'
 
 import React, {
-    createRef, 
+    //createRef, 
     Component, 
     //useState, 
-    useRef
+    //useRef
 } from 'react'
 import  { 
     //Viewer,
@@ -23,7 +23,7 @@ import{
     //Math as MathCesium,
     //Cartesian3 as Cartesian3Cesium,
     //PointGraphics as PointGraphicsCesium,
-    Color as ColorCesium,
+    //Color as ColorCesium,
     //HeightReference as HeightReferenceCesium,
     //Cartographic as CartographicCesium,
     //GeoJsonDataSource as GeoJsonDataSourceCesium

@@ -1,0 +1,20 @@
+@import "./scss/toolbar";
+$primary: #d3d03e;
+$secondary: #9ab6da;
+$dark: #386086;
+$light: #f2efee;
+$success: #5ece45;
+$info: #9ab6da;
+$warning: #e49b1f;
+$danger: #f44336;
+
+
+.btn{
+    color: #90ff6e;
+}
+
+.sita-img{
+    width:25px
+}
+
+@import "~bootstrap/scss/bootstrap.scss";

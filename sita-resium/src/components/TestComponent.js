@@ -23,7 +23,7 @@ import { Cartesian3 } from "cesium";
 import {
   Ion, 
   //IonResource,
-  createWorldTerrainAsync, 
+  //createWorldTerrainAsync, 
   UrlTemplateImageryProvider, 
   //createOsmBuildingsAsync,
   //Matrix4,

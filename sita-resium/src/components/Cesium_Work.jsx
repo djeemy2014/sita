@@ -1,8 +1,8 @@
-import "./css/TestComponent.css"
+import "./css/TestComponent.css" 
 
 import testCesiumElemet from './testCesiumElemet'
 import InputChekbox from "./workerComponents/InputChecked"
-import NavBarLayer from "./workerComponents/NavBarLayer"
+import NavBarLayer from "./workerComponents/OldNavBarLayer"
 //import CreateGeoJsonComponents from "./workerComponents/CreateGeoJsonComponents"
 import CreateGeoJsonComponent from "./workerComponents/CreateGeoJsonComponent"
 
@@ -49,8 +49,6 @@ class DJeemyComponentCesium extends Component{
         this.server= 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'
         this.layersParams=setingSceneJSON.layer
         this.layers=[]
-
-
         this.litLayer=[]
         this.listGeoJSON=[]
         this.layersParams.forEach((elem, index)=>{this.layers[index]=createRef();})
@@ -143,15 +141,13 @@ class DJeemyComponentCesium extends Component{
             this.litLayer[index]=<InputChekbox id={elem.uid} name={elem.name} elementRef={this.layers[index]} defaultChecked={elem.default} />;
             
         })
-        console.log(this.litLayer)
 
         return (
-            <div id="viewer">
-                <div id="toolbar">
-                    <div>
-                        <NavBarLayer arr={this.litLayer}/>
-                    </div>
-                    <p>Кнопки</p>
+            <div className="viewerBox">
+                <div className="toolbar">
+                    <NavBarLayer arr={this.litLayer}/>
+                    
+                    {/* <p>Кнопки</p>
                     <label>
                     <input defaultChecked type="checkbox" id="chekPoint" onChange={()=>{
                         this.pointRef.current.cesiumElement.show=document.getElementById('chekPoint').checked
@@ -161,7 +157,7 @@ class DJeemyComponentCesium extends Component{
 
                     </input>
                      Red Point</label>
-                    <br></br>
+                    <br></br> */}
 {/*                     <ul>
                         <li><InputChekbox id={setingSceneJSON.layer[0].uid} name={setingSceneJSON.layer[0].name} reff={this.layer} defaultChecked={setingSceneJSON.layer[0].default} /></li>
                         <li><InputChekbox id={setingSceneJSON.layer[1].uid} name={setingSceneJSON.layer[1].name} reff={this.layers.layer2} defaultChecked={setingSceneJSON.layer[1].default} /></li>
