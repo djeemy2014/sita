@@ -7,10 +7,10 @@
 
 }
 div.viewerBox{
-    padding: 1px;
+    padding: 0px;
     position: fixed;
     height: 100%;
     width: 100%;
-    border: solid 2px;
-    border-color: rgb(159, 255, 4);
+    /* border: solid 2px;
+    border-color: rgb(159, 255, 4); */
 }
