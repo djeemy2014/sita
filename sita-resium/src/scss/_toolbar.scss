@@ -1,48 +1,91 @@
 $paramBorder: solid 1px #00000088;
-div.test-tooldar{
-    /* border: solid 2px; */
-    /* border-color: #ff3fff; */
-    /* align-content: space-between; */
-    height: 100%;
-    /* display: flex;
-    justify-content: flex-end */
+$primary: #c23ed3;
+$secondary: #9ab6da;
+$dark: #386086;
+$light: #f2efee;
+$success: #5ece45;
+$info: #9ab6da;
+$warning: #e49b1f;
+$danger: #f44336;
 
-}
 .toolbar{
-    top: 2px;
+    top: 0px;
+    bottom: 0px;
     /* padding: 7px; */
     position:absolute;
     /* border: solid 2px; */
     /* border-color: brown; */
-    height: 100%;
+    /* height: 100%; */
+    height:100vh;
     /* width: 100%; */
     z-index: 10;
     /* background-color: #ffffff88; */
     align-content: space-between;
-    ul{
-        list-style-type: none;
-    }
+    
 }
+div.test-tooldar{
+    top: 2px;
+    bottom: 2px;
+    position:relative;
+    /* border: solid 2px; */
+    /* border-color: #ff3fff; */
+    /* align-content: space-between; */
+    height: 100vh;
+    
+    /* display: flex;
+    justify-content: flex-end */
+
+}
+
 
 .test-div-button{
     display: inline-block;
     position: sticky;
     width: 30px;
+    top: 2px;
+    bottom: 2px;
+    
     /* border: solid 2px; */
     /* border-color: rgb(98, 41, 255); */
     border: $paramBorder;
-    background-color: #ffffff88;
+    /* background-color: #ffffff88; */
     vertical-align: top;
     button{
         display: absolute;
     };
+    .sita-button{
+        height: 30px;
+        width: 30px;
+    }
+    .sita-button-list{
+        background: url(
+            '../components/workerComponents/icon/align-justify-svgrepo-com.svg'
+            )  no-repeat center/80% $primary;
+    }
+    .sita-button-home{
+        background: url(
+            '../components/workerComponents/icon/home-svgrepo-com.svg'
+            )  no-repeat center/80% $primary;
+    }
+    .sita-button-settings{
+        background: url(
+            '../components/workerComponents/icon/settings-svgrepo-com.svg'
+            )  no-repeat center/80% $primary;
+    }
 }
 .test-collapse{
     display: inline-block;
     position: sticky;
-    height: 100%;
+    
     /* width: 400px; */
+    height: 100vh;
     border: $paramBorder;
     background-color: #ffffff88;
     /* border-color: rgb(127, 255, 41); */
+    padding: 7px;
+    ul{
+        list-style-type: none;
+        padding: 0px;
+        
+    }
 }

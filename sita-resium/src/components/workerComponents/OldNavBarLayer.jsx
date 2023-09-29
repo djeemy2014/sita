@@ -2,12 +2,14 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 
+/*  */
+
 function NumberList(props) {
   const arr = props.arr;
   const listItems = arr.map((number) =>
     <li>{number}</li>
   );
-  return (
+  return ( 
     <>
       <h6>Список слоёв</h6>
       <ul>{listItems}</ul>
@@ -21,6 +23,7 @@ function NumberList(props) {
 function NavBarLayer(props) {
   const [open, setOpen] = useState(false);
     const arr = props.arr;
+  console.log()
   return (
     
     <div className='test-tooldar'>
@@ -30,8 +33,8 @@ function NavBarLayer(props) {
         appear={true}
       >  
         <div className='test-collapse'>
-          <div style={{ width: '200px' }}>
-            <NumberList arr={arr} />
+          <div style={{width: '200px', height: "100vh" }}>
+            <NumberList style={{right:'10px', left:'10px'}} arr={arr} />
           </div>
           
         </div>
@@ -39,23 +42,30 @@ function NavBarLayer(props) {
       <div className={'test-div-button'}>
         <Button 
           aria-controls="example-collapse-text" 
-          onClick={() => setOpen(!open)} 
+          onClick={() => {setOpen(!open); }} 
           aria-expanded={open} 
-          className={'sita-button'}
+          className={'sita-button sita-button-list'}
         >
-          <img className={'sita-img'} src='https://svgsilh.com/svg/1986159.svg' alt={'ОЙ'}/>
+          {/* <img className={'sita-img'} src='https://svgsilh.com/svg/1986159.svg' alt={'ОЙ'}/> */}
           
           {/* Показать список слоёв */}
         </Button>
         <Button 
           aria-controls="example-collapse-text" 
-          className={'sita-button'}
+          className={'sita-button sita-button-settings'}
         >
-          <img className={'sita-img'} src='https://svgsilh.com/svg/1986159.svg' alt={'ОЙ'}/>
-          <svg x></svg>
+         
+          
           {/* Показать список слоёв */}
         </Button>
-        <button className='sita-button btn btn-primar'>N</button>
+        <Button 
+          aria-controls="example-collapse-text" 
+          className={'sita-button sita-button-home'}
+        >
+          
+          {/* Показать список слоёв */}
+        </Button>
+
       </div>
       
       
