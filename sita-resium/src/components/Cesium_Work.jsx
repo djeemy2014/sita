@@ -16,6 +16,8 @@ import {
     Scene,
     Camera,
     Entity,
+    CameraFlyTo,
+
     //CustomDataSource,
     GeoJsonDataSource
  } from 'resium'
@@ -33,20 +35,47 @@ import{
     //GeoJsonDataSource as GeoJsonDataSourceCesium
     CesiumTerrainProvider as CesiumTerrainProviderCesium,
 } from 'cesium'
+import Button from 'react-bootstrap/Button';
+
 
 const setingScene = await fetch('http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/testScena.json')
 const setingSceneJSON = await setingScene.json()
 //const setingSceneObj = await setingSceneJSON добавить createRef()?
+function CameraFlyToProps(positionCam){
+    const [once, setOnce] = useState(false);
+    return(
+            <>
+                <button
+                    style={{ position: "absolute", bottom:"-40", zIndex:"40" }}
+                    onClick={() => setOnce(o => !o)}>
+                    Once: {once.toString()}
+                  </button>
+                  <CameraFlyTo
+                    duration={5}
+                    destination={Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 10000)}
+                    once={once}
+                  />
+            </>
+    )
+}
+
+
 
 class DJeemyComponentCesium extends Component{
     constructor(props) {
         super(props);
+        this.startPosition = Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 10000);
+        this.state={
+            optionPosition:false,
+            startPosition:true
+        }
+        this.refStartPosition = createRef();
         this.viewerRef = createRef();
         this.sceneRef = createRef();
         this.cameraRef = createRef();
-        this.pointRef=createRef()
-        this.checked=createRef()
-        this.server= 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'
+        this.pointRef = createRef()
+        this.checked = createRef()
+        this.server = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'
         this.layersParams=setingSceneJSON.layer
         this.layers=[]
         this.litLayer=[]
@@ -56,6 +85,10 @@ class DJeemyComponentCesium extends Component{
         //записываеться в один this как массив дальше циклом со пробегаеться по всем параметром и обявляет создание ссылки и работает с кадым параметром отдельно.
         
         
+      }
+      async componentDidUpdate(prevProps,prevState){
+
+
       }
 
       async componentDidMount() {
@@ -95,7 +128,7 @@ class DJeemyComponentCesium extends Component{
             //настройка cameraRef
             camera.current.cesiumElement.setView(
                 {
-                    destination : Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 10000),
+                    destination : this.startPosition,
                     orientation : {
                       heading : MathCesium.toRadians(0), // east, default value is 0.0 (north)
                       pitch : MathCesium.toRadians(-90),    // default value (looking down)
@@ -145,31 +178,26 @@ class DJeemyComponentCesium extends Component{
         return (
             <div className="viewerBox">
                 <div className="toolbar">
-                    <NavBarLayer arr={this.litLayer}/>
+                    <Button 
+                        style={{zIndex:"40"}}
+                        aria-controls="example-collapse-text" 
+                        className={'sita-button sita-button-home'}
+                        onClick={()=>console.log(this)}
+                    >
                     
-                    {/* <p>Кнопки</p>
-                    <label>
-                    <input defaultChecked type="checkbox" id="chekPoint" onChange={()=>{
-                        this.pointRef.current.cesiumElement.show=document.getElementById('chekPoint').checked
-                        //console.log(this.pointRef);console.log(this.checked)
-                        //можно сделать отдельный конмонент/функцию чтобы рисовать основываясь на входных параметрах
-                        }}>
-
-                    </input>
-                     Red Point</label>
-                    <br></br> */}
-{/*                     <ul>
-                        <li><InputChekbox id={setingSceneJSON.layer[0].uid} name={setingSceneJSON.layer[0].name} reff={this.layer} defaultChecked={setingSceneJSON.layer[0].default} /></li>
-                        <li><InputChekbox id={setingSceneJSON.layer[1].uid} name={setingSceneJSON.layer[1].name} reff={this.layers.layer2} defaultChecked={setingSceneJSON.layer[1].default} /></li>
-                        <li><InputChekbox id={setingSceneJSON.layer[2].uid} name={setingSceneJSON.layer[2].name} reff={this.layers.layer3} defaultChecked={setingSceneJSON.layer[2].default} /></li>
-                    </ul> */}
-                    {/* <InputChekbox id={setingSceneJSON.layer[0].uid} name={setingSceneJSON.layer[0].name} reff={this.layer} defaultChecked={setingSceneJSON.layer[0].default} />
-                    <InputChekbox id={setingSceneJSON.layer[1].uid} name={setingSceneJSON.layer[1].name} reff={this.layers.layer2} defaultChecked={setingSceneJSON.layer[1].default} />
-                    <InputChekbox id={setingSceneJSON.layer[2].uid} name={setingSceneJSON.layer[2].name} reff={this.layers.layer3} defaultChecked={setingSceneJSON.layer[2].default} /> */}
+                      Домой
+                    </Button>
+                    <NavBarLayer arr={this.litLayer}/>
                 </div>
                 <div>
                     <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false} homeButton={false} animation={false}>
-                        <Camera ref={this.cameraRef} /> 
+                        <Camera ref={this.cameraRef} />
+                        <CameraFlyTo
+                            duration={10}
+                            destination={Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 10000)}
+                            once={false}
+                        />
+                        {/* <CameraFlyToProps /> */}
                         <Scene ref={this.sceneRef} />
                         <>
                             {this.listGeoJSON}
