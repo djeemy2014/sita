@@ -6,6 +6,7 @@ import Collapse from 'react-bootstrap/Collapse';
 
 function NumberList(props) {
   const arr = props.arr;
+  
   const listItems = arr.map((number) =>
     <li>{number}</li>
   );
@@ -23,6 +24,8 @@ function NumberList(props) {
 function NavBarLayer(props) {
   const [open, setOpen] = useState(false);
     const arr = props.arr;
+    const viewerRef=props.viewerRef
+    const startPosition=props.startPosition
   console.log()
   return (
     
@@ -61,6 +64,12 @@ function NavBarLayer(props) {
         <Button 
           aria-controls="example-collapse-text" 
           className={'sita-button sita-button-home'}
+          onClick={()=>{
+            viewerRef.current.cesiumElement.camera.flyTo({
+                destination: startPosition
+            }) 
+            //this.viewerRef.current.cesiumElement.homeButton.viewModel.command.beforeExecute.addEventListener(e=>{this.homeButton(e)})
+        }}
         >
           
           {/* Показать список слоёв */}

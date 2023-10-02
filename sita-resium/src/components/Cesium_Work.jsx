@@ -32,6 +32,8 @@ import{
     Color as ColorCesium,
     HeightReference as HeightReferenceCesium,
     Cartographic as CartographicCesium,
+    Rectangle as RectangleCesium,
+    Camera as CameraCesium,
     //GeoJsonDataSource as GeoJsonDataSourceCesium
     CesiumTerrainProvider as CesiumTerrainProviderCesium,
 } from 'cesium'
@@ -66,6 +68,7 @@ class DJeemyComponentCesium extends Component{
         super(props);
         this.startPosition = Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 10000);
         this.state={
+            startOptionPosition:{},
             optionPosition:false,
             startPosition:true
         }
@@ -86,8 +89,19 @@ class DJeemyComponentCesium extends Component{
         
         
       }
+      homeButton(e) {
+        console.log(e);
+        console.log(this.state.optionPosition);
+        e.cancel = true;
+        //Where you want to fly	
+        this.viewerRef.current.cesiumElement.camera.flyTo({
+            destination: this.startPosition
+        });
+        }
       async componentDidUpdate(prevProps,prevState){
-
+        if (this.state.optionPosition.cancel!==prevState.optionPosition.cancel){
+            console.log(this.state.optionPosition)
+        }
 
       }
 
@@ -107,6 +121,13 @@ class DJeemyComponentCesium extends Component{
         testCesiumElemet(this.viewerRef)
         .then(async (viewer)=>{
             //настройка viewer
+            //let camera = viewer.current.cesiumElement
+            console.log(viewer.current.cesiumElement.homeButton.viewModel.command)
+            viewer.current.cesiumElement.homeButton.viewModel.command.beforeExecute.addEventListener(e=>{this.homeButton(e)});
+
+            //const extent = RectangleCesium.fromDegrees(117.940573,-29.808406,118.313421,-29.468825);
+            //camera.current.cesiumElement.DEFAULT_VIEW_RECTANGLE = extent;
+            //camera.current.cesiumElement.DEFAULT_VIEW_FACTOR = 0;
             viewer.current.cesiumElement.terrainProvider= await createWorldTerrainAsync()
             viewer.current.cesiumElement.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(2279465)
             
@@ -126,6 +147,7 @@ class DJeemyComponentCesium extends Component{
         testCesiumElemet(this.cameraRef)
         .then(async (camera)=>{
             //настройка cameraRef
+            
             camera.current.cesiumElement.setView(
                 {
                     destination : this.startPosition,
@@ -178,25 +200,16 @@ class DJeemyComponentCesium extends Component{
         return (
             <div className="viewerBox">
                 <div className="toolbar">
-                    <Button 
-                        style={{zIndex:"40"}}
-                        aria-controls="example-collapse-text" 
-                        className={'sita-button sita-button-home'}
-                        onClick={()=>console.log(this)}
-                    >
-                    
-                      Домой
-                    </Button>
-                    <NavBarLayer arr={this.litLayer}/>
+                    <NavBarLayer arr={this.litLayer} viewerRef={this.viewerRef} startPosition={this.startPosition}/>
                 </div>
                 <div>
-                    <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false} homeButton={false} animation={false}>
+                    <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false} homeButton={true} animation={false}>
                         <Camera ref={this.cameraRef} />
-                        <CameraFlyTo
+                        {/* <CameraFlyTo
                             duration={10}
                             destination={Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 10000)}
                             once={false}
-                        />
+                        /> */}
                         {/* <CameraFlyToProps /> */}
                         <Scene ref={this.sceneRef} />
                         <>
