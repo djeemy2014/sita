@@ -194,13 +194,17 @@ class DJeemyComponentCesium extends Component{
         this.layersParams.forEach((elem, index)=>{
             this.listGeoJSON[index]=<CreateGeoJsonComponent layerRef={this.layers[index]} obj={elem} server={this.server}/>;
             this.litLayer[index]=<InputChekbox id={elem.uid} name={elem.name} elementRef={this.layers[index]} defaultChecked={elem.default} />;
-            
+            //передавать весь elem и диструктурировать по получению ...elem
         })
 
         return (
             <div className="viewerBox">
                 <div className="toolbar">
-                    <NavBarLayer arr={this.litLayer} viewerRef={this.viewerRef} startPosition={this.startPosition}/>
+                    <NavBarLayer 
+                        arr={this.litLayer} 
+                        viewerRef={this.viewerRef} 
+                        startPosition={this.startPosition}
+                    />
                 </div>
                 <div>
                     <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false} homeButton={true} animation={false}>

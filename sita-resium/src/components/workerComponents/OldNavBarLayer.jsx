@@ -6,7 +6,7 @@ import Collapse from 'react-bootstrap/Collapse';
 
 function NumberList(props) {
   const arr = props.arr;
-  
+  console.log(props)
   const listItems = arr.map((number) =>
     <li>{number}</li>
   );
