@@ -6,7 +6,7 @@ import Collapse from 'react-bootstrap/Collapse';
 
 function NumberList(props) {
   const arr = props.arr;
-  console.log(props)
+  //console.log(props)
   const listItems = arr.map((number) =>
     <li>{number}</li>
   );
@@ -42,7 +42,7 @@ function NavBarLayer(props) {
           
         </div>
       </Collapse>
-      <div className={'test-div-button'}>
+      <div className={'div-button'}>
         <Button 
           aria-controls="example-collapse-text" 
           onClick={() => {setOpen(!open); }} 

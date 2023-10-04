@@ -24,7 +24,7 @@ $danger: #f44336;
     
 }
 div.test-tooldar{
-    top: 2px;
+    /* top: 2px; */
     bottom: 2px;
     position:relative;
     /* border: solid 2px; */
@@ -38,16 +38,16 @@ div.test-tooldar{
 }
 
 
-.test-div-button{
+.div-button{
     display: inline-block;
     position: sticky;
     width: 30px;
-    top: 2px;
+    /* top: 2px; */
     bottom: 2px;
     
     /* border: solid 2px; */
     /* border-color: rgb(98, 41, 255); */
-    border: $paramBorder;
+    /* border: $paramBorder; */
     /* background-color: #ffffff88; */
     vertical-align: top;
     button{
@@ -76,14 +76,15 @@ div.test-tooldar{
 .test-collapse{
     display: inline-block;
     position: sticky;
-    
+    color: #ffffff;
     /* width: 400px; */
     height: 100vh;
     border: $paramBorder;
-    background-color: #ffffff88;
+    background-color: #00000088;
     /* border-color: rgb(127, 255, 41); */
     padding: 7px;
     ul{
+        
         list-style-type: none;
         padding: 0px;
         

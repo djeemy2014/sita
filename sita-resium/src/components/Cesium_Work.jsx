@@ -122,7 +122,7 @@ class DJeemyComponentCesium extends Component{
         .then(async (viewer)=>{
             //настройка viewer
             //let camera = viewer.current.cesiumElement
-            console.log(viewer.current.cesiumElement.homeButton.viewModel.command)
+            //console.log(viewer.current.cesiumElement.homeButton.viewModel.command)
             viewer.current.cesiumElement.homeButton.viewModel.command.beforeExecute.addEventListener(e=>{this.homeButton(e)});
 
             //const extent = RectangleCesium.fromDegrees(117.940573,-29.808406,118.313421,-29.468825);
@@ -196,7 +196,15 @@ class DJeemyComponentCesium extends Component{
             this.litLayer[index]=<InputChekbox id={elem.uid} name={elem.name} elementRef={this.layers[index]} defaultChecked={elem.default} />;
             //передавать весь elem и диструктурировать по получению ...elem
         })
-
+        /* let i=0
+        setInterval(()=>{
+            if (i<20){
+                const v = this.cameraRef.current
+                console.log(i,v)
+                i++
+            }
+            
+        },1 ) */
         return (
             <div className="viewerBox">
                 <div className="toolbar">
@@ -207,7 +215,7 @@ class DJeemyComponentCesium extends Component{
                     />
                 </div>
                 <div>
-                    <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false} homeButton={true} animation={false}>
+                    <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false} homeButton={false} animation={false}>
                         <Camera ref={this.cameraRef} />
                         {/* <CameraFlyTo
                             duration={10}
