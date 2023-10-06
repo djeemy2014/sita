@@ -4,7 +4,7 @@
   "description": "sita - react service",
   "main": "index.js",
   "scripts": {
-    "start": "cd './sita-react-div/' && npm start",
+    "start": "cd ./sita-resium/ && npm start",
     "test": "index.js test"
   },
   "repository": {

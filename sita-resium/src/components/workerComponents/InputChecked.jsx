@@ -10,7 +10,7 @@ class InputChekbox extends Component{
     constructor(props){
         super(props)
         this.layerName=props.name
-        this.layerId=props.id
+        this.layerId=props.uid
         this.elementRef = props.elementRef
         this.state={
             defaultChecked:props.defaultChecked,

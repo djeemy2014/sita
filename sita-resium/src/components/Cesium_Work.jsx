@@ -2,7 +2,7 @@ import "./css/TestComponent.css"
 
 import testCesiumElemet from './testCesiumElemet'
 import InputChekbox from "./workerComponents/InputChecked"
-import NavBarLayer from "./workerComponents/OldNavBarLayer"
+import NavBarLayer from "./workerComponents/NavBarLayer"
 //import CreateGeoJsonComponents from "./workerComponents/CreateGeoJsonComponents"
 import CreateGeoJsonComponent from "./workerComponents/CreateGeoJsonComponent"
 
@@ -123,7 +123,7 @@ class DJeemyComponentCesium extends Component{
             //настройка viewer
             //let camera = viewer.current.cesiumElement
             //console.log(viewer.current.cesiumElement.homeButton.viewModel.command)
-            viewer.current.cesiumElement.homeButton.viewModel.command.beforeExecute.addEventListener(e=>{this.homeButton(e)});
+            //viewer.current.cesiumElement.homeButton.viewModel.command.beforeExecute.addEventListener(e=>{this.homeButton(e)});
 
             //const extent = RectangleCesium.fromDegrees(117.940573,-29.808406,118.313421,-29.468825);
             //camera.current.cesiumElement.DEFAULT_VIEW_RECTANGLE = extent;
@@ -193,7 +193,7 @@ class DJeemyComponentCesium extends Component{
     render(){
         this.layersParams.forEach((elem, index)=>{
             this.listGeoJSON[index]=<CreateGeoJsonComponent layerRef={this.layers[index]} obj={elem} server={this.server}/>;
-            this.litLayer[index]=<InputChekbox id={elem.uid} name={elem.name} elementRef={this.layers[index]} defaultChecked={elem.default} />;
+            this.litLayer[index]=<InputChekbox {...elem} elementRef={this.layers[index]}  />;//удалить
             //передавать весь elem и диструктурировать по получению ...elem
         })
         /* let i=0
@@ -210,6 +210,8 @@ class DJeemyComponentCesium extends Component{
                 <div className="toolbar">
                     <NavBarLayer 
                         arr={this.litLayer} 
+                        layers={this.layers} 
+                        layersParams={this.layersParams}
                         viewerRef={this.viewerRef} 
                         startPosition={this.startPosition}
                     />
