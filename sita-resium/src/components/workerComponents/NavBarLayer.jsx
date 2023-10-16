@@ -1,25 +1,76 @@
-import { useState } from 'react';
+import { useState, Children  } from 'react';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import InputChekbox from "./InputChecked"
+import {listToObj} from "./objList.js"
 /*  */
+
+
+function ObjListInputChekbox(arr,i=0){
+  let output=null
+  if (Array.isArray(arr.arr)) {
+    output=(
+      <ul>
+        {arr.arr.map((elem)=>
+          <ObjListInputChekbox arr={elem}/>
+        )}
+      </ul>
+    )
+  }
+  else
+  {
+    if (arr.arr.type.indexOf('class')!==-1){
+      output=(
+        <ul>
+          {arr.arr.name}
+          {arr.arr.list.map((elem)=>
+            <ObjListInputChekbox arr={elem}/>
+          )}
+        </ul>
+      )
+    }else{
+      output=(
+        <li>
+          {
+            <InputChekbox {...arr.arr} elementRef={arr.arr.ref} />
+          }
+        </li>
+      )
+    }
+  }
+  return output 
+
+
+}
 
 
 
 function NumberList(props) {
-  const arr = props.arr;
-  console.log(props)
-  const listItems2=props.layersParams
-  const listItems = arr.map((number, index) =>
-  <>
-    <li>{number}</li>
-    {/* <InputChekbox {...number} elementRef={this.layers[index]}  /> */}
-  </>
-  );
+  //const arr = props.arr;
+  //console.log(props)
+  //console.log(listToObj(listItems2))
+  /* const fullList = props.layersParams.map((elem,index)=>elem.ref=props.layers[index]) */
+  //console.log(ObjListInputChekbox(listToObj(props.layersParams)))
+
+  const listItems = props.layersParams.map((elem, index)=>
+     <li>
+       <InputChekbox {...props.layersParams[index]} elementRef={props.layers[index]}  />
+     </li>
+    //console.log(props.layersParams[index])
+    //console.log(elem)
+  )
+  //console.log(listItems3)
+  // const listItems = arr.map((number, index) =>
+  // <>
+  //   <li>{number}</li>
+  //   {/* <InputChekbox {...number} elementRef={this.layers[index]}  /> */}
+  // </>
+  // );
   return ( 
     <>
       <h6>Список слоёв</h6>
-      <ul>{listItems}</ul>
+      
+      <ObjListInputChekbox arr={listToObj(props.layersParams)}/>
     </>
    
   );
@@ -44,8 +95,8 @@ function NavBarLayer(props) {
         appear={true}
       >  
         <div className='test-collapse'>
-          <div style={{width: '200px', height: "100vh" }}>
-            <NumberList style={{right:'10px', left:'10px'}} {...props} arr={arr} layers={layers} layersParams={layersParams} />
+          <div style={{width: '300px', height: "100vh" }}>
+            <NumberList style={{right:'10px', left:'10px'}} {...props} layers={layers} layersParams={layersParams} />
           </div>
           
         </div>

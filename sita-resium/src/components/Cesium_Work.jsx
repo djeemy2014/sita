@@ -5,6 +5,7 @@ import InputChekbox from "./workerComponents/InputChecked"
 import NavBarLayer from "./workerComponents/NavBarLayer"
 //import CreateGeoJsonComponents from "./workerComponents/CreateGeoJsonComponents"
 import CreateGeoJsonComponent from "./workerComponents/CreateGeoJsonComponent"
+import {listToObj,objToList} from './workerComponents/objList.js'
 
 import {
     createRef, 
@@ -40,7 +41,7 @@ import{
 import Button from 'react-bootstrap/Button';
 
 
-const setingScene = await fetch('http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/testScena.json')
+const setingScene = await fetch('http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/testScena2.json')
 const setingSceneJSON = await setingScene.json()
 //const setingSceneObj = await setingSceneJSON добавить createRef()?
 function CameraFlyToProps(positionCam){
@@ -79,11 +80,11 @@ class DJeemyComponentCesium extends Component{
         this.pointRef = createRef()
         this.checked = createRef()
         this.server = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'
-        this.layersParams=setingSceneJSON.layer
+        this.layersParams=objToList(setingSceneJSON.list)
         this.layers=[]
         this.litLayer=[]
         this.listGeoJSON=[]
-        this.layersParams.forEach((elem, index)=>{this.layers[index]=createRef();})
+        this.layersParams.forEach((elem, index)=>{elem.index=index; elem.ref=createRef(); this.layers[index]=elem.ref;})
         
         //записываеться в один this как массив дальше циклом со пробегаеться по всем параметром и обявляет создание ссылки и работает с кадым параметром отдельно.
         
@@ -193,7 +194,6 @@ class DJeemyComponentCesium extends Component{
     render(){
         this.layersParams.forEach((elem, index)=>{
             this.listGeoJSON[index]=<CreateGeoJsonComponent layerRef={this.layers[index]} obj={elem} server={this.server}/>;
-            this.litLayer[index]=<InputChekbox {...elem} elementRef={this.layers[index]}  />;//удалить
             //передавать весь elem и диструктурировать по получению ...elem
         })
         /* let i=0
@@ -209,7 +209,6 @@ class DJeemyComponentCesium extends Component{
             <div className="viewerBox">
                 <div className="toolbar">
                     <NavBarLayer 
-                        arr={this.litLayer} 
                         layers={this.layers} 
                         layersParams={this.layersParams}
                         viewerRef={this.viewerRef} 
