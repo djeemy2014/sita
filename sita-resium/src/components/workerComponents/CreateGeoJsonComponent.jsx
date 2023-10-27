@@ -50,14 +50,36 @@ async componentDidMount() {
         })
 }
 render(){
-
+  console.log(this.inputObj)
     return(
             <GeoJsonDataSource ref={this.layerRef} />
         )
 }
 }
-export default CreateGeoJsonComponent
+//export  CreateGeoJsonComponent
 
+function CreateGeoJsonComponent2(props){
+  const inputObj=props.obj
+  const server=props.server
+  const showStat=props.show!==undefined?props.show:true
+  //this.ref= props.ref
+  const layerRef= props.layerRef
+  //let data=undefined
+
+  let url = server+inputObj.path
+  let data=fetch(url)
+    .then((res) => res.json())
+
+  const geoJson = (
+    <GeoJsonDataSource 
+    ref={layerRef} 
+    show={showStat} 
+    data={data}/>
+  )
+  return geoJson
+
+}
+export default CreateGeoJsonComponent2
 //export default React.forwardRef((props, ref) => <CreateGeoJsonComponent ref={ref} {...props}/>)
 
 /* class ElemComponent extends Component {

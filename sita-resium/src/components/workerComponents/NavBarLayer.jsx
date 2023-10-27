@@ -1,18 +1,103 @@
-import { useState, Children  } from 'react';
+import {createRef, useRef, useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import InputChekbox from "./InputChecked"
+import InputClassChekbox from "./InputClassChecked"
 import {listToObj} from "./objList.js"
 /*  */
 
+function  NavListGeoJSON(props){
+  const comprops=props.comprops
+  const [showStat, setShowStat]=useState(comprops.defaultChecked===undefined?true:comprops.defaultChecked) //comprops.defaultChecked===undefined?true:comprops.defaultChecked
+  //const inputList=objToList(inputObj)//??
+  const ref=useRef()
+  const proxiUrl = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'//???
 
-function ObjListInputChekbox(arr,i=0){
+  //console.log(ref)
+  
+  if (Array.isArray(comprops.list)){
+      //console.log(comprops.type)
+      const contener=(
+        <ul>
+          <input 
+          //checked={props.greny===undefined?listLi:(props.greny&&listLi)} 
+          checked={showStat} 
+          type="checkbox" 
+          onChange={
+            ()=>{
+              setShowStat(!showStat)
+              //console.log(showStat)
+            }
+  
+            }/>
+          <button onClick={()=>setShowStat(!showStat)}>Class</button>
+          {props.greny===undefined?null:(props.greny&&showStat).toString()}
+          {' '+comprops.name}
+          {/* listLi.toString() */}
+          
+          
+          {comprops.list.map((ev)=>{
+              if (ev.type.indexOf('class')===-1){
+                  //console.log(lk++,comprops);
+                  //console.log(laeyr);
+                  //console.log(listConnectGeoJSON);
+                }
+            const mylticontener=NavListGeoJSON ({
+              comprops:ev, 
+              greny:props.greny===undefined?showStat:(props.greny&&showStat) ,
+              setGreny:setShowStat,
+              listConnectGeoJSON:props.listConnectGeoJSON
+            })
+            const contener= mylticontener[0]
+            return contener
+          })}
+        </ul>
+      )
+      //console.log(listConnectGeoJSON)
+      return contener
+      
+      
+    }else {
+      //console.log(props.comprops.name, props.greny)
+      //console.log(listLi)
+      //console.log(comprops.type)
+      
+      const contener=(<li>
+           <input 
+          //checked={props.greny===undefined?null:(props.greny&&showStat)} 
+          checked={showStat} 
+          type="checkbox" 
+          onChange={()=>setShowStat(!showStat)}
+          />
+          <button onClick={()=>setShowStat(!showStat)}>Li</button>
+          {props.greny===undefined?null:(props.greny&&showStat).toString()}
+          {showStat}
+          {' '}
+          {/* showStat.toString() */}
+         
+          
+          {/* <button onClick={()=>props.setGreny(listLi+10)}>Li2</button> */}
+        </li>)
+      return contener
+    }
+
+
+
+}
+
+
+function ObjListInputChekbox(arr,classRef,classHookCheck=true,i=0){
   let output=null
+  let intervalRef = useRef(null);
+  let [checked, setChecked]=useState(classHookCheck)
+  
   if (Array.isArray(arr.arr)) {
     output=(
       <ul>
         {arr.arr.map((elem)=>
-          <ObjListInputChekbox arr={elem}/>
+          <ObjListInputChekbox 
+            arr={elem} 
+            classHookCheck={true} />
         )}
       </ul>
     )
@@ -20,19 +105,41 @@ function ObjListInputChekbox(arr,i=0){
   else
   {
     if (arr.arr.type.indexOf('class')!==-1){
+      //console.log(arr.arr.defaultChecked)
+      //let classHookCheck =arr.arr.defaultChecked 
+      let hook = <InputClassChekbox 
+                    name={arr.arr.name} 
+                    classChecked={checked} 
+                    setClassChecked={setChecked}
+                    defaultChecked={arr.arr.defaultChecked} 
+                    ref={intervalRef}/>
+      //setTimeout(()=>{console.log(intervalRef)},5000)
+      
       output=(
         <ul>
-          {arr.arr.name}
+          {hook}
+          
+          {/* {arr.arr.name} */}
+
           {arr.arr.list.map((elem)=>
-            <ObjListInputChekbox arr={elem}/>
+            <ObjListInputChekbox 
+              arr={elem} 
+              classRef={intervalRef}
+              setClassChecked={setChecked} 
+              classHookCheck={arr.arr.defaultChecked}/>
           )}
         </ul>
       )
     }else{
+      //console.log(arr.classRef)
       output=(
         <li>
           {
-            <InputChekbox {...arr.arr} elementRef={arr.arr.ref} />
+            <InputChekbox 
+              {...arr.arr} 
+              classChecked={checked} 
+              classRef={arr.classRef} 
+              elementRef={arr.arr.ref} />
           }
         </li>
       )
@@ -46,30 +153,17 @@ function ObjListInputChekbox(arr,i=0){
 
 
 function NumberList(props) {
-  //const arr = props.arr;
-  //console.log(props)
-  //console.log(listToObj(listItems2))
-  /* const fullList = props.layersParams.map((elem,index)=>elem.ref=props.layers[index]) */
-  //console.log(ObjListInputChekbox(listToObj(props.layersParams)))
-
-  const listItems = props.layersParams.map((elem, index)=>
-     <li>
-       <InputChekbox {...props.layersParams[index]} elementRef={props.layers[index]}  />
-     </li>
-    //console.log(props.layersParams[index])
-    //console.log(elem)
-  )
-  //console.log(listItems3)
-  // const listItems = arr.map((number, index) =>
-  // <>
-  //   <li>{number}</li>
-  //   {/* <InputChekbox {...number} elementRef={this.layers[index]}  /> */}
-  // </>
-  // );
+ //console.log(props.layersParams)
   return ( 
     <>
       <h6>Список слоёв</h6>
-      
+      <NavListGeoJSON comprops={
+        {
+          name: "scen",
+          type: "scen",
+          list:listToObj(props.layersParams)
+        }
+        } />
       <ObjListInputChekbox arr={listToObj(props.layersParams)}/>
     </>
    
@@ -80,8 +174,6 @@ function NumberList(props) {
 
 function NavBarLayer(props) {
   const [open, setOpen] = useState(false);
-    const arr = props.arr;
-    const layers = props.layers;
     const layersParams = props.layersParams;
     const viewerRef=props.viewerRef
     const startPosition=props.startPosition
@@ -96,7 +188,7 @@ function NavBarLayer(props) {
       >  
         <div className='test-collapse'>
           <div style={{width: '300px', height: "100vh" }}>
-            <NumberList style={{right:'10px', left:'10px'}} {...props} layers={layers} layersParams={layersParams} />
+            <NumberList style={{right:'10px', left:'10px'}} {...props} layersParams={layersParams} />
           </div>
           
         </div>

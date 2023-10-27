@@ -82,11 +82,14 @@ div.test-tooldar{
     border: $paramBorder;
     background-color: #00000088;
     /* border-color: rgb(127, 255, 41); */
-    padding: 7px;
+    
+    /* li{
+        //padding: 5px;
+    } */
     ul{
         
         list-style-type: none;
-        //padding: 7px;
+        padding: 7px;
         
     }
 }

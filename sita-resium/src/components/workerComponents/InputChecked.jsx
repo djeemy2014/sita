@@ -12,30 +12,75 @@ class InputChekbox extends Component{
         this.layerName=props.name
         this.layerId=props.uid
         this.elementRef = props.elementRef
+        this.classRef=props.classRef
+        this.classChecked=props.classChecked
+        this.setClassChecked=props.setClassChecked
         this.state={
             defaultChecked:props.defaultChecked,
+            classChecked:props.classChecked,
+            clRef:props.classRef
+        }
+        
+        
+    }
+    async getSnapshotBeforeUpdate(prevProps,prevState){
+        if (this.state)
+        if (this.state.clRef!==undefined){
+            //console.log(
+            //    this.state.clRef.current.state.defaultChecked,
+            //    prevState.clRef.current.state.defaultChecked
+            //    )
         }
         
     }
+
     async componentDidMount(){
+        //console.log(this.classRef)
+        //console.log(1,this.state)
+        //console.log(2,this.state.defaultChecked===this.state.classChecked)
+        //console.log(3,this.state.defaultChecked&&this.state.classChecked)
+        
         testCesiumElemet(this.elementRef)
         .then(async(layer)=>{
+            if (this.classRef!==undefined){
+
+                this.state.classChecked=this.classRef.current.state.defaultChecked
+            }
             if (
-                this.elementRef.current.cesiumElement.show!==this.state.defaultChecked
+                this.elementRef.current.cesiumElement.show!==(this.state.defaultChecked&&this.state.classChecked)//возможно ошибка
              ) {
-               this.elementRef.current.cesiumElement.show=this.state.defaultChecked
+               this.elementRef.current.cesiumElement.show=this.state.defaultChecked&&this.state.classChecked
                //||this.elementRef.current.cesiumElement.show!==prevProps.defaultChecked
              }
         }
         )
     }
     async componentDidUpdate(prevProps,prevState) {
+        console.log(this.layerId, this.state.classChecked ) 
+        if (this.state.clRef!==undefined&&(this.state.classChecked !==prevState.clRef.current.state.defaultChecked)){
+            //console.log(this.state.classChecked)
+            //console.log(prevState.clRef.current.state.defaultChecked)
+        }
+        if (
+            this.state.clRef !==undefined&&this.state.clRef.current!==undefined&&( 
+                this.state.clRef.current.state.defaultChecked !== prevState.clRef.current.state.defaultChecked
+             )
+            //this.state.clRef.current.state.defaultChecked !== prevState.clRef.current.state.defaultChecked
+        ){
+            //console.log(prevState.clRef)
+            //console.log(prevState.clRef.current.state.defaultChecked)
+            //console.log(this.state)
+            //console.log(prevState.clRef.current.state.defaultChecked)
+            //console.log(prevProps.clRef)
+        }
         if (
              this.state.defaultChecked !== prevState.defaultChecked
-             ||this.elementRef.current.cesiumElement.show!==prevProps.defaultChecked
+             ||this.state.classChecked !== prevState.classChecked
+             ||this.elementRef.current.cesiumElement.show!==(prevProps.defaultChecked&&prevState.classChecked)//возможно ошибка
           ) {
-            this.elementRef.current.cesiumElement.show=this.state.defaultChecked
+            this.elementRef.current.cesiumElement.show=this.state.defaultChecked&&this.state.classChecked
             //||this.elementRef.current.cesiumElement.show!==prevProps.defaultChecked
+            //console.log(prevState.classChecked)
           }
     }
 
