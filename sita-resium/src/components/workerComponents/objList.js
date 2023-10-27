@@ -52,95 +52,95 @@ export function objToList(arr,i=0,lvl='',name='',defaultChecked=true, output=[])
 export function objToList2(
     arr,
     i=0,
-    arrClass=[],
+    arrClass={},
     grenyarrClass=[],
     output=[]
     ){
     //console.log(0,i, arr)
     switch(arr.type){
         case("scena"):
-            console.log(i,"scena")
-            let classStart={
+            //console.log(i,"scena")
+            const classStart={
                 id:arr.id,
                 name:arr.name,
                 type:"scen",
                 defaultChecked:true
             };
-            arrClass.push(classStart);
-            
             let nextLvl = objToList2(
                 arr.list, 
                 i+1,
-                arrClass,
-                //output
+                classStart,
+                grenyarrClass
                 );
-            console.log(nextLvl)
+            //console.log(nextLvl)
             output.push(...nextLvl);
             //return output;
             break;
         case("class"):
-            console.log(i,'class')
-            let classStart2={
+            //console.log(i,'class')
+            const classStart2={
                 id:arr.id,
                 name:arr.name,
                 type:"class",
                 defaultChecked:true
             };
-            arrClass.push(classStart2);
+            const childArr2=grenyarrClass.map(ev=>ev)
+            childArr2.push(arrClass)
             let nextLvl2 = objToList2(
                 arr.list, 
                 i+1,
-                arrClass,
-                //output
+                classStart2,
+                childArr2
                 );
-            console.log(nextLvl2)
+            //console.log(nextLvl2)
             output.push(...nextLvl2);
             return output;
             break;
             
 
         case("layer"):
-            console.log(i,'layer')
-            arr.class=arrClass.map(ev=>ev)
-            console.log(arr)
+            //console.log(i,'layer')
+            //console.log(grenyarrClass,classZ)
+            //arr.class=arrClass.map(ev=>ev)
+
+            //console.log(grenyarrClass,arrClass)
+            const childArr=grenyarrClass.map(ev=>ev)
+            childArr.push(arrClass)
+            //console.log(childArr)
+            arr.class=childArr
+            //console.log(arr)
             //output.push(arr)
             return arr
             break
 
         case(undefined):
             if (Array.isArray(arr)){
-                console.log(i,'undefined')
-                //console.log(arr)
-                const statArrClass= arrClass
+                //console.log(i,'undefined')
                 let arry =[]
+                //console.log(i,arrClass)
                 arr.map((elem)=>{
                     let nextLvl = objToList2(
                         elem, 
                         i+1,
-                        statArrClass,
+                        arrClass,
+                        grenyarrClass,
+                        //classZ
                         //output
                         )
                    
                     if(Array.isArray(nextLvl)){
-                        //return ...nextLvl
-                        console.log(nextLvl)
                         arry.push(...nextLvl)
                     }else{
-                        console.log(nextLvl)
                         arry.push(nextLvl)
                     }
                 })
-                //output.push(...arry)
-                console.log(arry.filter(el=>el!==undefined))
                 output.push(...arry.filter(el=>el!==undefined))
-                //console.log(arry)
                 
             }else{
                 console.log('err')
             }
             
             return output
-            //return output
             break
 
         default:
@@ -150,47 +150,51 @@ export function objToList2(
             break
 
     }
-    console.log(i,arr,output)
+    //console.log(i,arr,output)
     return output
-/*  
-    if (Array.isArray(arr.list)){
-        console.log(1,i,arr)
-        let classStart={
-            id:arr.id,
-            name:arr.name,
-            type:"class",
-            defaultChecked:arr.defaultChecked
-        }
-        arrClass.push(classStart)
-        console.log(1,i,arrClass)
-        arr.list.forEach((elem)=>{
-            console.log(3,i,elem)
-            let nextLvl = objToList2(
-                elem, 
-                i+1,
-                arrClass,
-                output
-                )
-            
-            if (elem.type==="layer"){
-                console.log(4,elem)
-                console.log(4,nextLvl)
-                output.push(...nextLvl)
-            }
-        })
-    }else{
-        
-            
-
-        arr.class=arrClass
-        console.log(2,arr)
-        output.push(arr)
-        return output
-        
-    } */
 }
-//testing(obj1.list)
-//let a = listToObj(obj1.list)
-// console.log(JSON.stringify( a, null, "\t"))
-// console.log(0,objToList(a))
-//console.log(JSON.stringify( listToObj(array), null, "\t"))
+export function listToObj2 (
+    arr,
+    i=0,
+    max=0,
+    aggr={},
+    lvl='classname',
+    defaultClassChecked=true,
+    classlvl={}, 
+    output=[]
+    ){
+    console.log(arr)
+    arr.forEach(elem=>{
+        if (max<elem.class.length){
+            max=elem.class.length
+        }
+        console.log(elem.class.length)
+    })
+    console.log(max)
+    const maxLvl = arr.filter(elem=>elem.class.length===max)
+    console.log(maxLvl)
+    const listClass=[... new Set(maxLvl.map(elem=>{
+        return elem.class[max-1]
+    }))]
+    console.log(listClass)
+    const classList = listClass.map((classElem, index,arr)=>{
+        console.log(classElem)
+        const filt =maxLvl.filter(ev=>ev.class[max-1]===classElem)
+        classElem.class=filt[0].class.slice(0,max-1)
+        classElem.list=filt.map(ev=>{
+            //delete ev.class
+            console.log(ev)
+            return ev
+        })
+        
+        return classElem
+    })
+    classList.forEach((ev)=>{
+        ev.list.forEach(ev=>{
+            delete ev.class
+        })
+    })
+    
+    console.log(classList)
+    
+}

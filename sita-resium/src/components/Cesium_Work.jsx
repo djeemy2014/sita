@@ -4,7 +4,7 @@ import testCesiumElemet from './testCesiumElemet'
 import NavBarLayer from "./workerComponents/NavBarLayer"
 //import CreateGeoJsonComponents from "./workerComponents/CreateGeoJsonComponents"
 import CreateGeoJsonComponent from "./workerComponents/CreateGeoJsonComponent"
-import {listToObj,objToList,objToList2} from './workerComponents/objList.js'
+import {listToObj,objToList,objToList2,listToObj2} from './workerComponents/objList.js'
 
 import {
     createRef, 
@@ -119,7 +119,7 @@ const a = {
                           ]
                       },
                       {
-                          "id":21,
+                          "id":22,
                           "type": "class",
                           "name": "Тестовый ПодКласс2",
                           "defaultChecked": false,
@@ -136,7 +136,7 @@ const a = {
                                           "subclassname": "Тестовый ПодКласс"
                                   },
                                   {
-                                          "id": 9,
+                                          "id": 10,
                                           "uid": "003",
                                           "typecode": 201,
                                           "type": "layer",
@@ -152,10 +152,12 @@ const a = {
       }
 ]
 }
-
+console.log()
+const b = objToList2(a)
+console.log(listToObj2(b))
 const setingScene = await fetch('http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/testScena2.json')
 const setingSceneJSON = await setingScene.json()
-console.log(objToList2(a))
+//console.log(objToList2(a))
 
 //const setingSceneObj = await setingSceneJSON добавить createRef()?
 
@@ -365,6 +367,7 @@ class DJeemyComponentCesium extends Component{
         this.pointRef = createRef()
         this.server = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'
         this.layersParams=objToList(setingSceneJSON.list)
+        this.layersParams2=objToList2(setingSceneJSON)//перерработать
         this.layers=[]
         this.listGeoJSON=[]
         this.layersParams.forEach(
@@ -372,7 +375,8 @@ class DJeemyComponentCesium extends Component{
                 elem.ref=createRef(); 
                 this.layers[index]=elem.ref;
             })
-
+        //console.log(this.layersParams)
+        //console.log(this.layersParams2)
         //const multiContenet = NavList({comprops:setingSceneJSON})
         //this.test1=NavList({comprops:setingSceneJSON})
         //this.test2
