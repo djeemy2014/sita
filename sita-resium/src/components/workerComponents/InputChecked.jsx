@@ -5,14 +5,14 @@ import {
     //useRef
 } from 'react'
 import testCesiumElemet from '../testCesiumElemet'
-
+//переписать в соотвествии с новыми особенностями.
 class InputChekbox extends Component{
     constructor(props){
         super(props)
         this.layerName=props.name
         this.layerId=props.uid
         this.elementRef = props.elementRef
-        this.classRef=props.classRef
+        //this.classRef=props.classRef
         this.classChecked=props.classChecked
         this.setClassChecked=props.setClassChecked
         this.state={
@@ -37,10 +37,10 @@ class InputChekbox extends Component{
     async componentDidMount(){
         testCesiumElemet(this.elementRef)
         .then(async(layer)=>{
-            if (this.classRef!==undefined){
+            // if (this.classRef!==undefined){
 
-                this.state.classChecked=this.classRef.current.state.defaultChecked
-            }
+            //     this.state.classChecked=this.classRef.current.state.defaultChecked
+            // }
             if (
                 this.elementRef.current.cesiumElement.show!==(this.state.defaultChecked&&this.state.classChecked)//возможно ошибка
              ) {

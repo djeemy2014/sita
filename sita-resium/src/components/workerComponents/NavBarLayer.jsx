@@ -76,7 +76,12 @@ function  NavListGeoJSON(props){
           {' '}
           {comprops.name}
           {/* showStat.toString() */}
-         
+          <InputChekbox 
+            {...comprops} 
+            classChecked={showStat} 
+            //classRef={arr.classRef} 
+            elementRef={comprops.ref}
+          />
           
           {/* <button onClick={()=>props.setGreny(listLi+10)}>Li2</button> */}
         </li>)
