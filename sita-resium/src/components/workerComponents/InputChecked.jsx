@@ -35,11 +35,6 @@ class InputChekbox extends Component{
     }
 
     async componentDidMount(){
-        //console.log(this.classRef)
-        //console.log(1,this.state)
-        //console.log(2,this.state.defaultChecked===this.state.classChecked)
-        //console.log(3,this.state.defaultChecked&&this.state.classChecked)
-        
         testCesiumElemet(this.elementRef)
         .then(async(layer)=>{
             if (this.classRef!==undefined){
@@ -56,10 +51,8 @@ class InputChekbox extends Component{
         )
     }
     async componentDidUpdate(prevProps,prevState) {
-        console.log(this.layerId, this.state.classChecked ) 
+        //console.log(this.layerId, this.state.classChecked ) 
         if (this.state.clRef!==undefined&&(this.state.classChecked !==prevState.clRef.current.state.defaultChecked)){
-            //console.log(this.state.classChecked)
-            //console.log(prevState.clRef.current.state.defaultChecked)
         }
         if (
             this.state.clRef !==undefined&&this.state.clRef.current!==undefined&&( 
@@ -79,8 +72,6 @@ class InputChekbox extends Component{
              ||this.elementRef.current.cesiumElement.show!==(prevProps.defaultChecked&&prevState.classChecked)//возможно ошибка
           ) {
             this.elementRef.current.cesiumElement.show=this.state.defaultChecked&&this.state.classChecked
-            //||this.elementRef.current.cesiumElement.show!==prevProps.defaultChecked
-            //console.log(prevState.classChecked)
           }
     }
 

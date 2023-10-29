@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import InputChekbox from "./InputChecked"
 import InputClassChekbox from "./InputClassChecked"
-import {listToObj} from "./objList.js"
+import {listToObj, listToObj2} from "./objList.js"
 /*  */
 
 function  NavListGeoJSON(props){
@@ -13,10 +13,10 @@ function  NavListGeoJSON(props){
   const ref=useRef()
   const proxiUrl = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'//???
 
-  //console.log(ref)
+  console.log(comprops)
   
   if (Array.isArray(comprops.list)){
-      //console.log(comprops.type)
+      console.log(comprops.type)
       const contener=(
         <ul>
           <input 
@@ -48,7 +48,8 @@ function  NavListGeoJSON(props){
               setGreny:setShowStat,
               listConnectGeoJSON:props.listConnectGeoJSON
             })
-            const contener= mylticontener[0]
+            const contener= mylticontener
+
             return contener
           })}
         </ul>
@@ -73,6 +74,7 @@ function  NavListGeoJSON(props){
           {props.greny===undefined?null:(props.greny&&showStat).toString()}
           {showStat}
           {' '}
+          {comprops.name}
           {/* showStat.toString() */}
          
           
@@ -154,15 +156,12 @@ function ObjListInputChekbox(arr,classRef,classHookCheck=true,i=0){
 
 function NumberList(props) {
  //console.log(props.layersParams)
+ //console.log(props.layersParams3)
   return ( 
     <>
       <h6>Список слоёв</h6>
       <NavListGeoJSON comprops={
-        {
-          name: "scen",
-          type: "scen",
-          list:listToObj(props.layersParams)
-        }
+          props.layersParams3
         } />
       <ObjListInputChekbox arr={listToObj(props.layersParams)}/>
     </>
@@ -188,7 +187,7 @@ function NavBarLayer(props) {
       >  
         <div className='test-collapse'>
           <div style={{width: '300px', height: "100vh" }}>
-            <NumberList style={{right:'10px', left:'10px'}} {...props} layersParams={layersParams} />
+            <NumberList style={{right:'10px', left:'10px'}} {...props} />
           </div>
           
         </div>

@@ -152,9 +152,10 @@ const a = {
       }
 ]
 }
-console.log()
-const b = objToList2(a)
-console.log(listToObj2(b))
+//console.log(a)
+//const b = objToList2(a)
+//console.log(b)
+//console.log(...listToObj2(b))
 const setingScene = await fetch('http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/testScena2.json')
 const setingSceneJSON = await setingScene.json()
 //console.log(objToList2(a))
@@ -368,6 +369,7 @@ class DJeemyComponentCesium extends Component{
         this.server = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'
         this.layersParams=objToList(setingSceneJSON.list)
         this.layersParams2=objToList2(setingSceneJSON)//перерработать
+        this.layersParams3=listToObj2(this.layersParams2)[0]//перерработать
         this.layers=[]
         this.listGeoJSON=[]
         this.layersParams.forEach(
@@ -457,6 +459,7 @@ class DJeemyComponentCesium extends Component{
                     <NavBarLayer 
                         layers={this.layers} 
                         layersParams={this.layersParams}
+                        layersParams3={this.layersParams3}
                         viewerRef={this.viewerRef} 
                         startPosition={this.startPosition}
                     />

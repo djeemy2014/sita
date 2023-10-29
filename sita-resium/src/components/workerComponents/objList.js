@@ -61,6 +61,7 @@ export function objToList2(
         case("scena"):
             //console.log(i,"scena")
             const classStart={
+                ...arr,
                 id:arr.id,
                 name:arr.name,
                 type:"scen",
@@ -163,27 +164,33 @@ export function listToObj2 (
     classlvl={}, 
     output=[]
     ){
-    console.log(arr)
+    //console.log(arr)
+    //if (arr.length!==undefined){
+
+    
     arr.forEach(elem=>{
+        //console.log(elem)
         if (max<elem.class.length){
             max=elem.class.length
         }
-        console.log(elem.class.length)
+        //console.log(elem.class.length)
     })
-    console.log(max)
+
+    //console.log(max)
+    if(max!==0){
     const maxLvl = arr.filter(elem=>elem.class.length===max)
-    console.log(maxLvl)
+    //console.log(maxLvl)
     const listClass=[... new Set(maxLvl.map(elem=>{
         return elem.class[max-1]
     }))]
-    console.log(listClass)
+    //console.log(listClass)
     const classList = listClass.map((classElem, index,arr)=>{
-        console.log(classElem)
+        //console.log(classElem)
         const filt =maxLvl.filter(ev=>ev.class[max-1]===classElem)
         classElem.class=filt[0].class.slice(0,max-1)
         classElem.list=filt.map(ev=>{
             //delete ev.class
-            console.log(ev)
+            //console.log(ev)
             return ev
         })
         
@@ -191,10 +198,24 @@ export function listToObj2 (
     })
     classList.forEach((ev)=>{
         ev.list.forEach(ev=>{
+            //ev.class=[]
             delete ev.class
+            //потеря класса у исходника
         })
     })
+    //console.log(classList)
+    //arr.forEach(console.log)
+    const nextLvl=arr.filter(elem=>elem.class!==undefined)
     
-    console.log(classList)
+    nextLvl.push(...classList)
+    //console.log(i,nextLvl)
+    const end = listToObj2 (nextLvl,i+1)
+    return end
+    }
+    else{
+        //console.log(arr)
+        //delete arr.class
+        return arr
+    }
     
 }
