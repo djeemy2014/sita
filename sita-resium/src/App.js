@@ -18,11 +18,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />} />
         <Route path="/startCesium" element={<Cesium />} />
-        <Route path="/testCesium" element={<Test_Scene />} />
-        <Route path="/testCesium2" element={<DJeemyComponentCesium />} />
+        {/* <Route path="/testCesium" element={<Test_Scene />} /> */}
+        <Route path="/testCesium" element={<DJeemyComponentCesium />} />
         <Route path="/useEfect" element={<ExampleComponent />} />
-        <Route path="/problen" element={<AssetMap />} />
-        <Route path="/layer" />
+        {/* <Route path="/problen" element={<AssetMap />} />
+        <Route path="/layer" /> */}
       </Routes>
     </BrowserRouter>
     
@@ -50,13 +50,7 @@ function Layout(){
             <Link to="/testCesium">testCesium</Link>
           </li>
           <li>
-            <Link to="/testCesium2">testCesium2</Link>
-          </li>
-          <li>
             <Link to="/useEfect">useEfect</Link>
-          </li>
-          <li>
-            <Link to="/problen">useEfect</Link>
           </li>
         </ul>
       </nav>

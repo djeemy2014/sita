@@ -25,6 +25,7 @@ import {
 import{
     Ion,
     //Terrain as TerrainCesium,
+    createOsmBuildingsAsync,
     EllipsoidTerrainProvider,
     createWorldTerrainAsync,
     Math as MathCesium,
@@ -35,128 +36,17 @@ import{
     Cartographic as CartographicCesium,
     Rectangle as RectangleCesium,
     Camera as CameraCesium,
+    Cesium3DTileset as Cesium3DTilesetCesium,
     //GeoJsonDataSource as GeoJsonDataSourceCesium
     CesiumTerrainProvider as CesiumTerrainProviderCesium,
 } from 'cesium'
 import Button from 'react-bootstrap/Button';
 
-const a = {
-  "uid": 1,
-  "id":0,
-  "type": "scena",
-  "name": "testScena",
-  "list":
-  [
-      {
-              "id": 1,
-              "uid": "001",
-              "typecode": 201,
-              "type": "layer",
-              "name": "testLayer!",
-              "path": "/VDC_4326.geojson",
-              "defaultChecked": false
-      },
-      {
-              "id": 2,
-              "uid": "004",
-              "typecode": 201,
-              "type": "layer",
-              "name": "Здания2",
-              "path": "/bild_4326.geojson",
-              "defaultChecked": false
-      },
-      {
-              "id": 3,
-              "uid": "005",
-              "typecode": 201,
-              "type": "layer",
-              "name": "Здания3",
-              "path": "/bild_4326.geojson",
-              "defaultChecked": false
-      },
-      {
-              "id": 4,
-              "uid": "006",
-              "typecode": 201,
-              "type": "layer",
-              "name": "Здания3",
-              "path": "/bild_4326.geojson",
-              "defaultChecked": false
-      },
-      {
-              "id":20,
-              "type": "class",
-              "name": "Тестовый Класс",
-              "defaultChecked": true,
-              "list": [
-                      {
-                              "id": 6,
-                              "uid": "002",
-                              "typecode": 201,
-                              "type": "layer",
-                              "name": "Дороги",
-                              "path": "/road_4326.geojson",
-                              "defaultChecked": true,
-                              "classname": "Тестовый Класс"
-                      },
-                      {
-                          "id":21,
-                          "type": "class",
-                          "name": "Тестовый ПодКласс",
-                          "defaultChecked": true,
-                          "list": [
-                                  {
-                                      "id": 8,
-                                      "uid": "003",
-                                      "typecode": 201,
-                                      "type": "layer",
-                                      "name": "Здания",
-                                      "path": "/bild_4326.geojson",
-                                      "defaultChecked": false,
-                                      "classname": "Тестовый Класс",
-                                      "subclassname": "Тестовый ПодКласс"
-                                  }
-                          ]
-                      },
-                      {
-                          "id":22,
-                          "type": "class",
-                          "name": "Тестовый ПодКласс2",
-                          "defaultChecked": false,
-                          "list": [
-                                  {
-                                          "id": 9,
-                                          "uid": "003",
-                                          "typecode": 201,
-                                          "type": "layer",
-                                          "name": "Здания 00",
-                                          "path": "/bild_4326.geojson",
-                                          "defaultChecked": true,
-                                          "classname": "Тестовый Класс",
-                                          "subclassname": "Тестовый ПодКласс"
-                                  },
-                                  {
-                                          "id": 10,
-                                          "uid": "003",
-                                          "typecode": 201,
-                                          "type": "layer",
-                                          "name": "Здания 00",
-                                          "path": "/bild_4326.geojson",
-                                          "defaultChecked": true,
-                                          "classname": "Тестовый Класс",
-                                          "subclassname": "Тестовый ПодКласс"
-                                  }
-                          ]
-                  }
-              ]
-      }
-]
-}
 //console.log(a)
 //const b = objToList2(a)
 //console.log(b)
 //console.log(...listToObj2(b))
-const setingScene = await fetch('http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/testScena2.json')
+const setingScene = await fetch('http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/testScena.json')
 const setingSceneJSON = await setingScene.json()
 //console.log(objToList2(a))
 
@@ -394,13 +284,21 @@ class DJeemyComponentCesium extends Component{
         testCesiumElemet(this.viewerRef)
         .then(async (viewer)=>{
             //настройка viewer
-            viewer.current.cesiumElement.terrainProvider= await createWorldTerrainAsync()
-            viewer.current.cesiumElement.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(2279465)
+            createWorldTerrainAsync().then(elem=>{viewer.current.cesiumElement.terrainProvider=elem})
+            //createOsmBuildingsAsync().then(elem=>{viewer.current.cesiumElement.scene.primitives.add(elem)})
+            //CesiumTerrainProviderCesium.fromIonAssetId(2279465).then(elem=>console.log(viewer.current.cesiumElement.terrainProvider=elem))
+            //console.log(await createWorldTerrainAsync())
+            //viewer.current.cesiumElement.terrainProvider= await createWorldTerrainAsync()
+            //viewer.current.cesiumElement.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(2279465)
         })
         .catch(console.log)
         testCesiumElemet(this.sceneRef)
         .then(async (scene)=>{
             //scene.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(1144816)
+            //scene.terrainProvider= await Cesium3DTilesetCesium.fromIonAssetId(75343)
+            //const osm = await createOsmBuildingsAsync()
+            //scene.current.cesiumElement.primitives.add(osm)
+            //createOsmBuildingsAsync().then(elem=>{scene.current.cesiumElement.primitives.add(elem)})
         }
         )
         testCesiumElemet(this.cameraRef)
@@ -432,7 +330,9 @@ class DJeemyComponentCesium extends Component{
 
             point.current.cesiumElement.point=pointGrap
             point.current.cesiumElement.description =`<h1>Установленная высота</h1></br><p> ${CartographicCesium.fromCartesian(point.current.cesiumElement.position._value).height}`
-        })
+            //console.log(point)
+            //console.log(pointGrap)
+          })
         .catch(console.log)
 
 
@@ -450,7 +350,7 @@ class DJeemyComponentCesium extends Component{
 
     render(){
         this.layersParams.forEach((elem, index)=>{
-            this.listGeoJSON[index]=<CreateGeoJsonComponent layerRef={this.layers[index]} obj={elem} server={this.server}/>;
+            this.listGeoJSON[index]=<CreateGeoJsonComponent obj={elem} server={this.server}/>;
             //передавать весь elem и диструктурировать по получению ...elem
         })
         return (
@@ -469,11 +369,12 @@ class DJeemyComponentCesium extends Component{
                     <Viewer id="viewerTest"  ref={this.viewerRef} timeline={false} homeButton={false} animation={false}>
                         <Camera ref={this.cameraRef} />
                         <Scene ref={this.sceneRef} />
+                        <Entity ref={this.pointRef} /> 
                         <>
                             {this.listGeoJSON}
                             {/* {this.listGeoJSON2} */}
                         </>
-                        <Entity ref={this.pointRef} />
+                        
                     </Viewer>
 
                 </div>

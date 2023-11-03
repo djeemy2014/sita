@@ -11,7 +11,7 @@ export function listToObj (arr, i=0,lvl='classname',defaultClassChecked=true, ou
             output.push(...listUnd)
         }else{
             let felem=arr.find((elem)=>elem[lvl]===className)
-            //console.log(felem)
+            
             let classIN={
                 //"sub".repeat(i)+
                 "id":felem.id,//исправить
@@ -83,7 +83,7 @@ export function objToList2(
                 id:arr.id,
                 name:arr.name,
                 type:"class",
-                defaultChecked:true
+                defaultChecked:arr.defaultChecked
             };
             const childArr2=grenyarrClass.map(ev=>ev)
             childArr2.push(arrClass)

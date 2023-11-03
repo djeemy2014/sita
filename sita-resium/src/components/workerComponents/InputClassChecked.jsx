@@ -1,15 +1,22 @@
 import {
     //createRef, 
-    Component, 
+    Component,
+    useEffect 
     //useState, 
     //useRef
 } from 'react'
 //import testCesiumElemet from '../testCesiumElemet'
 
-/* function InputClassChekbox (){
-
+function InputClassChekbox (props){
+    useEffect(() => {
+        // Your code here
+      }, []);
+      return <>
+      
+      
+      </>
 }
- */
+/* 
 class InputClassChekbox extends Component{
     constructor(props){
         super(props)
@@ -66,4 +73,4 @@ class InputClassChekbox extends Component{
             )}
     
 }
-export default InputClassChekbox
+export default InputClassChekbox */

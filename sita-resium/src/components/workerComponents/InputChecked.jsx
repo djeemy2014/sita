@@ -1,17 +1,81 @@
 import {
-    //createRef, 
+    //createRef,
+    useEffect, 
     Component, 
     //useState, 
     //useRef
 } from 'react'
 import testCesiumElemet from '../testCesiumElemet'
 //переписать в соотвествии с новыми особенностями.
+export function InputChekboxFunction(props){
+    const cElemRef = props.comprops.ref
+    //console.log(props)
+    //const showStat=showStat
+    //const setShowStat=setShowStat
+    useEffect(() => {
+        testCesiumElemet(cElemRef)
+        .then(async(cElemRef)=>{
+            // if (this.classRef!==undefined){
+            //console.log(props.comprops.id,props.greny===undefined?null:(props.greny&&props.showStat))
+            //console.log(props.comprops.id,cElemRef.current.cesiumElement.show)
+            //     this.state.classChecked=this.classRef.current.state.defaultChecked
+            cElemRef.current.cesiumElement.show=props.greny===undefined?null:(props.greny&&props.showStat)
+            //console.log(props.comprops.id,cElemRef.current.cesiumElement.show)
+            // }
+            if (
+                cElemRef.current.cesiumElement.show!==(props.greny===undefined?null:(props.greny&&props.showStat))//возможно ошибка
+             ) {
+               cElemRef.current.cesiumElement.show=props.greny===undefined?null:(props.greny&&props.showStat)
+               //||cElemRef.current.cesiumElement.show!==prevProps.defaultChecked
+             }
+        })
+    },[])
+    useEffect(() => {
+        testCesiumElemet(cElemRef)
+        .then(async(cElemRef)=>{
+            // if (this.classRef!==undefined){
+                //console.log(props)
+            //     this.state.classChecked=this.classRef.current.state.defaultChecked
+            // }
+            cElemRef.current.cesiumElement.show=props.greny===undefined?null:(props.greny&&props.showStat)
+            if (
+                cElemRef.current.cesiumElement.show!==(props.greny===undefined?null:(props.greny&&props.showStat))//возможно ошибка
+             ) {
+               cElemRef.current.cesiumElement.show=props.greny===undefined?null:(props.greny&&props.showStat)
+               //||cElemRef.current.cesiumElement.show!==prevProps.defaultChecked
+             }
+        })
+        
+    },[props.showStat,props.greny]) 
+    
+    return <li key={props.id}>
+           <input 
+          //checked={props.greny===undefined?null:(props.greny&&showStat)} 
+          checked={props.showStat} 
+          type="checkbox" 
+          onChange={()=>props.setShowStat(!props.showStat)}
+          />
+          {/* <button style={{width: '50px'}} onClick={()=>props.setShowStat(!props.showStat)}>Li</button> */}
+          {/* {props.greny===undefined?null:(props.greny&&props.showStat).toString()}
+          {props.showStat} */}
+          {/* {' '} */}
+          <p>{props.comprops.name}</p>
+          {/* showStat.toString() */}
+          
+          {/* <button onClick={()=>props.setGreny(listLi+10)}>Li2</button> */}
+        </li>
+
+
+}
+
+
 class InputChekbox extends Component{
     constructor(props){
         super(props)
+        this.component=props
         this.layerName=props.name
         this.layerId=props.uid
-        this.elementRef = props.elementRef
+        this.cElemRef = props.comprops.ref
         //this.classRef=props.classRef
         this.classChecked=props.classChecked
         this.setClassChecked=props.setClassChecked
@@ -35,17 +99,17 @@ class InputChekbox extends Component{
     }
 
     async componentDidMount(){
-        testCesiumElemet(this.elementRef)
+        testCesiumElemet(this.cElemRef)
         .then(async(layer)=>{
             // if (this.classRef!==undefined){
 
             //     this.state.classChecked=this.classRef.current.state.defaultChecked
             // }
             if (
-                this.elementRef.current.cesiumElement.show!==(this.state.defaultChecked&&this.state.classChecked)//возможно ошибка
+                this.cElemRef.current.cesiumElement.show!==(this.state.defaultChecked&&this.state.classChecked)//возможно ошибка
              ) {
-               this.elementRef.current.cesiumElement.show=this.state.defaultChecked&&this.state.classChecked
-               //||this.elementRef.current.cesiumElement.show!==prevProps.defaultChecked
+               this.cElemRef.current.cesiumElement.show=this.state.defaultChecked&&this.state.classChecked
+               //||this.cElemRef.current.cesiumElement.show!==prevProps.defaultChecked
              }
         }
         )
@@ -69,9 +133,9 @@ class InputChekbox extends Component{
         if (
              this.state.defaultChecked !== prevState.defaultChecked
              ||this.state.classChecked !== prevState.classChecked
-             ||this.elementRef.current.cesiumElement.show!==(prevProps.defaultChecked&&prevState.classChecked)//возможно ошибка
+             ||this.cElemRef.current.cesiumElement.show!==(prevProps.defaultChecked&&prevState.classChecked)//возможно ошибка
           ) {
-            this.elementRef.current.cesiumElement.show=this.state.defaultChecked&&this.state.classChecked
+            this.cElemRef.current.cesiumElement.show=this.state.defaultChecked&&this.state.classChecked
           }
     }
 
@@ -86,7 +150,7 @@ class InputChekbox extends Component{
                         }}>
 
                 </input>
-                <label>{this.layerName}</label>
+                <label>{this.component.name}</label>
                 <br></br>
             </>
         )}

@@ -1,5 +1,9 @@
+//@import "./checkbox";
 $paramBorder: solid 1px #00000088;
-$primary: #c23ed3;
+$primary: #c26bce;
+$white: #ffffff;
+$black: #000000;
+// цвет кнопок сейрый
 $secondary: #9ab6da;
 $dark: #386086;
 $light: #f2efee;
@@ -7,6 +11,7 @@ $success: #5ece45;
 $info: #9ab6da;
 $warning: #e41fc3;
 $danger: #f44336;
+$step:20px;
 
 .toolbar{
     top: 0px;
@@ -42,7 +47,7 @@ div.test-tooldar{
     display: inline-block;
     position: sticky;
     width: 30px;
-    /* top: 2px; */
+    top: 1px;
     bottom: 2px;
     
     /* border: solid 2px; */
@@ -50,18 +55,31 @@ div.test-tooldar{
     /* border: $paramBorder; */
     /* background-color: #ffffff88; */
     vertical-align: top;
+    
     button{
         display: absolute;
+        margin-bottom: 1px;
+        border-radius: 0% 25% 25% 0%;
+        
     };
     .sita-button{
         height: 30px;
         width: 30px;
+        //top: 20px;
     }
-    .sita-button-list{
-        background: url(
-            '../components/workerComponents/icon/align-justify-svgrepo-com.svg'
+    //.sita-button-list{
+        .list-open{
+            background: url(
+            '../components/workerComponents/icon/chevron-left-svgrepo-com.svg'
             )  no-repeat center/80% $primary;
-    }
+        }
+        .list-close{
+            background: url(
+            '../components/workerComponents/icon/chevron-right-svgrepo-com.svg'
+            )  no-repeat center/80% $primary;
+        }
+        
+    //}
     .sita-button-home{
         background: url(
             '../components/workerComponents/icon/home-svgrepo-com.svg'
@@ -87,9 +105,60 @@ div.test-tooldar{
         //padding: 5px;
     } */
     ul{
-        
+        padding-left: $step;
         list-style-type: none;
-        padding: 7px;
+        //padding: 20px;
+        padding-bottom: 5px;
+        div.p{
+            display:block; 
+        }
+        p{ 
+            //font-family: 'Roboto Slab';
+            //font-weight: normal;
+            font-weight: 700;
+            font-size: 1em;
+            display: inline; 
+            padding-left: 0.25em
+        }
+    }
+    li{
+        padding-left: $step;
+        p{ 
+            //font-family: 'Times New Roman', Times, serif;
+            font-weight: normal;
+            font-size: 1em;
+            display: inline; 
+            padding-left: 0.25em;
+        }
+    }
+    
+    .collapse-li{
+        
+        //width: '20px';
+        //height:'20px';
         
     }
+    button.minus{
+        width: $step;
+        height:$step;
+        margin-left: 0.25em;
+        //padding-left: 0.25em;
+        border-radius: 5px;
+            background: url(
+                '../components/workerComponents/icon/chevron-down-svgrepo-com.svg'
+                )  no-repeat center/80% $white;
+        }
+    button.plus{
+        width: $step;
+        height:$step;
+        margin-left: 0.25em;
+        //padding-left: 0.25em;
+        border-radius: 5px;
+            background: url(
+            '../components/workerComponents/icon/chevron-up-svgrepo-com.svg'
+            )  no-repeat center/80% $white;
+        }
+            
+    
+    
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, Component} from "react";
 import { Viewer } from "resium";
+import '../scss/_checkbox.scss'; 
 
 
 const objList={
@@ -53,6 +54,7 @@ function RecursComponent (props){
         {' '}
         {/* listLi.toString() */}
         <input 
+        className="custom-checkbox"
         //checked={props.greny===undefined?listLi:(props.greny&&listLi)} 
         checked={listLi} 
         type="checkbox" 
@@ -97,6 +99,7 @@ function RecursComponent (props){
       {' '}
       {/* listLi.toString() */}
       <input 
+      className="custom-checkbox"
       //checked={props.greny===undefined?null:(props.greny&&listLi)} 
       checked={listLi} 
       type="checkbox" 
@@ -191,9 +194,47 @@ class MyClass extends Component{
         <h1>Привет!</h1>
         <p>{this.state.obj.status.toString()}</p>
         <p>{this.state.obj.string+1}</p>
-        <button onClick={this.handleClick}>Clic</button>
-        <button onClick={this.handleClick2}>Clic2</button>
+        {/* <button onClick={this.handleClick}>Clic</button>
+        <button onClick={this.handleClick2}>Clic2</button> */}
+        <div class="box">
 
+          <div class="item">
+            <div class="toggle-rect">
+              <input type="checkbox" id="rect1" name="check"/>
+              <label for="rect1"></label>
+            </div>
+
+          </div>
+          <div class="item">
+            <div class="toggle-rect-bw">
+              <input type="checkbox" id="rect2" name="check"/>
+              <label for="rect2"></label>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="toggle-rect-color">
+              <input type="checkbox" id="rect3" name="check"/>
+              <label for="rect3"></label>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="toggle-rect-dark">
+              <input type="checkbox" id="rect4" name="check"/>
+              <label for="rect4"></label>
+            </div>
+          </div>
+
+          </div>
+        <label><input className="custom-checkbox" type="checkbox" onClick={ev=>console.log(this)} />
+        Тут</label>
+        <br></br>
+        <label><input className="custom-check-icon" type="checkbox" onClick={ev=>console.log(this)} />
+        Тут2</label>
+        <br></br>
+        <br></br>
+        <br></br>
         <ExampleComponent2 counter={this.state.counter} setCounter={this.setCounter}/>
         <RecursComponent comprops={objList} setComponent={this.setObj}/>
       </div>
