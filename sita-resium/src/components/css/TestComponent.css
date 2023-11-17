@@ -1,4 +1,4 @@
-
+/* 
 #viewerTest{
     position:absolute;
     height: 100%;
@@ -11,6 +11,6 @@ div.viewerBox{
     position: fixed;
     height: 100%;
     width: 100%;
-    /* border: solid 2px;
-    border-color: rgb(159, 255, 4); */
-}
+    border: solid 2px;
+    border-color: rgb(159, 255, 4); 
+} */

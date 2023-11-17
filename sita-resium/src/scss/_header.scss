@@ -1,0 +1,100 @@
+
+$primary2: #d08cd9 ;
+$colorBackground: #7c729855;
+$hHeader:calc(6vh - 2px);
+header{
+    color: white;
+    position:absolute;
+    //background-color: rgb(193, 245, 133);
+    background-color: $colorBackground;
+    width: 100%;
+    height: $hHeader;
+    z-index: 9;
+    div{
+        //border: solid 2px;
+        //border-color: yellow;
+    }
+    .customer,.titel-header,.contractor{
+        //background-color: rgb(0, 255, 21);
+        //width: 33%;
+        //borde
+        align-items: center;;
+        display:inline-block;
+        height: inherit;
+        //background-color: $colorBackground;
+        //width: 100%;
+        vertical-align: top;
+    }
+    .customer{
+        // background-color: rgb(0, 255, 21);
+        //width: 300px;
+        width: 25%;
+        //height: 100%;
+        margin-left: 0px;
+       
+    }
+    
+    .titel-header{
+        //background-color: $colorBackground;
+        width: 50%;
+        //height: 100%;
+        //display: inline;
+    }
+    .contractor{
+        //background-color: $colorBackground;
+        //background-image:  url(
+        //    "https://mirproekt.ru/wp-content/themes/giprogor/images/logomini.png"
+        //    );
+        //background-repeat: no-repeat;
+        //background-size: contain;
+        margin-right: 0px;
+        width: 25%;
+        a{
+            text-decoration: none;
+            color: white;
+        }
+        //height: 100%;
+        //width: 33%;
+        //display: inline;
+    }
+    .div-href{
+        //align-content: center;
+        
+        position: relative;
+        //align-items: end;
+        //align-content: end;
+        //text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        //align-content: center;
+        //top: 50%;
+        //transform: translateY(-50%);
+        //left: 50%;
+        width: fit-content;
+        //transform: translateX(-50%);
+        
+        //vertical-align: center;
+        //background-color: aqua;
+        //width:max-content;
+        //border: 5px greenyellow;
+        a{
+            //vertical-align: middle;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2em;
+            //text-align: center;
+            //top: 50%;
+            //transform: translateY(-50%);
+            //justify-content: center;
+            //font-size: 1.2em;
+            
+        } 
+    }
+    /* div{
+        width: 33%;
+        position: relative;
+        
+    } */
+}

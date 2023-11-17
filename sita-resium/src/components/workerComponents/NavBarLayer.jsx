@@ -129,14 +129,14 @@ function NavBarLayer(props) {
   console.log()
   return (
     
-    <div className='test-tooldar'>
+    <div className='tooldar-out'>
       <Collapse 
         in={open} 
         dimension={'width'}
         appear={true}
       >  
-        <div className='test-collapse'>
-          <div style={{width: '300px', height: "100vh" }}>
+        <div className='div-collapse'>
+          <div className='div-collapse-list' style={{width: '300px', height: "100vh" }}>
             <NumberList style={{right:'10px', left:'10px'}} {...props} />
           </div>
           
@@ -148,6 +148,14 @@ function NavBarLayer(props) {
           onClick={() => {setOpen(!open); }} 
           aria-expanded={open} 
           className={`sita-button sita-button-list ${open?'list-open':'list-close'}`}
+        />
+        <Button 
+          aria-controls="example-collapse-text" 
+          className={'sita-button sita-button-info'}
+        />
+        <Button 
+          aria-controls="example-collapse-text" 
+          className={'sita-button sita-button-legend'}
         />
         <Button 
           aria-controls="example-collapse-text" 
