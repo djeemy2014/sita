@@ -1,11 +1,12 @@
 //import { render } from 'react-dom';
 import './App.css';
 import {BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Cesium from './components/Cesium.js'
+import Cesium from './components/Cesium'
 // import './components/css/TestComponent.css'
 import Test_Scene from './components/TestComponent.js'
 import ExampleComponent from './components/useEfect.js'
 import DJeemyComponentCesium from './components/Cesium_Work.jsx'
+import CesiumProgert from './components/Cesium_First_project';
 import AssetMap from './components/Problem_2020'
 
 
@@ -19,7 +20,11 @@ function App() {
         <Route path="/" element={<Layout />} />
         <Route path="/startCesium" element={<Cesium />} />
         {/* <Route path="/testCesium" element={<Test_Scene />} /> */}
-        <Route path="/testCesium" element={<DJeemyComponentCesium />} />
+        <Route path="/testCesium" element={
+        <CesiumProgert
+          
+        />
+        } />
         <Route path="/useEfect" element={<ExampleComponent />} />
         {/* <Route path="/problen" element={<AssetMap />} />
         <Route path="/layer" /> */}

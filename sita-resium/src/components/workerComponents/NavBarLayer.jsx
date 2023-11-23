@@ -123,7 +123,7 @@ function NumberList(props) {
 
 function NavBarLayer(props) {
   const [open, setOpen] = useState(false);
-    const layersParams = props.layersParams;
+    //const layersParams = props.layersParams;
     const viewerRef=props.viewerRef
     const startPosition=props.startPosition
   console.log()
@@ -136,10 +136,9 @@ function NavBarLayer(props) {
         appear={true}
       >  
         <div className='div-collapse'>
-          <div className='div-collapse-list' style={{width: '300px', height: "100vh" }}>
+          <div className='div-collapse-list' >
             <NumberList style={{right:'10px', left:'10px'}} {...props} />
           </div>
-          
         </div>
       </Collapse>
       <div className={'div-button'}>

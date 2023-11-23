@@ -1,4 +1,4 @@
-//@import "./checkbox";
+@import "./checkbox";
 @import "./header";
 $paramBorder: solid 1px #00000088;
 //$colorBackground: $primary2;
@@ -15,7 +15,8 @@ $info: #9ab6da;
 $warning: #e41fc3;
 $danger: #f44336;
 $step:20px;
-$hToolbar:calc(100vh - $hHeader);
+$sizeButton:30px;
+$hToolbar:calc(100vh - 2px - $hHeader);
 
 
 
@@ -52,7 +53,7 @@ div.tooldar-out{
 .div-button{
     display: inline-block;
     position: sticky;
-    width: 30px;
+    width: $sizeButton;
     top: 1px;
     bottom: 2px;
     
@@ -69,8 +70,8 @@ div.tooldar-out{
         
     };
     .sita-button{
-        height: 30px;
-        width: 30px;
+        height: $sizeButton;
+        width: $sizeButton;
         //top: 20px;
     }
     //.sita-button-list{
@@ -88,23 +89,39 @@ div.tooldar-out{
     //}
     .sita-button-home{
         background: url(
-            '../components/workerComponents/icon/home-svgrepo-com.svg'
+            '../components/workerComponents/icon/white/home-svgrepo-com.svg'
             )  no-repeat center/80% $primary;
     }
     .sita-button-settings{
         background: url(
-            '../components/workerComponents/icon/settings-svgrepo-com.svg'
+            '../components/workerComponents/icon/white/settings-svgrepo-com.svg'
             )  no-repeat center/80% $primary;
     }
     .sita-button-info{
         background: url(
-            '../components/workerComponents/icon/info-circle-svgrepo-com.svg'
+            '../components/workerComponents/icon/white/info-circle-svgrepo-com.svg'
             )  no-repeat center/80% $primary;
     }
     .sita-button-legend{
         background: url(
-            '../components/workerComponents/icon/layers-svgrepo-com.svg'
+            '../components/workerComponents/icon/white/layers-svgrepo-com.svg'
             )  no-repeat center/80% $primary;
+    }
+}
+.div-collapse-list{
+    width: calc(100vw / 5); 
+    height: calc(94vh - 4px)
+}
+@media (max-width: 800px) {
+    .div-collapse-list{
+        width: calc(100vw - $sizeButton); 
+        height: calc(94vh - 4px)
+    }
+}
+@media (min-width: 800px) and (max-width: 1500px)  {
+    .div-collapse-list{
+        width: calc(300px); 
+        height: calc(94vh - 4px)
     }
 }
 .div-collapse{
@@ -112,7 +129,7 @@ div.tooldar-out{
     position: sticky;
     color: #ffffff;
     /* width: 400px; */
-    height: $hToolbar;
+    height: auto;
     //border: $paramBorder;
     background-color: $colorBackground;
     /* border-color: rgb(127, 255, 41); */

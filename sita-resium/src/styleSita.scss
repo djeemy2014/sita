@@ -1,6 +1,7 @@
 @import "./scss/toolbar";
 @import "./scss/header";
 @import "./scss/viewer";
+@import "./scss/footer";
 $primary: #6f5f9ca4 ; //обводка кнопок #d33eba
 $secondary: #9ab6da;
 $dark: #386086;
@@ -10,6 +11,11 @@ $info: #9ab6da;
 $warning: #e49b1f;
 $danger: #f44336;
 
+body{
+    margin: 0;
+    padding: 0;
+    bottom: 0;
+}
 
 .sita-img{
     width:25px
