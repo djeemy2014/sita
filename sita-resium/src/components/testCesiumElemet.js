@@ -10,8 +10,8 @@ export default async function testCesiumElemet(ref,i=0){
                     testCesiumElemet(ref, i).then(resolve).catch(reject)
                 },10)
             }else {
-                //reject (new Error(`Waiting more than ${1000*10/1000} seconds.${ref.current}`))
-                console.log(ref)
+                reject (new Error(`Waiting more than ${1000*10/1000} seconds.${ref.current}`))
+                //console.log(ref)
             }
     })
 

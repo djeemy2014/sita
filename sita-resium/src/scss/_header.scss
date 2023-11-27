@@ -18,7 +18,7 @@ header{
         //background-color: rgb(0, 255, 21);
         //width: 33%;
         //borde
-        align-items: center;;
+        align-items: center;
         display:inline-block;
         height: inherit;
         //background-color: $colorBackground;
@@ -98,11 +98,11 @@ header{
         position: relative;
         
     } */
-    
-}
-@media (max-width: 800px) {
-    p{
-        font-size:0 //calc($hHeader/5) 
+    @media (max-width: 800px) {
+        p{
+            font-size:0 //calc($hHeader/5) 
+        }
+        
     }
     
 }

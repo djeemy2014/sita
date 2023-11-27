@@ -452,7 +452,7 @@ function CreateGeoJsonComponent(props){
           break
         case "dtpProektBound":
           params.entities.values.forEach((elem)=>{
-            console.log(elem)
+            //console.log(elem)
             //const maximumHeights=new Array(elem.polygon.hierarchy._value.positions.length)
             //console.log(maximumHeights)
             //maximumHeights.fill(20)
@@ -463,7 +463,7 @@ function CreateGeoJsonComponent(props){
             //elem.polygon.outlineWidth =10.0
             //elem.polygon.height=0.1
             //elem.polygon.zIndex=2
-            console.log(CesiumCartographic.toCartesian({...CesiumCartographic.fromCartesian(elem.polygon.hierarchy._value.positions[0]), height:0.1}))
+            //console.log(CesiumCartographic.toCartesian({...CesiumCartographic.fromCartesian(elem.polygon.hierarchy._value.positions[0]), height:0.1}))
             elem.description=`<table class="cesium-infoBox-defaultTable">
                 <tbody>
                 <tr>
@@ -548,6 +548,7 @@ function CreateGeoJsonComponent(props){
       })
     
   })
+  .catch(err=>{console.log('props.obj.ref',err)})
   
    
  

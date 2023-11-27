@@ -29,6 +29,7 @@ export function InputChekboxFunction(props){
                //||cElemRef.current.cesiumElement.show!==prevProps.defaultChecked
              }
         })
+        .catch(err=>{console.log('cElemRef',err)})
     },[])
     useEffect(() => {
         testCesiumElemet(cElemRef)
@@ -45,6 +46,7 @@ export function InputChekboxFunction(props){
                //||cElemRef.current.cesiumElement.show!==prevProps.defaultChecked
              }
         })
+        .catch(err=>{console.log('cElemRef',err)})
         
     },[props.showStat,props.greny]) 
     
@@ -112,7 +114,7 @@ class InputChekbox extends Component{
                //||this.cElemRef.current.cesiumElement.show!==prevProps.defaultChecked
              }
         }
-        )
+        ).catch(err=>{console.log('cElemRef',err)})
     }
     async componentDidUpdate(prevProps,prevState) {
         //console.log(this.layerId, this.state.classChecked ) 

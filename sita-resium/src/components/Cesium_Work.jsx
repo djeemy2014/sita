@@ -260,7 +260,7 @@ class DJeemyComponentCesium extends Component{
                 this.setingSceneJSON=result
               }
               )
-
+        this.setingSceneJSON=props.scene
         this.startPosition = Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 10000);
         this.state={}
         this.viewerRef = createRef();
@@ -279,7 +279,7 @@ class DJeemyComponentCesium extends Component{
                 elem.ref=createRef(); 
                 this.layers[index]=elem.ref;
             })
-        
+        console.log(props)
         //console.log(this.layersParams)
         //console.log(this.layersParams2)
         //const multiContenet = NavList({comprops:setingSceneJSON})
@@ -312,7 +312,8 @@ class DJeemyComponentCesium extends Component{
           //);
           }
           
-        })
+        }).catch(err=>{console.log('desubleSelect',err)})
+        //.catch(console.log(316, 'desubleSelect'))
       }
 
       async componentDidMount() {
@@ -362,8 +363,8 @@ class DJeemyComponentCesium extends Component{
             //console.log(await createWorldTerrainAsync())
             //viewer.current.cesiumElement.terrainProvider= await createWorldTerrainAsync()
             //viewer.current.cesiumElement.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(2279465)
-        })
-        .catch(console.log)
+        }).catch(err=>{console.log('viewerRef',err)})
+        //.catch(console.logconsole.log(316)
         testCesiumElemet(this.sceneRef)
         .then(async (scene)=>{
             //scene.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(1144816)
@@ -372,7 +373,7 @@ class DJeemyComponentCesium extends Component{
             //scene.current.cesiumElement.primitives.add(osm)
             //createOsmBuildingsAsync().then(elem=>{scene.current.cesiumElement.primitives.add(elem)})
         }
-        )
+        ).catch(err=>{console.log('sceneRef',err)})
         testCesiumElemet(this.cameraRef)
         .then(async (camera)=>{
             //настройка cameraRef
@@ -387,26 +388,26 @@ class DJeemyComponentCesium extends Component{
                   }
             )          
         })
-        .catch(console.log)
+        .catch(err=>{console.log('cameraRef',err)})
 
-        testCesiumElemet(this.pointRef)
-        .then(async (point)=>{
-            //настройка pointRef
-            const pointGrap=PointGraphicsCesium
-            pointGrap.color = ColorCesium.fromRgba('0xFF0000ff')
-            pointGrap.pixelSize = 10
-            //pointGrap.heightReference=HeightReferenceCesium.CLAMP_TO_GROUND
-            //pointGrap.show = true
-            point.current.cesiumElement.position=Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 100)
-            point.current.cesiumElement.name="Red Point"
+        // testCesiumElemet(this.pointRef)
+        // .then(async (point)=>{
+        //     //настройка pointRef
+        //     const pointGrap=PointGraphicsCesium
+        //     pointGrap.color = ColorCesium.fromRgba('0xFF0000ff')
+        //     pointGrap.pixelSize = 10
+        //     //pointGrap.heightReference=HeightReferenceCesium.CLAMP_TO_GROUND
+        //     //pointGrap.show = true
+        //     point.current.cesiumElement.position=Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 100)
+        //     point.current.cesiumElement.name="Red Point"
 
-            point.current.cesiumElement.point=pointGrap
-            point.current.cesiumElement.description =`<h1>Установленная высота</h1></br><p> ${CartographicCesium.fromCartesian(point.current.cesiumElement.position._value).height}`
-            //console.log(point.current.cesiumElement.description)
-            //console.log(point)
-            //console.log(pointGrap)
-          })
-        .catch(console.log)
+        //     point.current.cesiumElement.point=pointGrap
+        //     point.current.cesiumElement.description =`<h1>Установленная высота</h1></br><p> ${CartographicCesium.fromCartesian(point.current.cesiumElement.position._value).height}`
+        //     //console.log(point.current.cesiumElement.description)
+        //     //console.log(point)
+        //     //console.log(pointGrap)
+        //   })
+        //   .catch(err=>{console.log('pointRef',err)})
 
 
         
@@ -432,7 +433,7 @@ class DJeemyComponentCesium extends Component{
         })
         return (
           <>
-            <header>
+            {/* <header>
               <div className="customer">
                 <div  className="div-href">
                   <a href="https://xn--80aafvlc.xn--p1ai/" target="_blank"><p>АО "КАВКАЗ РФ"</p></a>
@@ -451,7 +452,7 @@ class DJeemyComponentCesium extends Component{
                 </div>
               </div>
               
-            </header>
+            </header> */}
             <div className="toolbar">
                     <NavBarLayer 
                         layers={this.layers} 
@@ -515,9 +516,6 @@ class DJeemyComponentCesium extends Component{
                 </div>
                
             </div> 
-            <footer>
-
-            </footer>
             </>
         )
     }

@@ -126,7 +126,7 @@ function NavBarLayer(props) {
     //const layersParams = props.layersParams;
     const viewerRef=props.viewerRef
     const startPosition=props.startPosition
-  console.log()
+  //console.log()
   return (
     
     <div className='tooldar-out'>
@@ -137,7 +137,16 @@ function NavBarLayer(props) {
       >  
         <div className='div-collapse'>
           <div className='div-collapse-list' >
+            <div className='div-name-scene'>
+              
+            </div>
+            <div className='div-description-scene'>
+
+            </div>
             <NumberList style={{right:'10px', left:'10px'}} {...props} />
+            <div className='div-legend-scene'>
+
+            </div>
           </div>
         </div>
       </Collapse>
@@ -148,18 +157,18 @@ function NavBarLayer(props) {
           aria-expanded={open} 
           className={`sita-button sita-button-list ${open?'list-open':'list-close'}`}
         />
-        <Button 
+        {/* <Button 
           aria-controls="example-collapse-text" 
           className={'sita-button sita-button-info'}
         />
         <Button 
           aria-controls="example-collapse-text" 
           className={'sita-button sita-button-legend'}
-        />
-        <Button 
+        /> */}
+        {/* <Button 
           aria-controls="example-collapse-text" 
           className={'sita-button sita-button-settings'}
-        />
+        /> */}
         <Button 
           aria-controls="example-collapse-text" 
           className={'sita-button sita-button-home'}

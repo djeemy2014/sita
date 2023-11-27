@@ -20,6 +20,34 @@ body{
 .sita-img{
     width:25px
 }
+.loader{
+    width:100vw;
+    height:100vh;
+    
+    background-color:#000;
+    div{
+        background-image: 
+            radial-gradient(ellipse closest-side,
+            #4e0d8b, 
+            #ad00b3, 
+            #000000);
+        position: absolute;
+        margin: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: max-content;
+        height: max-content;
+        color:#fff;
+        font-size: 3em;
+        
+    }
+    @media (max-width: 800px) {div{
+        font-size: 3em;
+    }}
+    
+}
 
 /* .viewerBox{
     height: 100%
