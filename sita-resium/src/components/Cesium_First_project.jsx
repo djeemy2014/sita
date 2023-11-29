@@ -11,30 +11,50 @@ export default function CesiumProgert(props){
     const projectURL = './project.json'
     const [project, setProject]=useState(null)
     const [scene, setScene]=useState(null)
+    const [sceneHTML, setSceneHTML]=useState(null)
+
+    const loder= <div className="loader">
+            <div>
+                <p>Загрузка...</p>
+            </div>
+        </div>
+
     useEffect(()=>{
         async function projectFetchData(){
-            setTimeout(()=>{
+           // setTimeout(()=>{
                 fetch(server+nameProject+'/'+projectURL).then(data=>data.json()).then(data=>{
                     //console.log(data)
                     setProject(data);
-                    setScene(data.scenes[0])
+                    fetch(server+nameProject+'/'+data.scenes[0].file).then(data=>data.json()).then(data=>{
+                        setScene(data)
+                    })
+                    
                 })
 
-            },5000)
+           // },5000)
             
         }
         projectFetchData()
             
         },[])
-    useEffect(()=>{
 
+    useEffect(()=>{
+        //fetch(server+nameProject+'/'+scene.file).then(data=>data.json()).then(data=>{
+        //   setScene(data)
+        //})
+        !!scene?descriptionViwer(scene):console.log(scene)
     },[scene])
-        const loder= <div className="loader">
-            <div>
-                <p>Загрузка...</p>
-            </div>
-        </div>
-        const header=project?<>
+    useEffect(()=>{
+        console.log('изменил')
+        //console.log(scene)
+    },[sceneHTML])
+
+    
+        
+    function descriptionViwer(scene){
+        //console.log(scene); 
+    
+        const header=!!project&&!!scene?<>
         <header>
               <div className="customer">
                 <div  className="div-href">
@@ -59,27 +79,47 @@ export default function CesiumProgert(props){
         :
         <></>
 
-        const footer =project?<>
+        const footer =!!project&&!!scene?<>
         <footer>
             {project.scenes.map((elem)=>{
-                return <p>{elem.name}</p>
+                return <div>
+                    <button onClick={(el)=>{
+                    //console.log(elem); 
+                    //console.log(el); 
+                    fetch(server+nameProject+'/'+elem.file).then(data=>data.json()).then(data=>{
+                        setScene(data)
+                    })
+                }}>Кнопка</button>
+                    <p>{elem.name}</p>
+                    </div>
             })}
+            <p>{scene.id}</p>
         </footer>
         </>
         :
-        <>
-        </>
+        <></>
+        const contener = !project&&!!scene?<>
+            {header}
+            <DJeemyComponentCesium file={project} scene={scene} server={server+nameProject}/>
+            {footer}
+        </>:
+        <></>
 
-        const centerElement=<>
+        setSceneHTML(<>
             {header}
             <DJeemyComponentCesium file={project} scene={scene} server={server+nameProject}/>
             {footer}
         </>
-        
-        const resalt=project?centerElement:loder
+            )
+        //return contener
+        }
+        const resalt=!!project&&!!sceneHTML?sceneHTML:loder
         
     return  <>
-            {resalt}
+            <div>
+                {!!project&&!!sceneHTML?sceneHTML:loder}
+            </div>
+           
             {/* <DJeemyComponentCesium
                 //file={project}
             /> */}
