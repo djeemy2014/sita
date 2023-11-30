@@ -107,7 +107,7 @@ export default function CesiumProgert(props){
 
         setSceneHTML(<>
             {header}
-            <DJeemyComponentCesium file={project} scene={scene} server={server+nameProject}/>
+            <DJeemyComponentCesium file={project} scene={scene} server={server+nameProject} project={project}/>
             {footer}
         </>
             )

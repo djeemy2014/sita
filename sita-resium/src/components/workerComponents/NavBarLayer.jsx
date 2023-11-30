@@ -10,99 +10,18 @@ function  NavListGeoJSON(props){
   const comprops=props.comprops
   const [showStat, setShowStat]=useState(comprops.defaultChecked===undefined?true:comprops.defaultChecked) //comprops.defaultChecked===undefined?true:comprops.defaultChecked
   const [open,setOpen]=useState(comprops.defaultChecked===undefined?true:comprops.defaultChecked)
+  //const [rendernumb,setRendernumb]=useState(0)
   //const inputList=objToList(inputObj)//??
   //const ref=useRef()
   //const proxiUrl = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'//???
-  let contener=<></>
+  //let contener=<></>
   //console.log(comprops)
-  useEffect(()=>{
+  // useEffect(()=>{
     
-    if (Array.isArray(comprops.list)){
-      //console.log(comprops.type)
-      comprops.defaultChecked=showStat
-      contener=(<div>
-        
-        <ul key={comprops.id}>
-        
-          <input 
-          //checked={props.greny===undefined?listLi:(props.greny&&listLi)} 
-          checked={showStat} 
-          type="checkbox" 
-          onChange={
-            ()=>{
-              setShowStat(!showStat)
-              //console.log(showStat)
-            }
-  
-            }/>
-          <button 
-          className={open?'collapse-li plus':'collapse-li minus'}
-          /* style={{width: '25px', height:'25px'}}  */
-          onClick={()=>setOpen(!open)}
-          ></button>
-          {/* <button style={{width: '50px'}} onClick={()=>setShowStat(!showStat)}>Class</button> */}
-          {/* {props.greny===undefined?null:(props.greny&&showStat).toString()} */}
-          {/* <div className='p'> */}
-            <p>{comprops.name}</p>
-          {/* </div> */}
-          {/* listLi.toString() */}
-          
-          <Collapse 
-            in={open} 
-            //dimension={'width'}
-            appear={true}
-          >  
-          <div>
-            <div /* style={{width: '250px'}} */ className='collapse-li'>
-              {comprops.list.map((ev)=>{
-                console.log(ev)
-                  if (ev.type.indexOf('class')===-1){
-                      //console.log(lk++,comprops);
-                      //console.log(laeyr);
-                      //console.log(listConnectGeoJSON);
-                    }
-                const mylticontener=NavListGeoJSON ({
-                  comprops:ev, 
-                  greny:props.greny===undefined?showStat:(props.greny&&showStat) ,
-                  setGreny:setShowStat,
-                  listConnectGeoJSON:props.listConnectGeoJSON
-                })
-                contener= mylticontener
-              
-                return contener
-              })}
-            </div>
-            </div>
-          </Collapse>
-        </ul>
-        </div>)
-      
-      //console.log(listConnectGeoJSON)
-      //return contener
-      
-      
-    }else {
-      //console.log(props.comprops.name, props.greny)
-      //console.log(listLi)
-      //console.log(comprops.type)
-      comprops.defaultChecked=showStat
-      contener=(
-          <InputChekboxFunction 
-          {...props} 
-          showStat={showStat} 
-          setShowStat={setShowStat}
-          />
-        //   {/* <button onClick={()=>props.setGreny(listLi+10)}>Li2</button> */}
-        // </li>
-        )
-      //return contener
-    }
-  },[])
-  // if (Array.isArray(comprops.list)){
+  //   if (Array.isArray(comprops.list)){
   //     //console.log(comprops.type)
   //     comprops.defaultChecked=showStat
-  //     const contener=(
-  //       <div>
+  //     contener=(<div>
         
   //       <ul key={comprops.id}>
         
@@ -149,7 +68,7 @@ function  NavListGeoJSON(props){
   //                 setGreny:setShowStat,
   //                 listConnectGeoJSON:props.listConnectGeoJSON
   //               })
-  //               const contener= mylticontener
+  //               contener= mylticontener
               
   //               return contener
   //             })}
@@ -157,10 +76,10 @@ function  NavListGeoJSON(props){
   //           </div>
   //         </Collapse>
   //       </ul>
-  //       </div>
-  //     )
+  //       </div>)
+      
   //     //console.log(listConnectGeoJSON)
-  //     return contener
+  //     //return contener
       
       
   //   }else {
@@ -168,7 +87,7 @@ function  NavListGeoJSON(props){
   //     //console.log(listLi)
   //     //console.log(comprops.type)
   //     comprops.defaultChecked=showStat
-  //     const contener=(
+  //     contener=(
   //         <InputChekboxFunction 
   //         {...props} 
   //         showStat={showStat} 
@@ -177,10 +96,69 @@ function  NavListGeoJSON(props){
   //       //   {/* <button onClick={()=>props.setGreny(listLi+10)}>Li2</button> */}
   //       // </li>
   //       )
-  //     return contener
+  //     //return contener
   //   }
-
-    return contener
+  // },[])
+  //setRendernumb(rendernumb+1)
+  //console.log(rendernumb)
+  if (Array.isArray(comprops.list)){
+      comprops.defaultChecked=showStat
+      const contener=(
+        <div>
+        <ul key={comprops.id}>
+          <input 
+          checked={showStat} 
+          type="checkbox" 
+          onChange={
+            ()=>{
+              setShowStat(!showStat)
+            }
+            }/>
+          <button 
+          className={open?'collapse-li plus':'collapse-li minus'}
+          onClick={()=>setOpen(!open)}
+          ></button>
+            <p>{comprops.name}</p>
+          <Collapse 
+            in={open} 
+            appear={true}
+          >  
+          <div>
+            <div className='collapse-li'>
+              {comprops.list.map((ev)=>{
+                //console.log(ev)
+                  if (ev.type.indexOf('class')===-1){
+                    }
+                const mylticontener=NavListGeoJSON ({
+                  comprops:ev, 
+                  greny:props.greny===undefined?showStat:(props.greny&&showStat) ,
+                  setGreny:setShowStat,
+                  listConnectGeoJSON:props.listConnectGeoJSON
+                })
+                const contener= mylticontener
+                return contener
+              })}
+            </div>
+            </div>
+          </Collapse>
+        </ul>
+        </div>
+      )
+      return contener
+    }else {
+      console.log(comprops)
+      comprops.defaultChecked=showStat
+      const contener=(
+          <InputChekboxFunction 
+          {...props} 
+          showStat={showStat} 
+          setShowStat={setShowStat}
+          />
+        )
+      return contener
+    }
+    
+    //return contener
 
 }
 
@@ -188,13 +166,21 @@ function  NavListGeoJSON(props){
 
 
 function NumberList(props) {
- 
+ console.log(props)
   return ( 
     <>
-      <h5>Список слоёв</h5>
-      <NavListGeoJSON comprops={
+      <h6>Проект: {props.project.name}</h6>
+      <p>Описание: {props.project.description}</p>
+      <h6>Список слоёв</h6>
+      {/* <NavListGeoJSON comprops={
           props.layersParams
-        } />
+        } /> */}
+      {props.layersParams.list.map((elem)=>{
+        return <p>12</p> /* (<InputChekboxFunction 
+          comprops={
+            props.elem}/>) */
+      })}
+      <h6>Легенда</h6>
     </>
    
   );

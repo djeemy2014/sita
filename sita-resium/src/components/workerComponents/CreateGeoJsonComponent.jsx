@@ -285,7 +285,7 @@ function CreateGeoJsonComponent(props){
   let url = server+'/'+inputObj.path
   let data=fetch(url)
     .then((res) => res.json())
-  console.log(props.obj)
+  //console.log(props.obj)
   // testCesiumElemet(props.obj.ref)
   // .then(async (layer)=>{
   //   let params = layer.current.cesiumElement

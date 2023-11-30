@@ -314,6 +314,7 @@ class DJeemyComponentCesium extends Component{
           <>
             <div className="toolbar">
                     <NavBarLayer 
+                        project={this.props.project}
                         layers={this.state.layers} 
                         //layersParams={this.layersParams}
                         layersParams={this.state.layersParams}
