@@ -113,8 +113,9 @@ class DJeemyComponentCesium extends Component{
       updeteScene(setState=this.setState){
         const setLayers=[]
         const setListGeoJSON=[]
-        const setLayersParams = listToObj2(objToList2(this.props.scene))[0]
-        objToList2(this.props.scene.list).forEach(
+        const setListLyer=objToList2(this.props.scene)
+        const setLayersParams = listToObj2(setListLyer)[0]
+        setListLyer.forEach(
           
           (elem, index)=>{
             

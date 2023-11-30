@@ -392,6 +392,39 @@ function CreateGeoJsonComponent(props){
               //elem.polygon.heightReference=2
             })
             break
+          case "dptZU" :
+            params.entities.values.forEach((elem)=>{
+              elem.polygon.material=CesiumColor.fromCssColorString('#ffffff55')
+              elem.polygon.outlineColor=CesiumColor.fromCssColorString('#aa0000')
+              //elem.polygon.width=5
+            })
+            break
+          case "dptRedLine" :
+            params.entities.values.forEach((elem)=>{
+              elem.polyline.material=CesiumColor.fromCssColorString('#000000')
+              elem.polyline.width=5
+              //elem.height=8
+              //elem.polygon.material=CesiumColor.fromCssColorString('#888800')
+            })
+            break
+          case "dptStructure":
+            params.entities.values.forEach((elem)=>{
+              elem.polygon.outline =false
+              switch (elem.properties.CLASSID._value){
+              case 900700070:
+                elem.polygon.material=CesiumColor.fromCssColorString('#99999988')
+                break
+              case 900700040:
+                elem.polygon.material=CesiumColor.fromCssColorString('#e164ff88')
+                break
+              case 900700030:
+                elem.polygon.material=CesiumColor.fromCssColorString('#64d2ff88')
+                break
+              default:
+                break}
+              
+            })
+            break
           case "3DTrees" :
             lookSelector=true
             //console.log(CesiumCartesian3.UNIT_Z)

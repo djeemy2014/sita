@@ -101,7 +101,59 @@ function  NavListGeoJSON(props){
   // },[])
   //setRendernumb(rendernumb+1)
   //console.log(rendernumb)
-  if (Array.isArray(comprops.list)){
+  if (!Array.isArray(comprops.list)){
+    console.log(comprops)
+    comprops.defaultChecked=showStat
+    return(
+        <InputChekboxFunction 
+        {...props} 
+        showStat={showStat} 
+        setShowStat={setShowStat}
+        />
+      )
+    }else{
+      comprops.defaultChecked=showStat
+      return (
+        <div>
+        <ul key={comprops.id}>
+          <input 
+          checked={showStat} 
+          type="checkbox" 
+          onChange={
+            ()=>{
+              setShowStat(!showStat)
+            }
+            }/>
+          <button 
+          className={open?'collapse-li plus':'collapse-li minus'}
+          onClick={()=>setOpen(!open)}
+          ></button>
+            <p>{comprops.name}</p>
+          <Collapse 
+            in={open} 
+            appear={true}
+          >  
+          <div>
+            <div className='collapse-li'>
+              {
+                comprops.list.map((ev)=>{
+                  return <NavListGeoJSON 
+                  comprops={ev}
+                  greny={showStat}
+                  setGreny={setShowStat}
+                  //listConnectGeoJSON={props.listConnectGeoJSON}
+                  />
+                })
+              }
+            </div>
+            </div>
+          </Collapse>
+        </ul>
+        </div>
+      )
+    }
+    
+    /* else {
       comprops.defaultChecked=showStat
       const contener=(
         <div>
@@ -145,40 +197,38 @@ function  NavListGeoJSON(props){
         </div>
       )
       return contener
-    }else {
-      console.log(comprops)
-      comprops.defaultChecked=showStat
-      const contener=(
-          <InputChekboxFunction 
-          {...props} 
-          showStat={showStat} 
-          setShowStat={setShowStat}
-          />
-        )
-      return contener
-    }
+    } */
     
     //return contener
 
 }
 
 
-
+ 
 
 function NumberList(props) {
- console.log(props)
+ //console.log(props)
   return ( 
     <>
       <h6>Проект: {props.project.name}</h6>
       <p>Описание: {props.project.description}</p>
       <h6>Список слоёв</h6>
-      {/* <NavListGeoJSON comprops={
+      <NavListGeoJSON comprops={
           props.layersParams
-        } /> */}
+        } />
       {props.layersParams.list.map((elem)=>{
-        return <p>12</p> /* (<InputChekboxFunction 
-          comprops={
-            props.elem}/>) */
+        console.log(elem)
+        return <>
+        <p>12</p> 
+        {/* <InputChekboxFunction 
+        comprops={elem} 
+        showStat={true} 
+        setShowStat={true}
+        /> */}
+        </>
+        //  (<InputChekboxFunction 
+        //   comprops={
+        //     props.elem}/>) 
       })}
       <h6>Легенда</h6>
     </>
