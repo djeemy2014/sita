@@ -79,7 +79,7 @@ class DJeemyComponentCesium extends Component{
               onClicker={(elem)=>{this.desubleSelect(elem)}}
               />;
           }) */
-        console.log(props)
+        //console.log(props)
         
         //записываеться в один this как массив дальше циклом со пробегаеться по всем параметром и обявляет создание ссылки и работает с кадым параметром отдельно.
         
@@ -136,9 +136,9 @@ class DJeemyComponentCesium extends Component{
             scene:this.props.scene, 
             layersParams:setLayersParams
           })
-          console.log(setLayers)
-          console.log(setListGeoJSON)
-          console.log(setLayersParams)
+          //console.log(setLayers)
+          //console.log(setListGeoJSON)
+          //console.log(setLayersParams)
       }
 
       componentDidMount() {
@@ -309,8 +309,9 @@ class DJeemyComponentCesium extends Component{
         console.log(navContener[0])
         return navContener
     } */
-
+    
     render(){
+      //console.log(this.state)
         return (
           <>
             <div className="toolbar">

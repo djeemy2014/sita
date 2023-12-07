@@ -1,14 +1,18 @@
 import {
     //createRef,
     useEffect, 
-    Component, 
+    Component,
+    useState, 
     //useState, 
     //useRef
 } from 'react'
+import Collapse from 'react-bootstrap/Collapse' 
 import testCesiumElemet from '../testCesiumElemet'
+import LegendLayer from './LegendLayer'
 //переписать в соотвествии с новыми особенностями.
 export function InputChekboxFunction(props){
     const cElemRef = props.comprops.ref
+    const [open, setOpen] = useState(false)
     //console.log(props)
     //const showStat=showStat
     //const setShowStat=setShowStat
@@ -51,12 +55,18 @@ export function InputChekboxFunction(props){
     },[props.showStat,props.greny]) 
     
     return <li key={props.id}>
+            
+            
            <input 
           //checked={props.greny===undefined?null:(props.greny&&showStat)} 
           checked={props.showStat} 
           type="checkbox" 
           onChange={()=>props.setShowStat(!props.showStat)}
           />
+          <button 
+            className={open?'collapse-li plus':'collapse-li minus'}
+            onClick={()=>setOpen(!open)}
+            ></button>
           {/* <button style={{width: '50px'}} onClick={()=>props.setShowStat(!props.showStat)}>Li</button> */}
           {/* {props.greny===undefined?null:(props.greny&&props.showStat).toString()}
           {props.showStat} */}
@@ -65,6 +75,15 @@ export function InputChekboxFunction(props){
           {/* showStat.toString() */}
           
           {/* <button onClick={()=>props.setGreny(listLi+10)}>Li2</button> */}
+          <Collapse
+                in={open} 
+                appear={true}
+            >
+                <div>
+                <LegendLayer></LegendLayer> 
+                </div>
+                
+            </Collapse>
         </li>
 
 

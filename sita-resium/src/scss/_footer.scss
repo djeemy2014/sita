@@ -1,14 +1,92 @@
+@import "./header";
+
 footer{
     position:absolute;
-    margin: auto 0 0 auto;
+    margin: auto auto 0 auto;
     top:0;
     left:0;
     right:0;
-    bottom: 100px;
+    bottom: 10vh;
     //align-content: end;
-    //vertical-align: bottom;
-    background-color: aqua;
+    //vertical-align: middle;
+    //background-color: rgba(0, 255, 255, 0.144);
+    //border:solid 2px gray;
     height: max-content;
-    width: max-content;
+    width: 50vw;
     z-index: 5;
+    display: flex;
+    overflow: auto;
+    .scene-button{
+        width: 2.5em;
+        height: 2.5em;
+        margin: auto;
+        border-radius: 50%;
+        z-index: 5;
+        background-color:$primary;
+        color: white;
+        .scene-discription{
+            background-color: $colorBackground;
+            position:fixed;
+            width: 200px;
+            height: 120px;
+            text-align: center;
+            border-radius: 10px;
+            border-style: solid;
+            border-color: color-mix(in srgb, $colorBackground 75%, #000);;
+            //top: 0;
+            //left:20px;
+            //right:20px;
+            bottom: calc(10vh + 2.5em);
+            p{
+                font-size: 1em;
+            }
+            //z-index: 4;
+            display: none;
+            img{
+                width: calc(200px / 1.8);
+                height: calc(100px / 1.8);
+            }
+
+        }
+        
+        button{
+            //left:-5px;
+            position:absolute;
+            
+            border-radius: 50%;
+            opacity: 0.0;
+            width: 2.5em;
+            height: 2.5em;
+            
+        }
+        
+        p{
+            text-align: center;
+            font-size: 1.5em;
+            //margin: auto;
+            //display: flex;
+            //border: solid 1px;
+            //vertical-align: middle;
+        }
+        
+    }
+    .scene-button:hover .scene-button{
+        border-radius: 50%;
+        border-color: yellow;
+        border-style: solid;
+        border-width: 2px;
+    }                                                                               
+    .scene-button:focus .scene-button{
+        border-radius: 50%;
+        border-color: yellow;
+        border-style: solid;
+    }                                                                               
+    }
+    .scene-button:hover .scene-discription{
+        display:block;
+        
+    
+    /* div{
+        display: inline;
+    } */
 }

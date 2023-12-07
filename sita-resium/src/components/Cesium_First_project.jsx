@@ -18,16 +18,32 @@ export default function CesiumProgert(props){
                 <p>Загрузка...</p>
             </div>
         </div>
-
+    function setSceneFetch(scenPath) {
+        fetch(server+nameProject+'/'+scenPath).then(data=>data.json()).then(data=>{
+            
+            data.classifiers.forEach((elem)=>{
+                fetch(server+(elem.path??('classifiers'+'/'+elem.prototype+'.json')))
+                    .then(data=>data.json())
+                    .catch(console.log(elem))
+                    .then((data)=>{elem.description=data})
+                //console.log(server+(elem.path??('classifiers'+'/'+elem.prototype+'.json')))
+            })
+            console.log(data)
+            setScene(data)
+        })
+        
+    }
     useEffect(()=>{
         async function projectFetchData(){
            // setTimeout(()=>{
                 fetch(server+nameProject+'/'+projectURL).then(data=>data.json()).then(data=>{
                     //console.log(data)
                     setProject(data);
-                    fetch(server+nameProject+'/'+data.scenes[0].file).then(data=>data.json()).then(data=>{
-                        setScene(data)
-                    })
+                    setSceneFetch(data.scenes[0].file)
+                    // fetch(server+nameProject+'/'+data.scenes[0].file).then(data=>data.json()).then(data=>{
+                    //     console.log(data)
+                    //     setScene(data)
+                    // })
                     
                 })
 
@@ -53,6 +69,7 @@ export default function CesiumProgert(props){
         
     function descriptionViwer(scene){
         //console.log(scene); 
+
     
         const header=!!project&&!!scene?<>
         <header>
@@ -82,18 +99,31 @@ export default function CesiumProgert(props){
         const footer =!!project&&!!scene?<>
         <footer>
             {project.scenes.map((elem)=>{
-                return <div>
+                return <div className="scene-button">
+                    <div className="scene-discription">
+                        {/* <p>{JSON.stringify(elem)}</p> */}
+                        <p>{elem.name}</p>
+                        {/*<p>{elem.file}</p>
+                         <p>{server+nameProject+'/'+elem.preview}</p> */}
+                        <img src={server+nameProject+'/'+elem.preview} alt="ой!" />
+                    </div>
                     <button onClick={(el)=>{
                     //console.log(elem); 
                     //console.log(el); 
-                    fetch(server+nameProject+'/'+elem.file).then(data=>data.json()).then(data=>{
-                        setScene(data)
-                    })
-                }}>Кнопка</button>
-                    <p>{elem.name}</p>
+                    setSceneFetch(elem.file)
+                    // fetch(server+nameProject+'/'+elem.file).then(data=>data.json()).then(data=>{
+                    //     setScene(data)
+                    // })
+                    }}
+                    onMouseOver={(el)=>{
+                        //console.log(JSON.stringify(elem))
+                    }}
+                ></button>
+                    <div className="scene-button">
+                        <p>{elem.id}</p>
+                    </div> 
                     </div>
             })}
-            <p>{scene.id}</p>
         </footer>
         </>
         :
@@ -119,9 +149,5 @@ export default function CesiumProgert(props){
             <div>
                 {!!project&&!!sceneHTML?sceneHTML:loder}
             </div>
-           
-            {/* <DJeemyComponentCesium
-                //file={project}
-            /> */}
         </>
 }

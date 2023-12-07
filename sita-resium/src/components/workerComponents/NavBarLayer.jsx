@@ -1,9 +1,7 @@
 import {createRef, useRef, useState, useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
-import InputChekbox,{InputChekboxFunction} from "./InputChecked"
-import InputClassChekbox from "./InputClassChecked"
-import {listToObj, listToObj2} from "./objList.js"
+import {InputChekboxFunction} from "./InputChecked"
 /*  */
 
 function  NavListGeoJSON(props){
@@ -102,7 +100,6 @@ function  NavListGeoJSON(props){
   //setRendernumb(rendernumb+1)
   //console.log(rendernumb)
   if (!Array.isArray(comprops.list)){
-    console.log(comprops)
     comprops.defaultChecked=showStat
     return(
         <InputChekboxFunction 
@@ -112,6 +109,28 @@ function  NavListGeoJSON(props){
         />
       )
     }else{
+      if (comprops.type==="scen"){
+        return (<div>
+          <ul key={comprops.id}>
+          <div>
+            <div className='collapse-li'>
+              {
+                comprops.list.map((ev)=>{
+                  return <NavListGeoJSON 
+                  comprops={ev}
+                  greny={showStat}
+                  setGreny={setShowStat}
+                  //listConnectGeoJSON={props.listConnectGeoJSON}
+                  />
+                })
+              }
+            </div>
+            </div>
+          </ul>
+        </div>)
+      }else{
+
+      
       comprops.defaultChecked=showStat
       return (
         <div>
@@ -151,6 +170,7 @@ function  NavListGeoJSON(props){
         </ul>
         </div>
       )
+      }
     }
     
     /* else {
@@ -216,20 +236,6 @@ function NumberList(props) {
       <NavListGeoJSON comprops={
           props.layersParams
         } />
-      {props.layersParams.list.map((elem)=>{
-        console.log(elem)
-        return <>
-        <p>12</p> 
-        {/* <InputChekboxFunction 
-        comprops={elem} 
-        showStat={true} 
-        setShowStat={true}
-        /> */}
-        </>
-        //  (<InputChekboxFunction 
-        //   comprops={
-        //     props.elem}/>) 
-      })}
       <h6>Легенда</h6>
     </>
    

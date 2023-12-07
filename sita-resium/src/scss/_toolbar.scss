@@ -110,7 +110,8 @@ div.tooldar-out{
 }
 .div-collapse-list{
     width: calc(100vw / 5); 
-    height: calc(94vh - 4px)
+    height: calc(94vh - 4px);
+    overflow: auto;
 }
 @media (max-width: 800px) {
     .div-collapse-list{
