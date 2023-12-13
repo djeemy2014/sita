@@ -102,8 +102,10 @@ function  NavListGeoJSON(props){
   if (!Array.isArray(comprops.list)){
     comprops.defaultChecked=showStat
     return(
+      
         <InputChekboxFunction 
         {...props} 
+        classifiers={props.classifiers}
         showStat={showStat} 
         setShowStat={setShowStat}
         />
@@ -114,10 +116,12 @@ function  NavListGeoJSON(props){
           <ul key={comprops.id}>
           <div>
             <div className='collapse-li'>
+            
               {
                 comprops.list.map((ev)=>{
                   return <NavListGeoJSON 
                   comprops={ev}
+                  classifiers={(props.classifiers.filter((elem)=>elem.prototype===ev.prototype)[0]??props.classifiers)}
                   greny={showStat}
                   setGreny={setShowStat}
                   //listConnectGeoJSON={props.listConnectGeoJSON}
@@ -158,6 +162,7 @@ function  NavListGeoJSON(props){
                 comprops.list.map((ev)=>{
                   return <NavListGeoJSON 
                   comprops={ev}
+                  classifiers={(props.classifiers.filter((elem)=>elem.prototype===ev.prototype)[0]??props.classifiers)}
                   greny={showStat}
                   setGreny={setShowStat}
                   //listConnectGeoJSON={props.listConnectGeoJSON}
@@ -233,10 +238,13 @@ function NumberList(props) {
       <h6>Проект: {props.project.name}</h6>
       <p>Описание: {props.project.description}</p>
       <h6>Список слоёв</h6>
-      <NavListGeoJSON comprops={
+      <NavListGeoJSON 
+      comprops={
           props.layersParams
-        } />
-      <h6>Легенда</h6>
+        } 
+      classifiers={props.classifiers}
+        />
+      
     </>
    
   );

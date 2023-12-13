@@ -80,7 +80,7 @@ export function InputChekboxFunction(props){
                 appear={true}
             >
                 <div>
-                <LegendLayer></LegendLayer> 
+                <LegendLayer classifiers={props.classifiers} obj={props.comprops}></LegendLayer> 
                 </div>
                 
             </Collapse>

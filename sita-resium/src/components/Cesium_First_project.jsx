@@ -24,11 +24,11 @@ export default function CesiumProgert(props){
             data.classifiers.forEach((elem)=>{
                 fetch(server+(elem.path??('classifiers'+'/'+elem.prototype+'.json')))
                     .then(data=>data.json())
-                    .catch(console.log(elem))
+                    //.catch(console.log('err',elem))
                     .then((data)=>{elem.description=data})
                 //console.log(server+(elem.path??('classifiers'+'/'+elem.prototype+'.json')))
             })
-            console.log(data)
+            //console.log(data)
             setScene(data)
         })
         

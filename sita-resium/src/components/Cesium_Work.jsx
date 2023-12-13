@@ -115,27 +115,42 @@ class DJeemyComponentCesium extends Component{
         const setListGeoJSON=[]
         const setListLyer=objToList2(this.props.scene)
         const setLayersParams = listToObj2(setListLyer)[0]
+        //console.log(this.state.scene)
+        //console.log(this.props.scene)
+        this.setState({
+          layers:setLayers, 
+          listGeoJSON:setListGeoJSON, 
+          scene:this.props.scene, 
+          layersParams:setLayersParams
+        })
         setListLyer.forEach(
+          
           
           (elem, index)=>{
             
             elem.index=index; 
               elem.ref=createRef(); 
               setLayers[index]=elem.ref;
+              //console.log(this.state.scene.classifiers)
               setListGeoJSON[index]=<CreateGeoJsonComponent
-              obj={elem} 
-              server={this.server} 
-              sceneRef={this.sceneRef} 
-              onClicker={(elem)=>{this.desubleSelect(elem)}}
+                obj={elem} 
+                server={this.server}
+                //classifiers={this.props.scene.classifiers}
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! RedLIne
+                classifier={(this.props.scene.classifiers.filter(
+                  (classElem)=>{
+                    if (classElem.prototype===elem.prototype){
+                      //console.log(classElem)
+                      //console.log(elem)
+                    }
+                  return classElem.prototype===elem.prototype
+                })[0]??this.props.scene.classifiers.classifiers)} 
+                sceneRef={this.sceneRef} 
+                onClicker={(elem)=>{this.desubleSelect(elem)}}
               />;
           })
           
-          this.setState({
-            layers:setLayers, 
-            listGeoJSON:setListGeoJSON, 
-            scene:this.props.scene, 
-            layersParams:setLayersParams
-          })
+          
           //console.log(setLayers)
           //console.log(setListGeoJSON)
           //console.log(setLayersParams)
@@ -247,6 +262,7 @@ class DJeemyComponentCesium extends Component{
           console.log(this.state.scene)
           console.log(prevState.scene)
           console.log(prevProps.scene) */
+          console.log('updateScene')
           this.updeteScene()
           
         }
@@ -318,6 +334,7 @@ class DJeemyComponentCesium extends Component{
                     <NavBarLayer 
                         project={this.props.project}
                         layers={this.state.layers} 
+                        classifiers={this.state.scene.classifiers} 
                         //layersParams={this.layersParams}
                         layersParams={this.state.layersParams}
                         viewerRef={this.viewerRef} 

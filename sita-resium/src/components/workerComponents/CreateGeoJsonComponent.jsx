@@ -39,49 +39,9 @@ import{
     //GeoJsonDataSource as GeoJsonDataSourceCesium
     //CesiumTerrainProvider as CesiumTerrainProviderCesium,
 } from 'cesium'
+import {saturation,opasityMix,gray} from './ColorFunction'
 
 
-
-
-
-function saturation(color, scalar,result){
-  const grey= (color.red+color.green+color.blue)/3
-  //console.log(1,grey)
-  //console.log(3,color)
-  if (scalar>=-1&&scalar<=0){
-    result.red=color.red+(color.red-grey)*scalar
-    result.green =color.green+(color.green-grey)*scalar
-    result.blue=color.blue+(color.blue-grey)*scalar
-    result.alpha=color.alpha
-    //console.log(2,result)
-    return result
-  }else{
-    result.red=color.red+(1-color.red)*scalar
-    result.green =color.green+(1-color.green)*scalar
-    result.blue=color.blue+(1-color.blue)*scalar
-    result.alpha=color.alpha
-    //console.log(2,result)
-    return result
-  }
-  
-}
-function gray(color,result){
-  const grey= (color.red+color.green+color.blue)/3
-  result.red=grey
-  result.green =grey
-  result.blue=grey
-  result.alpha=color.alpha
-
-  return result
-}
-function opasityMix(color, opasity,result){
-  result.red=color.red
-  result.green =color.green
-  result.blue=color.blue
-  result.alpha=color.alpha*opasity
-
-  return result
-}
 
 //classifiers
 function Class3DTree(nameClass){
@@ -164,7 +124,87 @@ function Class3DTree(nameClass){
   ]
   return class3DTree.filter((obj)=>obj.name===nameClass)[0]
 }
+function setDptProektBound(params, classifier){
+  //console.log(params)
+  //console.log(classifier)
+  //classifier.description.forEach(()=>{})
+  params.entities.values.forEach((elem)=>{
+    const classifierElem = classifier.description.filter((classElem)=>{
+      return classElem.CLASSID===elem.properties.CLASSID._value
+    })[0]
 
+    //console.log(classifierElem)
+    elem.description=`<table class="cesium-infoBox-defaultTable">
+        <tbody>
+        <tr>
+          <th>Наименование Проекта</th>
+          <td>${elem.name}</td>
+        </tr>
+        <tr>
+          <th>Документ об утверждении</th>
+          <td>${elem.properties.DOC_END._value}</td>
+        </tr>
+        </tbody>
+      </table>`
+    //console.log(elem.description)
+    
+    elem.polyline=new CesiumPolylineGraphics({
+     positions:elem.polygon.hierarchy._value.positions.map(
+      (point)=> CesiumCartographic.toCartesian({
+        ...CesiumCartographic.fromCartesian(point), 
+        height:1
+      })
+      ),
+     //clampToGround:false,
+     width:classifierElem.widthOutLine,
+     material:CesiumColor.fromCssColorString(classifierElem.outLineColor),
+     zIndex:5
+
+    })
+    elem.polygon.show=false
+  })
+}
+function setDptStructure(params, classifier){
+  
+  params.entities.values.forEach((elem)=>{
+    const classifierElem = classifier.description.filter((classElem)=>{
+      return classElem.CLASSID===elem.properties.CLASSID._value
+    })[0]
+    elem.polygon.outline =classifierElem.outLine??false
+    elem.polygon.height=0.5
+    elem.polygon.material=CesiumColor.fromCssColorString(classifierElem.fillColor)
+    elem.name=`Элемент №${elem.properties.NUMBER._value}`
+    elem.description=`<table class="cesium-infoBox-defaultTable">
+    <tbody>
+      <tr>
+        <th>
+          Номер элемента
+        </th>
+        <td>
+          ${elem.properties.NUMBER._value}
+        </td>
+      </tr>
+      <tr>
+        <th>
+          Класс элемента
+        </th>
+        <td>
+          ${classifierElem.nameClass}
+        </td>
+      </tr>
+      <tr>
+        <th>
+          Статус
+        </th>
+        <td>
+          ${elem.properties.STATUS._value}
+        </td>
+      </tr>
+    </tbody>
+  </table>`
+    
+  })
+}
 
 
 function ClassificationTerritorySketch(numClass){
@@ -298,6 +338,7 @@ function CreateGeoJsonComponent(props){
   const sceneRef=props.sceneRef
   let lookSelector=false
   let url = server+'/'+inputObj.path
+  //console.log(props)
   let data=fetch(url)
     .then((res) => res.json())
     testCesiumElemet(props.obj.ref)
@@ -383,23 +424,7 @@ function CreateGeoJsonComponent(props){
             })
             break
           case "dptStructure":
-            params.entities.values.forEach((elem)=>{
-              elem.polygon.outline =false
-              elem.polygon.height=0.5
-              switch (elem.properties.CLASSID._value){
-              case 900700070:
-                elem.polygon.material=CesiumColor.fromCssColorString('#99999988')
-                break
-              case 900700040:
-                elem.polygon.material=CesiumColor.fromCssColorString('#e164ff88')
-                break
-              case 900700030:
-                elem.polygon.material=CesiumColor.fromCssColorString('#64d2ff88')
-                break
-              default:
-                break}
-              
-            })
+            setDptStructure(params,  props.classifier)
             break
           case "3DTrees" :
             lookSelector=true
@@ -413,37 +438,9 @@ function CreateGeoJsonComponent(props){
               }
             })  
             break
-          case "dtpProektBound":
-
-            params.entities.values.forEach((elem)=>{
-              elem.description=`<table class="cesium-infoBox-defaultTable">
-                  <tbody>
-                  <tr>
-                    <th>Наименование Проекта</th>
-                    <td>${elem.name}</td>
-                  </tr>
-                  <tr>
-                    <th>Документ об утверждении</th>
-                    <td>${elem.properties.DOC_END._value}</td>
-                  </tr>
-                  </tbody>
-                </table>`
-              //console.log(elem.polygon)
-              elem.polyline=new CesiumPolylineGraphics({
-               positions:elem.polygon.hierarchy._value.positions.map(
-                (point)=> CesiumCartographic.toCartesian({
-                  ...CesiumCartographic.fromCartesian(point), 
-                  height:1
-                })
-                ),
-               //clampToGround:false,
-               width:10,
-               material:CesiumColor.fromCssColorString('#ff000088'),
-               zIndex:5
-  
-              })
-              elem.polygon.show=false
-            })
+          case "dptProektBound":
+            //console.log(props)
+            setDptProektBound(params, props.classifier) 
             break
           default:
             break
