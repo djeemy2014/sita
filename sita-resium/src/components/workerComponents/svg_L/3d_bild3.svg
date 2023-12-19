@@ -1,0 +1,17 @@
+<svg width="256" height="128" version="1.1" viewBox="0 0 67.733 33.867" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+            <filter id="filter4229" x="-.039629" y="-.060855" width="1.0793" height="1.1217" color-interpolation-filters="sRGB">
+                  <feGaussianBlur stdDeviation="0.49171165"/>
+            </filter>
+      </defs>
+      <g>
+            <path transform="matrix(1.2188 0 0 1.2188 -6.6955 -3.412)" d="m38.044 30.541 8.8173-4.4087 9.5271-5.9073-23.936-9.0763-5.8433 3.232 21.765 10.009-10.331 6.1509" filter="url(#filter4229)" style="mix-blend-mode:normal"/>
+            <g fill="#fff" fill-opacity="1" stroke="#000" stroke-opacity="0" stroke-width="0.25px">
+                  <path d="m39.671 33.81-25.926-15.437v-15.463l25.926 10.208v20.692"/>
+                  <path d="m39.671 13.118 12.591-4.9573v18.153l-12.591 7.4965v-20.692"/>
+                  <path d="m39.671 13.118-25.926-10.208 11.99-2.9104 26.527 8.1611z"/>
+            </g>
+            <path d="m39.671 13.118 12.591-4.9573v18.153l-12.591 7.4965v-20.692" fill-opacity=".75"/>
+            <path d="m39.671 13.118-25.926-10.208 11.99-2.9104 26.527 8.1611z" fill-opacity=".3"/>
+      </g>
+</svg>

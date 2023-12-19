@@ -205,6 +205,47 @@ function setDptStructure(params, classifier){
     
   })
 }
+function setDptOKS(params, classifier, obj){
+  
+  params.entities.values.forEach((elem)=>{
+    const classifierElem = classifier.description.filter((classElem)=>{
+      return classElem.CLASSID===elem.properties.CLASSID._value
+    })[0]
+    elem.polygon.shadows=obj.outline?0:1
+    elem.polygon.material=obj.noClassifing?
+      opasityMix(CesiumColor.fromCssColorString('#ffffff'),obj.opasity??1,new CesiumColor()):
+      opasityMix(CesiumColor.fromCssColorString(classifierElem.colorCSS),obj.opasity??1,new CesiumColor())
+    elem.polygon.outlineColor=obj.noClassifing?
+      opasityMix(CesiumColor.fromCssColorString('#ffffff'),1,new CesiumColor()):
+      opasityMix(CesiumColor.fromCssColorString(classifierElem.colorCSS),obj.opasity??1,new CesiumColor())
+    elem.polygon.outline =obj.outline??false
+    elem.polygon.height=0
+    elem.polygon.extrudedHeight=elem.properties.Floors*3.5
+    
+    if (!elem.polygon.heightReference){
+    }
+      elem.description=`<table class="cesium-infoBox-defaultTable">
+        <tbody>
+        <tr>
+          <th>Номер ОКС</th>
+          <td>${elem.properties.NUMBER._value}</td>
+        </tr>
+        <tr>
+          <th>Назначение</th>
+          <td>${classifierElem.nameClass}</td>
+        </tr>
+        <tr>
+          <th>Масимальная площадь застройки</th>
+          <td>${elem.properties.S_foot._value}</td>
+        </tr>
+        <tr>
+          <th>Этажность</th>
+          <td>${elem.properties.Floors._value}</td>
+        </tr>
+        </tbody>
+      </table>`
+  })
+}
 
 
 function ClassificationTerritorySketch(numClass){
@@ -352,33 +393,7 @@ function CreateGeoJsonComponent(props){
           //console.log(inputObj.prototype, params.show, inputObj.defaultChecked)
           switch(inputObj.prototype){
           case "dptOKS" :
-            params.entities.values.forEach((elem)=>{
-              elem.polygon.shadows=props.obj.outline?0:1
-              elem.polygon.material=opasityMix(CesiumColor.fromCssColorString('rgb(250,250,250)'),props.obj.opasity??1,new CesiumColor())
-              elem.polygon.outlineColor=CesiumColor.fromCssColorString('rgb(250,250,250)')
-              elem.polygon.outline =props.obj.outline??false
-              elem.polygon.height=0
-              elem.polygon.extrudedHeight=elem.properties.Floors*3.5
-              
-              if (!elem.polygon.heightReference){
-              }
-                elem.description=`<table class="cesium-infoBox-defaultTable">
-                  <tbody>
-                  <tr>
-                    <th>Номер ОКС</th>
-                    <td>${elem.properties.NUMBER._value}</td>
-                  </tr>
-                  <tr>
-                    <th>Масимальная площадь застройки</th>
-                    <td>${elem.properties.S_foot._value}</td>
-                  </tr>
-                  <tr>
-                    <th>Этажность</th>
-                    <td>${elem.properties.Floors._value}</td>
-                  </tr>
-                  </tbody>
-                </table>`
-            })
+            setDptOKS(params,props.classifier,props.obj)
             break
           case "dptTerritorySketch" :
             lookSelector=true
@@ -400,7 +415,7 @@ function CreateGeoJsonComponent(props){
             })
             break
           case "dptZU" :
-            lookSelector=true
+            //lookSelector=true
             params.entities.values.forEach((elem)=>{
               elem.polygon.material=CesiumColor.fromCssColorString('#ffffff55')
               elem.polygon.outlineColor=CesiumColor.fromCssColorString('#aa0000')

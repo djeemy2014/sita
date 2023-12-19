@@ -232,11 +232,11 @@ function  NavListGeoJSON(props){
  
 
 function NumberList(props) {
- //console.log(props)
+ console.log(props)
   return ( 
     <>
-      <h6>Проект: {props.project.name}</h6>
-      <p>Описание: {props.project.description}</p>
+      <h6>Сцена: {props.layersParams.name}</h6>
+      <p>Описание: {props.layersParams.description}</p>
       <h6>Список слоёв</h6>
       <NavListGeoJSON 
       comprops={

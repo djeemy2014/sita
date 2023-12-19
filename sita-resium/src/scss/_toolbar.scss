@@ -16,7 +16,7 @@ $warning: #e41fc3;
 $danger: #f44336;
 $step:20px;
 $sizeButton:30px;
-$hToolbar:calc(100vh - 2px - $hHeader);
+$hToolbar:calc(90vh - 2px - $hHeader);
 
 
 
@@ -110,19 +110,19 @@ div.tooldar-out{
 }
 .div-collapse-list{
     width: calc(100vw / 5); 
-    height: calc(94vh - 4px);
+    height: $hToolbar;
     overflow: auto;
 }
 @media (max-width: 800px) {
     .div-collapse-list{
         width: calc(100vw - $sizeButton); 
-        height: calc(94vh - 4px)
+        height: $hToolbar
     }
 }
 @media (min-width: 800px) and (max-width: 1500px)  {
     .div-collapse-list{
         width: calc(300px); 
-        height: calc(94vh - 4px)
+        height: $hToolbar
     }
 }
 .div-collapse{
@@ -130,7 +130,7 @@ div.tooldar-out{
     position: sticky;
     color: #ffffff;
     /* width: 400px; */
-    height: auto;
+    height:$hToolbar;
     //border: $paramBorder;
     background-color: $colorBackground;
     /* border-color: rgb(127, 255, 41); */

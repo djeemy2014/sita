@@ -49,13 +49,13 @@ function Layout(){
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/startCesium">startCesium</Link>
+            <Link to="/startCesium">Проект отработки алгоритмов Cesium</Link>
           </li>
           <li>
-            <Link to="/testCesium">testCesium</Link>
+            <Link to="/testCesium">Первый проект на Cesium</Link>
           </li>
           <li>
-            <Link to="/useEfect">useEfect</Link>
+            <Link to="/useEfect">Проект отработки алгоритмов React</Link>
           </li>
         </ul>
       </nav>
