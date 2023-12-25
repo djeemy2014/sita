@@ -206,7 +206,7 @@ function setDptStructure(params, classifier){
   })
 }
 function setDptOKS(params, classifier, obj){
-  
+  params.name=obj.prototype
   params.entities.values.forEach((elem)=>{
     const classifierElem = classifier.description.filter((classElem)=>{
       return classElem.CLASSID===elem.properties.CLASSID._value
@@ -221,7 +221,14 @@ function setDptOKS(params, classifier, obj){
     elem.polygon.outline =obj.outline??false
     elem.polygon.height=0
     elem.polygon.extrudedHeight=elem.properties.Floors*3.5
-    
+    let selectOKS=elem.entityCollection.values.filter((entity)=>{
+      //console.log(elem.properties.NUMBER.valueOf())
+      return entity.properties.NUMBER.valueOf()===elem.properties.NUMBER.valueOf()
+    })
+    selectOKS.forEach((elem)=>{
+      //console.log(elem)
+    })
+
     if (!elem.polygon.heightReference){
     }
       elem.description=`<table class="cesium-infoBox-defaultTable">
