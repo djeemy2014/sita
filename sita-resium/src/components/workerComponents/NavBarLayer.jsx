@@ -232,7 +232,7 @@ function  NavListGeoJSON(props){
  
 
 function NumberList(props) {
- console.log(props)
+ //console.log(props)
   return ( 
     <>
       <h6>Сцена: {props.layersParams.name}</h6>
@@ -303,6 +303,7 @@ function NavBarLayer(props) {
           aria-controls="example-collapse-text" 
           className={'sita-button sita-button-home'}
           onClick={()=>{
+            console.log(viewerRef.current.cesiumElement)
             viewerRef.current.cesiumElement.camera.flyTo({
                 destination: startPosition
             }) 

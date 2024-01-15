@@ -425,6 +425,6 @@ const viewer = new Cesium.Viewer("cesiumContainer", {
           pickedEntities.add(entity);
         }
       }
-    }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+    }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
   
   

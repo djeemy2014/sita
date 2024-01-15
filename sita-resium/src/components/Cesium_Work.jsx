@@ -29,6 +29,7 @@ import {
     EllipsoidTerrainProvider,
     createWorldTerrainAsync,
     Math as MathCesium,
+    Globe as GlobeCesium,
     Cartesian3 as Cartesian3Cesium,
     Cartesian2 as Cartesian2Cesium,
     HorizontalOrigin as HorizontalOriginCesium,
@@ -44,10 +45,12 @@ import {
     Cesium3DTileset as Cesium3DTilesetCesium,
     Credit as CesiumCredit,
     Entity as EntityCesium,
+    EntityCollection as EntityCollectionCesium,
     PostProcessStageLibrary as PostProcessStageLibraryCesium,
     Cesium3DTileStyle,
     //GeoJsonDataSource as GeoJsonDataSourceCesium
     CesiumTerrainProvider as CesiumTerrainProviderCesium,
+    SelectionIndicator as SelectionIndicatorCesium,
     defined as definedCesium,
     Color,
 } from 'cesium'
@@ -61,7 +64,8 @@ class DJeemyComponentCesium extends Component{
           scene:props.scene,
           layersParams:listToObj2(objToList2(props.scene))[0],
           layers:[],
-          listGeoJSON:[]
+          listGeoJSON:[],
+          mousePosition:undefined
         }
 
         this.viewerRef = createRef();
@@ -88,6 +92,13 @@ class DJeemyComponentCesium extends Component{
               onClicker={(elem)=>{this.desubleSelect(elem)}}
               />;
           }) */
+          this.handler = new ScreenSpaceEventHandlerCesium(this.sceneRef?.current?.cesiumElement.canvas);
+          //console.log(sceneRef.current.cesiumElement)
+          // handler?.setInputAction((elem)=>{
+          //   //this.setMousePosition(elem)
+          //   //console.log(elem)
+          // }, ScreenSpaceEventTypeCesium.MOUSE_MOVE)
+          // console.log(handler)
         //console.log(props)
         
         //записываеться в один this как массив дальше циклом со пробегаеться по всем параметром и обявляет создание ссылки и работает с кадым параметром отдельно.
@@ -100,31 +111,37 @@ class DJeemyComponentCesium extends Component{
         .then(async (viewer)=>{
           //console.log(viewer.current.cesiumElement)
           if (lookSelector){
-          //  console.log('блокирован')
+          //console.log(viewer.current.cesiumElement)
+          viewer.current.cesiumElement.selectedEntity = undefined;
+                   //  console.log('блокирован')
           //viewer.current.cesiumElement.selectedEntityChanged.addEventListener(function(entity){
           //    
           ////  //console.log(entity.properties.CLASSID._value===900000050)
           ////  if (entity.properties.CLASSID._value===900000050) {
           ////    //console.log(entity)
-          ////    console.log(viewer.current.cesiumElement.selectedEntity)
-          viewer.current.cesiumElement.selectedEntity = undefined;
           ////    //return
           //
           //  }
           ////}
           //
           //);
+          }else{
+            //console.log(viewer.current.cesiumElement.selectedEntity)
           }
           
         }).catch(err=>{console.log('desubleSelect',lookSelector,err)})
         //.catch(console.log(316, 'desubleSelect'))
+      }
+      functionMouse(elem=this.state.mousePosition){
+        //console.log(elem)
+        return elem
       }
       updeteScene(setState=this.setState){
         const setLayers=[]
         const setListGeoJSON=[]
         const setListLyer=objToList2(this.props.scene)
         const setLayersParams = listToObj2(setListLyer)[0]
-        //console.log(this.state.scene)
+        //console.log(this.state)
         //console.log(this.props.scene)
         this.setState({
           layers:setLayers, 
@@ -132,6 +149,15 @@ class DJeemyComponentCesium extends Component{
           scene:this.props.scene, 
           layersParams:setLayersParams
         })
+        this.functionMouse()
+        // let position
+        // let handler = new ScreenSpaceEventHandlerCesium(this.props.scene?.current?.cesiumElement.canvas);
+        //   console.log(this.props.scene?.current?.cesiumElement)
+        //   handler?.setInputAction((elem)=>{
+        //     this.setMousePosition(elem)
+        //     position=elem
+        //     console.log(position)
+        //   }, ScreenSpaceEventTypeCesium.MOUSE_MOVE)
         setListLyer.forEach(
           
           
@@ -140,10 +166,11 @@ class DJeemyComponentCesium extends Component{
             elem.index=index; 
               elem.ref=createRef(); 
               setLayers[index]=elem.ref;
-              //console.log(this.state.scene.classifiers)
+              //console.log(this.state.mousePosition)
               setListGeoJSON[index]=<CreateGeoJsonComponent
                 obj={elem} 
                 server={this.server}
+                mousePosition={this.handler}
                 //classifiers={this.props.scene.classifiers}
                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! RedLIne
                 classifier={(this.props.scene.classifiers.filter(
@@ -164,30 +191,45 @@ class DJeemyComponentCesium extends Component{
           //console.log(setListGeoJSON)
           //console.log(setLayersParams)
       }
+      setMousePosition(elem, setState=this.setState){
+        this.setState({
+          mousePosition:elem
+        })
+        //console.log(this.state.mousePosition)
+        //return elem
+      }
 
-      selectedEntityChangedSetColor(entity){
-        //console.log(entity)
-        try{
-          if (entity.entityCollection.owner.name==="dptOKS"){
+      // selectedEntityChangedSetColor(entity){//,viewerRef=this.viewerRef
+      //   //console.log(entity)
+      //   //testCesiumElemet(viewerRef)
+      //   //.then((viewer)=>{console.log(viewer)})
+      //   //console.log(viewerRef)
+      //   try{
+      //     if (entity.entityCollection.owner.name==="dptOKS"){
             
-            //console.log(entity)
-            let selectOKS=entity.entityCollection.values.filter((elem)=>{
-              //console.log(elem.properties.NUMBER.valueOf())
-              return elem.properties.NUMBER.valueOf()===entity.properties.NUMBER.valueOf()
-            })
-            selectOKS.forEach((elem)=>{
-              //console.log(elem)
-              elem.polygon.outline=true
-              elem.polygon.outlineColor=ColorCesium.RED
-            })
-          }
-        }
-        catch{
-          //console.log(0)
-        }
+      //       //console.log(entity)
+      //       let selectOKS=entity.entityCollection.values.filter((elem)=>{
+      //         //console.log(elem.properties.NUMBER.valueOf())
+      //         //let a = GlobeCesium.clone(elem)
+      //         //console.log(elem)
+      //         return elem.properties.NUMBER.valueOf()===entity.properties.NUMBER.valueOf()
+      //       })
+            
+      //       selectOKS.forEach((elem)=>{
+      //         //console.log(elem)
+      //         elem.polygon.outline=true
+      //         elem.polygon.outlineColor=ColorCesium.RED
+      //       })
+      //       //let a = new GlobeCesium.clone(selectOKS)
+      //       //console.log(a)
+      //     }
+      //   }
+      //   catch{
+      //     console.log(`err 'selectedEntityChangedSetColor'`)
+      //   }
         
 
-      }
+      // }
       /* onMouseMove(movement) {
         //console.log(movement.endPosition)
         //const pickedFeature = viewer.current.cesiumElement.scene.pick(movement.endPosition);
@@ -220,12 +262,12 @@ class DJeemyComponentCesium extends Component{
             //viewer.current.cesiumElement.shadows
             //настройка тени
             //console.log(viewer.current.cesiumElement)
-            //viewer.current.cesiumElement.resolutionScale =4.0
-            //viewer.current.cesiumElement.resolutionScale =1.5
-            //viewer.current.cesiumElement.resolutionScale =0.5
+            // viewer.current.cesiumElement.resolutionScale =4.0
+            // viewer.current.cesiumElement.resolutionScale =1.5
+            // viewer.current.cesiumElement.resolutionScale =0.5
             const shadowMap = viewer.current.cesiumElement.shadowMap
             shadowMap.softShadows=false
-            shadowMap.maximumDistance=5000
+            shadowMap.maximumDistance=10000
             shadowMap.size=1024*5
             shadowMap.darkness=0.4
             //viewer.current.cesiumElement.shadowMap.softShadows=true
@@ -234,18 +276,18 @@ class DJeemyComponentCesium extends Component{
             //inner
             //viewer.current.cesiumElement.bottomContainer.addStaticCredit( new CesiumCredit('<p>Привет МИР</p>', true))
             //viewer.current.cesiumElement.bottomContainer.innerHTML('<p>Привет МИР</p>')
-            const bottomContainer = document.createElement("div")
-            bottomContainer.className='cesium-viewer-bottom'
-            const silhouetteBlue = PostProcessStageLibraryCesium.createEdgeDetectionStage();
-              silhouetteBlue.uniforms.color = ColorCesium.BLUE;
-              silhouetteBlue.uniforms.length = 0.01;
-              silhouetteBlue.selected = [];
-
-            const selected = {
-              feature: undefined,
-              originalColor: new ColorCesium(),
-            };
-            viewer.current.cesiumElement.selectedEntityChanged.addEventListener(this.selectedEntityChangedSetColor)
+            // const bottomContainer = document.createElement("div")
+            // bottomContainer.className='cesium-viewer-bottom'
+            // const silhouetteBlue = PostProcessStageLibraryCesium.createEdgeDetectionStage();
+            //   silhouetteBlue.uniforms.color = ColorCesium.BLUE;
+            //   silhouetteBlue.uniforms.length = 0.01;
+            //   silhouetteBlue.selected = [];
+            
+            // const selected = {
+            //   feature: undefined,
+            //   originalColor: new ColorCesium(),
+            // };
+            //viewer.current.cesiumElement.selectedEntityChanged.addEventListener(this.selectedEntityChangedSetColor)
             //viewer.current.cesiumElement.screenSpaceEventHandler.setInputAction(,
             //ScreenSpaceEventTypeCesium.MOUSE_MOVE);
             //viewer.current.cesiumElement.selectedEntityChanged.removeEventListener(this.selectedEntityChangedSetColor)
@@ -280,11 +322,14 @@ class DJeemyComponentCesium extends Component{
             //console.log(await createWorldTerrainAsync())
             //viewer.current.cesiumElement.terrainProvider= await createWorldTerrainAsync()
             //viewer.current.cesiumElement.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(2279465)
-        }).catch(err=>{console.log('viewerRef',err)})
+            //viewer.current.cesiumElement.selectionIndicator 
+            viewer.current.cesiumElement.selectionIndicator.destroy()
+            //console.log(viewer.current.cesiumElement.selectionIndicator.destroy() )
+          }).catch(err=>{console.log('viewerRef',err)})
         //.catch(console.logconsole.log(316)
         testCesiumElemet(this.sceneRef)
         .then(async (scene)=>{
-
+          //SelectionIndicatorCesium()
 
           // if (PostProcessStageLibraryCesium.isSilhouetteSupported(scene.current.cesiumElement)){
             
@@ -312,71 +357,121 @@ class DJeemyComponentCesium extends Component{
           // }
           
 
-          const selected = {
-            feature: undefined,
-            originalColor: new ColorCesium(),
-          };
-          const selectedEntity = new EntityCesium();
-          const silhouetteBlue = PostProcessStageLibraryCesium.createEdgeDetectionStage();
-            silhouetteBlue.uniforms.color = ColorCesium.BLUE;
-            //silhouetteBlue.uniforms.length = 0.01;
-            silhouetteBlue.selected = [];
+          // const selected = {
+          //   feature: undefined,
+          //   originalColor: new ColorCesium(),
+          // };
+          //const pickedEntities = new EntityCollectionCesium()
+          //console.log(this.pointRef)
+          //console.log(1)
+          // const selectedEntity = new EntityCesium();
+          // const silhouetteBlue = PostProcessStageLibraryCesium.createEdgeDetectionStage();
+          //   silhouetteBlue.uniforms.color = ColorCesium.BLUE;
+          //   //silhouetteBlue.uniforms.length = 0.01;
+          //   silhouetteBlue.selected = [];
 
-            const silhouetteGreen = PostProcessStageLibraryCesium.createEdgeDetectionStage();
-            silhouetteGreen.uniforms.color = ColorCesium.LIME;
-            //silhouetteGreen.uniforms.length = 0.01;
-            silhouetteGreen.selected = [];
+          //   const silhouetteGreen = PostProcessStageLibraryCesium.createEdgeDetectionStage();
+          //   silhouetteGreen.uniforms.color = ColorCesium.LIME;
+          //   //.;silhouetteGreen.uniforms.length = 0.01;
+          //   silhouetteGreen.selected = [];
 
-          // draw edges around feature0 and feature1 
-          scene.current.cesiumElement.postProcessStages.add(
-            PostProcessStageLibraryCesium.createSilhouetteStage([silhouetteBlue,silhouetteGreen])
-            );
+          // // draw edges around feature0 and feature1 
+          // scene.current.cesiumElement.postProcessStages.add(
+          //   PostProcessStageLibraryCesium.createSilhouetteStage([silhouetteBlue,silhouetteGreen])
+          //   );
 
-          let handler = new ScreenSpaceEventHandlerCesium(scene.current.cesiumElement.canvas);
-          handler.setInputAction(function (movement) {
+         /*  let handler = new ScreenSpaceEventHandlerCesium(scene.current.cesiumElement.canvas);
+          //console.log(scene.current.cesiumElement)
+          handler?.setInputAction((elem)=>{
+            this.setMousePosition(elem)
+          }, ScreenSpaceEventTypeCesium.MOUSE_MOVE) */
+           /* handler.setInputAction(function (movement) {
+            console.log(movement)
+           }) */
             
-            /* // get an array of all primitives at the mouse position
-            const pickedObjects = scene.current.cesiumElement.drillPick(movement.endPosition);
-            //console.log(pickedObjects)
-            console.log(pickedObjects) 
-            silhouetteBlue.selected = [];
+          //   /* // get an array of all primitives at the mouse position
+          //   const pickedObjects = scene.current.cesiumElement.drillPick(movement.endPosition);
+          //   //console.log(pickedObjects)
+          //   console.log(pickedObjects) 
+          //   silhouetteBlue.selected = [];
 
-            // Pick a new feature
-            const pickedFeature = scene.current.cesiumElement.pick(movement.endPosition);
-            if (pickedFeature !== selected.feature) {
-              silhouetteBlue.selected = [pickedFeature];
+          //   // Pick a new feature
+          //   const pickedFeature = scene.current.cesiumElement.pick(movement.endPosition);
+          //   if (pickedFeature !== selected.feature) {
+          //     silhouetteBlue.selected = [pickedFeature];
 
-            } */
+          //   } */
 
             
-              // If a feature was previously highlighted, undo the highlight
-              silhouetteBlue.selected = [];
+          //     // If a feature was previously highlighted, undo the highlight
+          //     silhouetteBlue.selected = [];
 
-              // Pick a new feature
-              const pickedFeature = scene.current.cesiumElement.pick(movement.endPosition);
+          //     // Pick a new feature
+          //     const pickedFeature = scene.current.cesiumElement.pick(movement.endPosition);
+          //     console.log(pickedFeature)
+          // })
+          //     //updateNameOverlay(pickedFeature, movement.endPosition);
+              
+          //     /* if (!Cesium.defined(pickedFeature)) {
+          //       return;
+          //     } */
+          //     //console.log(pickedEntities)
+          //     //console.log(pickedFeature)
+          //     //console.log(pointRef)
+          //     // testCesiumElemet(this.pointRef)
+          //   // .then(async (point)=>{
+          //   //     //настройка pointRef
+          //   //     const pointGrap=PointGraphicsCesium
+          //   //     pointGrap.color = ColorCesium.fromRgba('0xFF0000ff')
+          //   //     pointGrap.pixelSize = 10
+          //   //     //pointGrap.heightReference=HeightReferenceCesium.CLAMP_TO_GROUND
+          //   //     //pointGrap.show = true
+          //   //     point.current.cesiumElement.position=Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 100)
+          //   //     point.current.cesiumElement.name="Red Point"
+                
+          //   //     point.current.cesiumElement.point=pointGrap
+          //   //     point.current.cesiumElement.description =`<h1>Установленная высота</h1></br><p> ${CartographicCesium.fromCartesian(point.current.cesiumElement.position._value).height}`
+          //   //     //console.log(point.current.cesiumElement.description)
+          //   //     //console.log(point)
+          //   //     //console.log(pointGrap)
+          //   //   })
+          //   //   .catch(err=>{console.log('pointRef',err)})
 
-              //updateNameOverlay(pickedFeature, movement.endPosition);
+          //     // Highlight the feature if it's not already selected.
+              
+          //     //console.log(pickedEntities.values)
+          //     if (!!pickedFeature) { //&&(pickedFeature !== selected.feature)
+          //       //silhouetteBlue.selected = pickedFeature;
+          //       //selected.feature=pickedFeature.id;
+          //       //selected.feature.outline=true
+          //       //selected.feature.outlineColor=silhouetteBlue.uniforms.color
+          //       //console.log(scene.current.cesiumElement)
+          //       //console.log(pickedFeature.id)
+          //       //selectedEntity=pickedFeature.id
+          //       //pickedEntities.removeAll()
+          //       //pickedEntities.add(pickedFeature.id)
+          //       //pickedEntities.values.forEach((elem)=>{
+          //       //  elem.polygon.material=ColorCesium.BLUE;
+          //       //})
+          //       //console.log(pickedEntities)
+          //       //console.log(selected)
+          //       //!!pickedFeature.id?{selected.feature=pickedFeature.id}:{}
+                
 
-              /* if (!Cesium.defined(pickedFeature)) {
-                return;
-              } */
+          //       //pickedFeature.id.show=!pickedFeature.id.show
+          //     }
             
-              // Highlight the feature if it's not already selected.
-              if (pickedFeature !== selected.feature) {
-                silhouetteBlue.selected = pickedFeature;
-                console.log(silhouetteBlue)
-              }
-            
-            //console.log(definedCesium(pickedObjects))
-            //if (definedCesium(pickedObjects)) {
-            //  //Update the collection of picked entities.
-            //  pickedEntities.removeAll();
-            //  for (let i = 0; i < pickedObjects.length; ++i) {
-            //    const entity = pickedObjects[i].id;
-            //    pickedEntities.add(entity);
-            //  }
-            //}
-          }, ScreenSpaceEventTypeCesium.MOUSE_MOVE);
+          //   //console.log(definedCesium(pickedObjects))
+          //   //if (definedCesium(pickedObjects)) {
+          //   //  //Update the collection of picked entities.
+          //   //  pickedEntities.removeAll();
+          //   //  for (let i = 0; i < pickedObjects.length; ++i) {
+          //   //    const entity = pickedObjects[i].id;
+          //   //    pickedEntities.add(entity);
+          //   //  }
+          //   //}
+          //   //pickedEntities.removeAll()
+          // }, ScreenSpaceEventTypeCesium.MOUSE_MOVE);
           /* setTimeout(()=>{
             const camera = this.cameraRef.current.cesiumElement
             //console.log(1)
