@@ -1,0 +1,14 @@
+@import "./header";
+
+.info-bar{
+    position:absolute;
+    right:0px;
+    top: 20vh;
+    width: 500px;
+    height: 200px;
+    background-color: rgba(0, 255, 255, 0.164);
+    z-index: 5;
+    div{
+        position: static;
+    }
+}

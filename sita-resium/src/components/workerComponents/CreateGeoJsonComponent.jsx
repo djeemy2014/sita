@@ -268,23 +268,24 @@ function setDptOKS(params, classifier, obj){
 //MOUSE_MOVE
 function mouseMove(endPosition, mousePosition, scene, idOldObjects, colorCSS, idOldObjectsSelect=undefined){
   //console.log(endPosition)
-  const time1=console.time()
+  //const time1=console.time()
   //console.timeLog(time1)
   //нужно установить момент очистки. слишком быстро отрабатывает.
-  idOldObjects?.forEach((elem)=>{
-    elem.polyline=undefined
-   })
+  //idOldObjects?.forEach((elem)=>{
+  //  elem.polyline=undefined
+  // })
   //const pickedObjects1 = scene.current.cesiumElement.pick(endPosition);
   //console.timeLog(time1)
   const pickedObjects = scene?.current?.cesiumElement.pick(endPosition);
   //colorCSS==='#0f0'?console.log(idOldObjectsSelect,idOldObjects,pickedObjects):console.log()
-  console.log(pickedObjects?.id?.id)
-  console.timeLog(time1)
+  //console.log(pickedObjects?.id?.id)
+  //console.timeLog(time1)
   if (!pickedObjects){
-    //console.timeLog(time1)
-    //idOldObjects?.forEach((elem)=>{
-    //  elem.polyline=undefined
-    // })
+    // console.log('очистка 1')
+    // console.timeLog(time1)
+    idOldObjects?.forEach((elem)=>{
+      elem.polyline=undefined
+     })
     return undefined
   }
 
@@ -304,10 +305,14 @@ function mouseMove(endPosition, mousePosition, scene, idOldObjects, colorCSS, id
 
         return undefined
       }
+      if (!!idOldObjects?.find((elem2)=>pickedObjects.id.id===elem2.id)){
+        return idOldObjects
+      }
 
-    //idOldObjects?.forEach((elem)=>{
-    //  elem.polyline=undefined
-    // })
+    idOldObjects?.forEach((elem)=>{
+      elem.polyline=undefined
+     })
+    
   //}
   
   if (pickedObjects.id.entityCollection.owner.name==="dptOKS"){
@@ -328,9 +333,9 @@ function mouseMove(endPosition, mousePosition, scene, idOldObjects, colorCSS, id
   if (!!idOldObjects){
     
     if (pickedObjects.id!==idOldObjects){
-      console.log(11)
+      //console.log(11)
       //idOldObjectsSelect?console.log(8):console.log()
-      console.timeLog(time1)
+      //console.timeLog(time1)
       idOldObjects=selectOKS//[pickedObjects.id]
       idOldObjects.forEach((elem)=>{
         elem.polyline=new CesiumPolylineGraphics({
@@ -347,15 +352,15 @@ function mouseMove(endPosition, mousePosition, scene, idOldObjects, colorCSS, id
          })
       })
     }
-    console.log(12)
-    console.timeLog(time1)
+    //console.log(12)
+    //console.timeLog(time1)
     //console.log('выбран12',idOldObjects)
     //console.timeLog(time1)
-    console.timeEnd(time1)
+    //console.timeEnd(time1)
     return idOldObjects
   }else{
-    console.log(21)
-    console.timeLog(time1)
+    //console.log(21)
+    //console.timeLog(time1)
     idOldObjects=selectOKS//[pickedObjects.id]
     idOldObjects.forEach((elem)=>{
         elem.polyline=new CesiumPolylineGraphics({
@@ -372,10 +377,10 @@ function mouseMove(endPosition, mousePosition, scene, idOldObjects, colorCSS, id
      
          })
       })
-      console.log(22)
-      console.timeLog(time1)
+      //console.log(22)
       //console.timeLog(time1)
-      console.timeEnd(time1)
+      //console.timeLog(time1)
+      //console.timeEnd(time1)
     return idOldObjects
   }
   //console.timeEnd(time1)

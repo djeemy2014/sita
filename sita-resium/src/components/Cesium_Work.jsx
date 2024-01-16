@@ -48,6 +48,7 @@ import {
     EntityCollection as EntityCollectionCesium,
     PostProcessStageLibrary as PostProcessStageLibraryCesium,
     Cesium3DTileStyle,
+    InfoBox as InfoBoxCesium,
     //GeoJsonDataSource as GeoJsonDataSourceCesium
     CesiumTerrainProvider as CesiumTerrainProviderCesium,
     SelectionIndicator as SelectionIndicatorCesium,
@@ -323,8 +324,21 @@ class DJeemyComponentCesium extends Component{
             //viewer.current.cesiumElement.terrainProvider= await createWorldTerrainAsync()
             //viewer.current.cesiumElement.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(2279465)
             //viewer.current.cesiumElement.selectionIndicator 
-            viewer.current.cesiumElement.selectionIndicator.destroy()
-            //console.log(viewer.current.cesiumElement.selectionIndicator.destroy() )
+            try{
+              viewer?.current?.cesiumElement?.selectionIndicator?.destroy()
+            }
+            catch{
+              console.log('ошибка')
+            }
+           //.info-bar
+           try{
+            const info = new InfoBoxCesium(document.querySelector('div.info-bar'))
+            console.log(info)
+            viewer.current.cesiumElement.infoBox=info
+            console.log(viewer.current.cesiumElement.infoBox)
+          }
+          catch{console.log('ошибка2')}
+            //console.log(viewer.current.cesiumElement.infoBox)
           }).catch(err=>{console.log('viewerRef',err)})
         //.catch(console.logconsole.log(316)
         testCesiumElemet(this.sceneRef)
@@ -639,17 +653,19 @@ class DJeemyComponentCesium extends Component{
         return (
           <>
             <div className="toolbar">
-                    <NavBarLayer 
-                        project={this.props.project}
-                        layers={this.state.layers} 
-                        classifiers={this.state.scene.classifiers} 
-                        //layersParams={this.layersParams}
-                        layersParams={this.state.layersParams}
-                        viewerRef={this.viewerRef} 
-                        startPosition={this.startPosition}
-                    /> 
-                    
-                </div>
+              <NavBarLayer 
+                  project={this.props.project}
+                  layers={this.state.layers} 
+                  classifiers={this.state.scene.classifiers} 
+                  //layersParams={this.layersParams}
+                  layersParams={this.state.layersParams}
+                  viewerRef={this.viewerRef} 
+                  startPosition={this.startPosition}
+              /> 
+            </div>
+            <div className='info-bar'>
+
+            </div>
             <div className="viewerBox">
               <div>
                 
