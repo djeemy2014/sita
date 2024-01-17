@@ -12,7 +12,7 @@ import  {
     //Scene,
     //Camera,
     //Entity,
-    //CustomDataSource,
+    CustomDataSource,
     GeoJsonDataSource
  } from 'resium'
 import{
@@ -31,11 +31,13 @@ import{
     ModelGraphics as CesiumModelGraphics,
     BillboardGraphics as CesiumBillboardGraphics,
     Math as CesiumMath,
+    Resource as ResourceCesium,
     WallGraphics as CesiumWallGraphics,
     PolylineGraphics as CesiumPolylineGraphics,
     PolylineVolumeGraphics as CesiumPolylineVolumeGraphics,
     ScreenSpaceEventHandler as ScreenSpaceEventHandlerCesium,
     ScreenSpaceEventType as ScreenSpaceEventTypeCesium,
+    DistanceDisplayCondition as DistanceDisplayConditionCesium,
     //HeightReference as HeightReferenceCesium,
     Cartographic as CesiumCartographic,
     //GeoJsonDataSource as GeoJsonDataSourceCesium
@@ -46,6 +48,76 @@ import {saturation,opasityMix,gray} from './ColorFunction'
 
 
 //classifiers
+function setClassifer3DTrees(classifier3d){
+  
+  classifier3d.description?.map((elem)=>{
+    //console.log(elem)
+    const resource = new ResourceCesium({
+      url:elem.urlmodel
+      
+    })
+    //console.log(resource)
+    elem.model3d=new CesiumModelGraphics({
+      uri:resource,
+      heightReference:1,
+      minimumPixelSize: 128, 
+      maximumScale: 1,
+      shadows:0,
+      distanceDisplayCondition:new DistanceDisplayConditionCesium(100.0, 2000.0)
+    })
+    //console.log(elem)
+    
+  })
+  return classifier3d
+}
+function set3DTrees(params, classifier, obj){
+  console.log(classifier.description)
+  console.log(params.entities.values[0])
+  console.log(params.entities.values[0].properties.type._value)
+  console.log(classifier.description.find((elem)=>elem.name===params.entities.values[0].properties.type._value))
+  //console.log(obj)
+
+  params.entities.values.forEach((elem)=>{
+    try{
+      //const modelData = Class3DTree(elem.properties.type._value)
+      //elem.billboard=modelData.billboard //undefined//
+      const classObj=classifier.description.find((elemclass)=>elemclass.name===elem.properties.type._value)
+      elem.model=classObj.model3d
+      console.log()
+      elem.point = undefined
+      elem.billboard = undefined;
+      //elem.billboard.distanceDisplayCondition = new DistanceDisplayConditionCesium(100.0, 2000.0);
+    }
+    catch{
+      console.log('err',elem)
+    }
+  })  
+
+}
+function setDptRedLine(params, classifier, obj){
+  params.entities.values.forEach((elem)=>{
+    const maximumHeights=new Array(elem.polyline.positions._value.length)
+    maximumHeights.fill(10)
+    elem.polyline.material=CesiumColor.fromCssColorString('#000000aa')
+    elem.polyline.width=2
+    
+    elem.wall= new CesiumWallGraphics(
+      {
+        positions:elem.polyline.positions._value,
+        maximumHeights:maximumHeights,
+        material:CesiumColor.fromCssColorString('#000000aa')
+      }
+    )
+  })
+
+}
+function setDptZU(params, classifier, obj){
+  params.entities.values.forEach((elem)=>{
+    elem.polygon.material=CesiumColor.fromCssColorString('#ffffff55')
+    elem.polygon.outlineColor=CesiumColor.fromCssColorString('#aa0000')
+  })
+
+}
 function Class3DTree(nameClass){
   const class3DTree=[
     {
@@ -224,6 +296,9 @@ function setDptOKS(params, classifier, obj){
     elem.polygon.outline =obj.outline??false
     elem.polygon.height=0
     elem.polygon.extrudedHeight=elem.properties.Floors*3.5
+    //elem.polygon.shadows.distanceDisplayCondition = new DistanceDisplayConditionCesium(100.0, 20000.0);
+    //elem.polygon.show?console.log():elem.polygon.shadows=1
+    //elem.polygon.distanceDisplayCondition = new DistanceDisplayConditionCesium(100.0, 20000.0);
     let selectOKS=elem.entityCollection.values.filter((entity)=>{
       //console.log(elem.properties.NUMBER.valueOf())
       return entity.properties.NUMBER.valueOf()===elem.properties.NUMBER.valueOf()
@@ -264,6 +339,23 @@ function setDptOKS(params, classifier, obj){
         </tbody>
       </table>`
   })
+}
+function setDptTerritorySketch(params, classifier, obj){
+  params.entities.values.forEach((elem)=>{
+    const classDescription=ClassificationTerritorySketch(elem.properties.CLASSID._value, classifier)
+    try{
+      elem.polygon.shadows=3
+      elem.polygon.outline =false
+      elem.polygon.material=saturation(
+        CesiumColor.fromCssColorString(classDescription.colorCSS),
+        obj.saturation??0,
+        new CesiumColor()
+        )
+      }
+      catch{
+        console.log(classDescription, elem.properties)
+      }
+    })
 }
 //MOUSE_MOVE
 function mouseMove(endPosition, mousePosition, scene, idOldObjects, colorCSS, idOldObjectsSelect=undefined){
@@ -521,6 +613,7 @@ function CreateGeoJsonComponent(props){
   const sceneRef=props.sceneRef
   //console.log(props)
   let lookSelector=!!props.obj.lookSelector
+  let geoJson =undefined
 
   //let handler = new ScreenSpaceEventHandlerCesium(scene.current.cesiumElement.canvas);
   // let handler = new ScreenSpaceEventHandlerCesium(sceneRef?.current?.cesiumElement.canvas);
@@ -538,13 +631,32 @@ function CreateGeoJsonComponent(props){
   //console.log(props)
   let data=fetch(url)
     .then((res) => res.json())
+
+  /* if(inputObj.prototype==="3DTrees"){
+    console.log(inputObj)
+    console.log(props.obj.ref??false)
+    console.log(props.obj?.ref?.current?.cesiumElement)
     testCesiumElemet(props.obj.ref)
     .then(async (layer)=>{
-    
+      console.log(props.obj.ref)
+      const class3D = setClassifer3DTrees(props.classifier)
+      //console.log(class3D)
+      //set3DTrees(params, class3D, props.obj)
+    })
+    .catch(err=>{console.log('props.obj.ref',err)})
+    return<CustomDataSource 
+      ref={props.obj.ref} 
+    />
+  } */
+    testCesiumElemet(props.obj.ref)
+    .then(async (layer)=>{
+      //console.log(params)
       let params = layer.current.cesiumElement
+      //console.log(params)
       params.load(data)
-        .then(()=>{
-          let params = layer.current.cesiumElement
+        .then((params)=>{
+          //console.log(elem)
+          //let params = layer.current.cesiumElement
           params.show=inputObj.defaultChecked
           //console.log(inputObj.prototype, params.show, inputObj.defaultChecked)
           switch(inputObj.prototype){
@@ -552,24 +664,27 @@ function CreateGeoJsonComponent(props){
             setDptOKS(params,props.classifier,props.obj)
             break
           case "dptTerritorySketch" :
-            params.entities.values.forEach((elem)=>{
-              const classDescription=ClassificationTerritorySketch(elem.properties.CLASSID._value, props.classifier)
-              try{
-                elem.polygon.shadows=3
-                elem.polygon.outline =false
-                elem.polygon.material=saturation(
-                  CesiumColor.fromCssColorString(classDescription.colorCSS),
-                  props.obj.saturation??0,
-                  new CesiumColor()
-                  )
-              }
-              catch{
-                console.log(classDescription, elem.properties)
-              }
+            setDptTerritorySketch(params,props.classifier,props.obj)
+            // params.entities.values.forEach((elem)=>{
+            //   const classDescription=ClassificationTerritorySketch(elem.properties.CLASSID._value, props.classifier)
+            //   try{
+            //     elem.polygon.shadows=3
+            //     elem.polygon.outline =false
+            //     elem.polygon.material=saturation(
+            //       CesiumColor.fromCssColorString(classDescription.colorCSS),
+            //       props.obj.saturation??0,
+            //       new CesiumColor()
+            //       )
+            //   }
+            //   catch{
+            //     console.log(classDescription, elem.properties)
+            //   }
               
-            })
+            // })
             break
           case "dptZU" :
+            
+            setDptZU(params,props.classifier,props.obj)
             //lookSelector=true
             params.entities.values.forEach((elem)=>{
               elem.polygon.material=CesiumColor.fromCssColorString('#ffffff55')
@@ -578,34 +693,31 @@ function CreateGeoJsonComponent(props){
             })
             break
           case "dptRedLine" :
-            params.entities.values.forEach((elem)=>{
-              const maximumHeights=new Array(elem.polyline.positions._value.length)
-              maximumHeights.fill(10)
-              elem.polyline.material=CesiumColor.fromCssColorString('#000000aa')
-              elem.polyline.width=2
+            setDptRedLine(params,props.classifier,props.obj)
+            // params.entities.values.forEach((elem)=>{
+            //   const maximumHeights=new Array(elem.polyline.positions._value.length)
+            //   maximumHeights.fill(10)
+            //   elem.polyline.material=CesiumColor.fromCssColorString('#000000aa')
+            //   elem.polyline.width=2
               
-              elem.wall= new CesiumWallGraphics(
-                {
-                  positions:elem.polyline.positions._value,
-                  maximumHeights:maximumHeights,
-                  material:CesiumColor.fromCssColorString('#000000aa')
-                }
-              )
-            })
+            //   elem.wall= new CesiumWallGraphics(
+            //     {
+            //       positions:elem.polyline.positions._value,
+            //       maximumHeights:maximumHeights,
+            //       material:CesiumColor.fromCssColorString('#000000aa')
+            //     }
+            //   )
+            // })
             break
           case "dptStructure":
             setDptStructure(params,  props.classifier)
             break
           case "3DTrees" :
-            params.entities.values.forEach((elem)=>{
-              try{
-                const modelData = Class3DTree(elem.properties.type._value)
-                elem.billboard=modelData.billboard //undefined//
-              }
-              catch{
-                console.log('err',elem)
-              }
-            })  
+            console.log(props.obj.ref)
+            const class3D = setClassifer3DTrees(props.classifier)
+            //console.log(class3D)
+            set3DTrees(params, class3D, props.obj)
+            
             break
           case "dptProektBound":
             //console.log(props)
@@ -622,7 +734,8 @@ function CreateGeoJsonComponent(props){
   //},[])
 
 
-  let geoJson =undefined
+  
+
   if (inputObj.prototype==="dptOKS"){
     let mouse = undefined
     props.mousePosition.setInputAction((elem)=>{
@@ -661,8 +774,9 @@ function CreateGeoJsonComponent(props){
       //data={data}
       />
     )
+    return geoJson
   }else{
-    console.log(inputObj)
+    //console.log(inputObj)
     geoJson = (
       <GeoJsonDataSource 
       //ref={props.obj.ref} 
@@ -677,9 +791,10 @@ function CreateGeoJsonComponent(props){
       //data={data}
       />
     )
+    return geoJson
   }
   
-  return geoJson
+  //return geoJson
 
 }
 export default CreateGeoJsonComponent

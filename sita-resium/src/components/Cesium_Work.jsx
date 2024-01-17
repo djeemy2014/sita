@@ -49,10 +49,14 @@ import {
     PostProcessStageLibrary as PostProcessStageLibraryCesium,
     Cesium3DTileStyle,
     InfoBox as InfoBoxCesium,
-    //GeoJsonDataSource as GeoJsonDataSourceCesium
+    GeoJsonDataSource as GeoJsonDataSourceCesium,
     CesiumTerrainProvider as CesiumTerrainProviderCesium,
     SelectionIndicator as SelectionIndicatorCesium,
     defined as definedCesium,
+    Resource as ResourceCesium,
+    ModelGraphics as CesiumModelGraphics,
+    DistanceDisplayCondition as DistanceDisplayConditionCesium,
+    //Resource as ResourceCesium,
     Color,
 } from 'cesium'
 import Button from 'react-bootstrap/Button';
@@ -271,6 +275,10 @@ class DJeemyComponentCesium extends Component{
             shadowMap.maximumDistance=10000
             shadowMap.size=1024*5
             shadowMap.darkness=0.4
+            console.log(this.state.scene.id)
+            if (this.state.scene.id===3){
+              console.log(this.state.scene.id)
+            }
             //viewer.current.cesiumElement.shadowMap.softShadows=true
             //viewer.current.cesiumElement.shadowMap.softShadows=true
             //console.log()
@@ -325,16 +333,22 @@ class DJeemyComponentCesium extends Component{
             //viewer.current.cesiumElement.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(2279465)
             //viewer.current.cesiumElement.selectionIndicator 
             try{
-              viewer?.current?.cesiumElement?.selectionIndicator?.destroy()
+              //console.log(!!viewer.current.cesiumElement.selectionIndicator)
+              let selector = viewer.current.cesiumElement?.selectionIndicator 
+              if (!selector.isDestroyed()){
+                //selector.destroy()
+              }
             }
             catch{
+              //console.log(!!viewer.current.cesiumElement.selectionIndicator) 
               console.log('ошибка')
+              
             }
            //.info-bar
            try{
             const info = new InfoBoxCesium(document.querySelector('div.info-bar'))
             console.log(info)
-            viewer.current.cesiumElement.infoBox=info
+            //viewer.current.cesiumElement.infoBox=info
             console.log(viewer.current.cesiumElement.infoBox)
           }
           catch{console.log('ошибка2')}
@@ -598,7 +612,80 @@ class DJeemyComponentCesium extends Component{
           this.updeteScene()
           
         }
+        // if (this.state.scene.id===3){
+        //   function setClassifer3DTrees(classifier3d){
+            
+        //     classifier3d.description?.map((elem)=>{
+        //       //console.log(elem)
+        //       const resource = new ResourceCesium({
+        //         url:elem.urlmodel
+                
+        //       })
+        //       //console.log(resource)
+        //       elem.model3d=new CesiumModelGraphics({
+        //         uri:resource,
+        //         heightReference:1,
+        //         minimumPixelSize: 128, 
+        //         maximumScale: 1,
+        //         shadows:0,
+        //         distanceDisplayCondition:new DistanceDisplayConditionCesium(100.0, 2000.0)
+        //       })
+        //       //console.log(elem) 
+              
+        //     })
+        //     //console.log(classifier3d)
+        //     return classifier3d
+        //   }
+        //   function set3DTrees(params, classifier, obj){
+        //     //console.log(classifier.description)
+        //     //console.log(params.entities.values[0])
+        //     //console.log(params.entities.values[0].properties.type._value)
+        //     //console.log(classifier.description.find((elem)=>elem.name===params.entities.values[0].properties.type._value))
+        //     //console.log(obj)
+          
+        //     params.entities.values.forEach((elem)=>{
+        //       try{
+        //         //const modelData = Class3DTree(elem.properties.type._value)
+        //         //elem.billboard=modelData.billboard //undefined//
+        //         const classObj=classifier.description.find((elemclass)=>elemclass.name===elem.properties.type._value)
+        //         elem.model=classObj.model3d
+        //         console.log(elem.model)
+        //         //elem.point = undefined
+        //         //elem.billboard = undefined;
+        //         //elem.billboard.distanceDisplayCondition = new DistanceDisplayConditionCesium(100.0, 2000.0);
+        //       }
+        //       catch{
+        //         console.log('err',elem)
+        //       }
+        //     })  
+          
+        //   }
+        //   console.log(this.state.scene.id)
+        //   const viewer = this.viewerRef.current.cesiumElement
+        //   const url = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/project_1/layer/3DTrees.geojson'
+        //   const data=fetch(url)
+        //     .then((res) => res.json())
+        //   let laeyrTree  
+        //   let classifer = setClassifer3DTrees((this.props.scene.classifiers.filter(
+        //     (classElem)=>{
+        //       if (classElem.prototype==='3DTrees'){
+        //         //console.log(classElem)
+        //         //console.log(elem)
+        //       }
+        //     return classElem.prototype==='3DTrees'
+        //   })[0]??this.props.scene.classifiers.classifiers))
+          
+        //   new GeoJsonDataSourceCesium.load(data).then((res) => {
+        //     console.log(res)
+        //     laeyrTree=res
+        //     set3DTrees(laeyrTree, classifer, undefined)
+        //     viewer.dataSources.add(laeyrTree)
+        //     console.log(res)
+        //   })
 
+        //   console.log(laeyrTree)
+
+        // }
         //console.log(this.props.scene)
       //   if (false){
       //     console.log(this.state.scene)
@@ -663,14 +750,12 @@ class DJeemyComponentCesium extends Component{
                   startPosition={this.startPosition}
               /> 
             </div>
-            <div className='info-bar'>
-
-            </div>
+            
             <div className="viewerBox">
               <div>
                 
               </div>
-                
+              <div className='info-bar'></div>
                 <div>
                     <Viewer 
                       className="viewer-class"
@@ -692,6 +777,7 @@ class DJeemyComponentCesium extends Component{
 
                       //navigationInstructionsInitiallyVisible={false}
                     >
+                      
                         <Camera ref={this.cameraRef} />
                         <Scene ref={this.sceneRef} shadows={true}/>
                         <Cesium3DTileset 

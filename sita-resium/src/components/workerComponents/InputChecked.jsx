@@ -33,7 +33,9 @@ export function InputChekboxFunction(props){
                //||cElemRef.current.cesiumElement.show!==prevProps.defaultChecked
              }
         })
-        .catch(err=>{console.log('cElemRef',err, props.comprops.name)})
+        .catch(err=>{
+            //console.log('cElemRef'/* ,err, props.comprops.name */)
+        })
     },[])
     useEffect(() => {
         testCesiumElemet(cElemRef)
@@ -50,7 +52,9 @@ export function InputChekboxFunction(props){
                //||cElemRef.current.cesiumElement.show!==prevProps.defaultChecked
              }
         })
-        .catch(err=>{console.log('cElemRef',err,  props.comprops.name)})
+        .catch(err=>{
+            //console.log('cElemRef'/* ,err,  props.comprops.name */)
+        })
         
     },[props.showStat,props.greny]) 
     
