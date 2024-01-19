@@ -254,9 +254,11 @@ function NumberList(props) {
 
 function NavBarLayer(props) {
   const [open, setOpen] = useState(false);
+  const [openInfoBox, setOpenInfoBox] = useState('block');
     const viewerRef=props.viewerRef
     const startPosition=props.startPosition
   //console.log()
+
   return (
     
     <div className='tooldar-out'>
@@ -287,11 +289,31 @@ function NavBarLayer(props) {
           aria-expanded={open} 
           className={`sita-button sita-button-list ${open?'list-open':'list-close'}`}
         />
-        {/* <Button 
+        <Button 
           aria-controls="example-collapse-text" 
           className={'sita-button sita-button-info'}
+          onClick={(elem)=>{
+            console.log(elem)
+            const infobox=document.querySelector('.cesium-viewer-infoBoxContainer')
+            const button=document.querySelector('.sita-button-info')
+            if (openInfoBox==='block'){
+              setOpenInfoBox('none')
+              infobox.style.cssText =`display:none`
+              button.style.cssText =`border-style:solid`
+            }else{
+              setOpenInfoBox('block')
+              infobox.style.cssText =`display:block`
+              button.style.cssText =`border-style:none`
+            }
+            console.log(infobox)
+            //viewerRef.current.cesiumElement.constructor('infoBox', false)
+            //console.log( viewerRef.current.cesiumElement.constructor('infoBox', false))
+            //viewerRef.current.cesiumElement.constructor({infoBox:false})
+            //viewerRef.current.cesiumElement.
+            //props.setInfoBoxSwith()
+          }}
         />
-        <Button 
+        {/* <Button 
           aria-controls="example-collapse-text" 
           className={'sita-button sita-button-legend'}
         /> */}

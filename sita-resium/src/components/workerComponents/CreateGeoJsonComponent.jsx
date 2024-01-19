@@ -38,6 +38,7 @@ import{
     ScreenSpaceEventHandler as ScreenSpaceEventHandlerCesium,
     ScreenSpaceEventType as ScreenSpaceEventTypeCesium,
     DistanceDisplayCondition as DistanceDisplayConditionCesium,
+    Material as MaterialCesium,
     //HeightReference as HeightReferenceCesium,
     Cartographic as CesiumCartographic,
     //GeoJsonDataSource as GeoJsonDataSourceCesium
@@ -52,18 +53,18 @@ function setClassifer3DTrees(classifier3d){
   
   classifier3d.description?.map((elem)=>{
     //console.log(elem)
-    const resource = new ResourceCesium({
-      url:elem.urlmodel
-      
-    })
+    elem.resource = new ResourceCesium({
+        url:elem.urlmodel
+      })
     //console.log(resource)
     elem.model3d=new CesiumModelGraphics({
-      uri:resource,
-      heightReference:1,
-      minimumPixelSize: 128, 
-      maximumScale: 1,
-      shadows:0,
-      distanceDisplayCondition:new DistanceDisplayConditionCesium(100.0, 2000.0)
+      uri:elem.resource,
+      //heightReference:1,
+      //minimumPixelSize: 128, 
+      //maximumScale: 1,
+      //shadows:0,
+      distanceDisplayCondition:new DistanceDisplayConditionCesium(0, 1500.0),
+      shadows: 1
     })
     //console.log(elem)
     
@@ -71,10 +72,10 @@ function setClassifer3DTrees(classifier3d){
   return classifier3d
 }
 function set3DTrees(params, classifier, obj){
-  console.log(classifier.description)
-  console.log(params.entities.values[0])
-  console.log(params.entities.values[0].properties.type._value)
-  console.log(classifier.description.find((elem)=>elem.name===params.entities.values[0].properties.type._value))
+  //console.log(classifier.description)
+  //console.log(params.entities.values[0])
+  //console.log(params.entities.values[0].properties.type._value)
+  //console.log(classifier.description.find((elem)=>elem.name===params.entities.values[0].properties.type._value))
   //console.log(obj)
 
   params.entities.values.forEach((elem)=>{
@@ -83,9 +84,19 @@ function set3DTrees(params, classifier, obj){
       //elem.billboard=modelData.billboard //undefined//
       const classObj=classifier.description.find((elemclass)=>elemclass.name===elem.properties.type._value)
       elem.model=classObj.model3d
+      // elem.model=new CesiumModelGraphics({
+      //   uri:classObj.resource,
+      //   //heightReference:1,
+      //   //minimumPixelSize: 128, 
+      //   //maximumScale: 1,
+      //   //shadows:0,
+      //   distanceDisplayCondition:new DistanceDisplayConditionCesium(0.0, 1000.0),
+      //   shadows: 1
+      // })
       console.log()
-      elem.point = undefined
-      elem.billboard = undefined;
+      //elem.point = undefined
+      elem.billboard=undefined
+      //elem.billboard.distanceDisplayCondition = new DistanceDisplayConditionCesium(1000, 10000.0);
       //elem.billboard.distanceDisplayCondition = new DistanceDisplayConditionCesium(100.0, 2000.0);
     }
     catch{
@@ -118,85 +129,13 @@ function setDptZU(params, classifier, obj){
   })
 
 }
-function Class3DTree(nameClass){
-  const class3DTree=[
-    {
-      id:1,
-      name:"береза",
-      url:"http://10.0.5.190:18077/cesium_test/geodata/testModel/3dmodel/tree_6/06tree03.glb",
-      //model: new CesiumModelGraphics({
-      //  uri:"http://10.0.5.190:18077/cesium_test/geodata/testModel/3dmodel/tree_6/06tree03.glb",
-      //  heightReference:1,
-      //  minimumPixelSize: 128, 
-      //  maximumScale: 1,
-      //  shadows:0
-//
-      //}),
-      billboard2:undefined,
-      billboard:new CesiumBillboardGraphics({
-        //image: "http://10.0.5.190:18077/cesium_test/geodata/testModel/cutout/clipboard-svgrepo-com.svg",
-        image: "http://10.0.5.190:18077/cesium_test/geodata/testModel/cutout/tree/free-cut-out-tree-007.png",
-        color: CesiumColor.fromCssColorString('#008000bb'),
-        
-        //alignedAxis:new CesiumCartesian3(0.0,0.0,1.0),
-        //alignedAxis:
-        //new CesiumCartesian3(
-        //  0.49530486396945006,
-        //  0.5540396047640442,
-        //  0.6691137482380005),
-        verticalOrigin: 1,
-        sizeInMeters:true,
-        height:20,
-        width:15
-      }),
-
-    },
-    {
-      id:2,
-      name:"ель",
-      url:"http://10.0.5.190:18077/cesium_test/geodata/testModel/3dmodel/tree_1/01tree.glb",
-      //model: new CesiumModelGraphics({
-      //  uri:"http://10.0.5.190:18077/cesium_test/geodata/testModel/3dmodel/tree_1/01tree.glb",
-      //  heightReference:1,
-      //  minimumPixelSize: 128,
-      //  maximumScale: 1,
-      //  shadows:0
-      //}),
-      billboard2:undefined,
-      billboard:new CesiumBillboardGraphics({
-        //image: "http://10.0.5.190:18077/cesium_test/geodata/testModel/cutout/clipboard-svgrepo-com.svg",
-        image: "http://10.0.5.190:18077/cesium_test/geodata/testModel/cutout/tree/pngegg2.png",
-        color: CesiumColor.fromCssColorString('#00FF00bb'),
-        verticalOrigin: 1,
-        sizeInMeters:true,
-        height:20,
-        width:15
-      }),
-    },
-    {
-      id:3,
-      name:"сосна",
-      url:"http://10.0.5.190:18077/cesium_test/geodata/testModel/3dmodel/tree_5/05tree.glb",
-      //model: new CesiumModelGraphics({
-      //  uri:"http://10.0.5.190:18077/cesium_test/geodata/testModel/3dmodel/tree_5/05tree.glb",
-      //  heightReference:1,
-      //  minimumPixelSize: 128, 
-      //  maximumScale: 1,
-      //  shadows:0
-      //}),
-      billboard2:undefined,
-      billboard:new CesiumBillboardGraphics({
-        //image: "http://10.0.5.190:18077/cesium_test/geodata/testModel/cutout/clipboard-svgrepo-com.svg",
-        image: "http://10.0.5.190:18077/cesium_test/geodata/testModel/cutout/tree/free-cut-out-tree-002.png",
-        color: CesiumColor.fromCssColorString('#ADFF2Fbb'),
-        verticalOrigin: 1,
-        sizeInMeters:true,
-        height:20,
-        width:15
-      }),
-    }
-  ]
-  return class3DTree.filter((obj)=>obj.name===nameClass)[0]
+function Class3DTree(listClass, nameClass){
+  
+  return listClass.filter((obj)=>obj.name===nameClass)[0]
+}
+function selectKey(listClass, nameClass){
+  
+  return listClass.filter((obj)=>obj.key===nameClass)[0]
 }
 function setDptProektBound(params, classifier){
   //console.log(params)
@@ -281,28 +220,79 @@ function setDptStructure(params, classifier){
   })
 }
 function setDptOKS(params, classifier, obj){
+  
   params.name=obj.prototype
+  let unique = params.entities.values.filter((item, i, ar) => {
+    //console.log(item.properties.NUMBER.valueOf()); 
+    //console.log(ar.indexOf(item.properties.NUMBER.valueOf())); 
+    //console.log(ar.findLastIndex((elem)=>item.properties.NUMBER.valueOf()===elem.properties.NUMBER.valueOf())); 
+    //console.log(i); 
+    return ar.findLastIndex((elem)=>item.properties.NUMBER.valueOf()===elem.properties.NUMBER.valueOf())===i
+  });
+  let listOKSUnique=unique.map((elem)=>{
+
+    return {
+      key:elem.properties.NUMBER.valueOf(),
+      listObj:elem.entityCollection.values.filter((entity)=>{
+        //console.log(elem.properties.NUMBER.valueOf())
+        return entity.properties.NUMBER.valueOf()===elem.properties.NUMBER.valueOf()
+      })
+    }
+  });
+
   params.entities.values.forEach((elem)=>{
     const classifierElem = classifier.description.filter((classElem)=>{
       return classElem.CLASSID===elem.properties.CLASSID._value
     })[0]
+    // let NewMaterial = new MaterialCesium({
+    //   fabric: {
+    //     type: 'Color',
+    //     uniforms: {
+    //       color: new CesiumColor(0.70, 0.70, 0.70, 1.0)},
+    //     // components: {
+    //     //   diffuse : 'vec3(0.9, 0.3, 0.3)',
+    //     //   specular : '0.1',
+    //     //   shininess: '0.1'}
+    //     }
+    //   });
+    //console.log(NewMaterial)
     elem.polygon.shadows=obj.outline?0:1
     elem.polygon.material=obj.noClassifing?
       opasityMix(CesiumColor.fromCssColorString('#ffffff'),obj.opasity??1,new CesiumColor()):
       opasityMix(CesiumColor.fromCssColorString(classifierElem.colorCSS),obj.opasity??1,new CesiumColor())
+    //elem.polygon.material=CesiumColor.fromCssColorString('#ffffff')
+    //console.log(elem.polygon.material)
+    // elem.polygon.material=MaterialCesium.fromType('Color')
+    // elem.polygon.material.uniforms.color = new CesiumColor(1.0, 1.0, 0.0, 1.0);
     elem.polygon.outlineColor=obj.noClassifing?
       opasityMix(CesiumColor.fromCssColorString('#ffffff'),1,new CesiumColor()):
       opasityMix(CesiumColor.fromCssColorString(classifierElem.colorCSS),obj.opasity??1,new CesiumColor())
     elem.polygon.outline =obj.outline??false
     elem.polygon.height=0
     elem.polygon.extrudedHeight=elem.properties.Floors*3.5
+    elem.polyline=new CesiumPolylineGraphics({
+      positions:elem.polygon.hierarchy._value.positions.map(
+       (point)=> CesiumCartographic.toCartesian({
+         ...CesiumCartographic.fromCartesian(point), 
+         height:1
+       })
+       ),
+      //clampToGround:false,
+      width:10,
+      material:CesiumColor.fromCssColorString('#ff0000'),
+      zIndex:5,
+      show:false
+ 
+     })
     //elem.polygon.shadows.distanceDisplayCondition = new DistanceDisplayConditionCesium(100.0, 20000.0);
     //elem.polygon.show?console.log():elem.polygon.shadows=1
     //elem.polygon.distanceDisplayCondition = new DistanceDisplayConditionCesium(100.0, 20000.0);
-    let selectOKS=elem.entityCollection.values.filter((entity)=>{
-      //console.log(elem.properties.NUMBER.valueOf())
-      return entity.properties.NUMBER.valueOf()===elem.properties.NUMBER.valueOf()
-    })
+    //console.log(selectKey(listOKSUnique, elem.properties.NUMBER.valueOf()))
+    let selectOKS=selectKey(listOKSUnique, elem.properties.NUMBER.valueOf()).listObj
+    // let selectOKS=elem.entityCollection.values.filter((entity)=>{
+    //   //console.log(elem.properties.NUMBER.valueOf())
+    //   return entity.properties.NUMBER.valueOf()===elem.properties.NUMBER.valueOf()
+    // })
     let maxFloors=selectOKS.reduce(function(accumulator, item){
       item.properties.Floors._value>accumulator?accumulator=item.properties.Floors._value:console.log()
       return accumulator
@@ -338,7 +328,9 @@ function setDptOKS(params, classifier, obj){
         </tr>
         </tbody>
       </table>`
+      
   })
+  return listOKSUnique
 }
 function setDptTerritorySketch(params, classifier, obj){
   params.entities.values.forEach((elem)=>{
@@ -358,8 +350,10 @@ function setDptTerritorySketch(params, classifier, obj){
     })
 }
 //MOUSE_MOVE
-function mouseMove(endPosition, mousePosition, scene, idOldObjects, colorCSS, idOldObjectsSelect=undefined){
+
+function mouseMove(endPosition, mousePosition, scene, listOKSUnique,  idOldObjects, colorCSS, idOldObjectsSelect=undefined){
   //console.log(endPosition)
+  //console.timeEnd(time1)
   //const time1=console.time()
   //console.timeLog(time1)
   //нужно установить момент очистки. слишком быстро отрабатывает.
@@ -368,15 +362,20 @@ function mouseMove(endPosition, mousePosition, scene, idOldObjects, colorCSS, id
   // })
   //const pickedObjects1 = scene.current.cesiumElement.pick(endPosition);
   //console.timeLog(time1)
+  //console.log('старт')
   const pickedObjects = scene?.current?.cesiumElement.pick(endPosition);
   //colorCSS==='#0f0'?console.log(idOldObjectsSelect,idOldObjects,pickedObjects):console.log()
   //console.log(pickedObjects?.id?.id)
   //console.timeLog(time1)
+  //console.log('конц 1')
+  // idOldObjects?.forEach((elem)=>{
+  //   elem.polyline.show=false
+  //  })
   if (!pickedObjects){
     // console.log('очистка 1')
     // console.timeLog(time1)
     idOldObjects?.forEach((elem)=>{
-      elem.polyline=undefined
+      elem.polyline.show=false
      })
     return undefined
   }
@@ -388,21 +387,37 @@ function mouseMove(endPosition, mousePosition, scene, idOldObjects, colorCSS, id
     // :
     // console.log()
     
-    if ((idOldObjectsSelect?.length===idOldObjects?.length)
+    // if ((idOldObjectsSelect?.length===idOldObjects?.length)
+    //   &&
+    //   (idOldObjectsSelect?.every((elem1)=>{
+    //     return !!idOldObjects?.find((elem2)=>elem1.id===elem2.id)
+    //   }))
+    //   ){
+
+    //     return undefined
+    //   }
+    //   if (!!idOldObjects?.find((elem2)=>pickedObjects.id.id===elem2.id)){
+    //     return idOldObjects
+    //   }
+
+    // idOldObjects?.forEach((elem)=>{
+    //   elem.polyline.show=false
+    //  })
+    if (!!idOldObjectsSelect
       &&
-      (idOldObjectsSelect?.every((elem1)=>{
-        return !!idOldObjects?.find((elem2)=>elem1.id===elem2.id)
-      }))
-      ){
+      !!idOldObjects
+      &&
+      (idOldObjectsSelect[0]?.properties.NUMBER.valueOf()===idOldObjects[0]?.properties.NUMBER.valueOf())){
 
         return undefined
       }
       if (!!idOldObjects?.find((elem2)=>pickedObjects.id.id===elem2.id)){
+        console.log(1)
         return idOldObjects
       }
 
     idOldObjects?.forEach((elem)=>{
-      elem.polyline=undefined
+      elem.polyline.show=false
      })
     
   //}
@@ -410,71 +425,84 @@ function mouseMove(endPosition, mousePosition, scene, idOldObjects, colorCSS, id
   if (pickedObjects.id.entityCollection.owner.name==="dptOKS"){
 
   //console.log(pickedObjects)
-  let selectOKS=pickedObjects.id.entityCollection.values.filter((elem)=>{
-    return elem.properties.NUMBER.valueOf()===pickedObjects.id.properties.NUMBER.valueOf()
-  })
-  if ((idOldObjectsSelect?.length===selectOKS?.length)
-      &&
-      (idOldObjectsSelect?.every((elem1)=>{
-        return !!selectOKS?.find((elem2)=>elem1.id===elem2.id)
-      }))
+  // let selectOKS=pickedObjects.id.entityCollection.values.filter((elem)=>{
+  //   return elem.properties.NUMBER.valueOf()===pickedObjects.id.properties.NUMBER.valueOf()
+  // })
+
+  let selectOKS=selectKey(listOKSUnique, pickedObjects.id.properties.NUMBER.valueOf()).listObj
+
+  if (!!idOldObjectsSelect
+    &&
+    !!selectOKS
+    &&
+    (idOldObjectsSelect[0].properties.NUMBER.valueOf()===selectOKS[0].properties.NUMBER.valueOf())
       ){
         return undefined
       }
 
   if (!!idOldObjects){
-    
+    //console.log('конц 3')
+      //console.timeLog(time1)
+      //console.timeEnd(time1)
     if (pickedObjects.id!==idOldObjects){
       //console.log(11)
       //idOldObjectsSelect?console.log(8):console.log()
       //console.timeLog(time1)
       idOldObjects=selectOKS//[pickedObjects.id]
-      idOldObjects.forEach((elem)=>{
-        elem.polyline=new CesiumPolylineGraphics({
-          positions:elem.polygon.hierarchy._value.positions.map(
-           (point)=> CesiumCartographic.toCartesian({
-             ...CesiumCartographic.fromCartesian(point), 
-             height:1
-           })
-           ),
-          width:10,
-          material:CesiumColor.fromCssColorString(colorCSS),
-          zIndex:5
+      selectOKS.forEach((elem)=>{
+        // elem.polyline=new CesiumPolylineGraphics({
+        //   positions:elem.polygon.hierarchy._value.positions.map(
+        //    (point)=> CesiumCartographic.toCartesian({
+        //      ...CesiumCartographic.fromCartesian(point), 
+        //      height:1
+        //    })
+        //    ),
+        //   width:10,
+        //   material:CesiumColor.fromCssColorString(colorCSS),
+        //   zIndex:5
      
-         })
+        //  })
+
+        elem.polyline.show=true
+        elem.polyline.material=CesiumColor.fromCssColorString(colorCSS)
       })
     }
     //console.log(12)
     //console.timeLog(time1)
     //console.log('выбран12',idOldObjects)
-    //console.timeLog(time1)
-    //console.timeEnd(time1)
+    // console.log('конц 2')
+    // console.timeLog(time1)
+    // console.timeEnd(time1)
     return idOldObjects
   }else{
     //console.log(21)
     //console.timeLog(time1)
     idOldObjects=selectOKS//[pickedObjects.id]
-    idOldObjects.forEach((elem)=>{
-        elem.polyline=new CesiumPolylineGraphics({
-          positions:elem.polygon.hierarchy._value.positions.map(
-           (point)=> CesiumCartographic.toCartesian({
-             ...CesiumCartographic.fromCartesian(point), 
-             height:1
-           })
-           ),
-          //clampToGround:false,
-          width:10,
-          material:CesiumColor.fromCssColorString(colorCSS),
-          zIndex:5
+    selectOKS.forEach((elem)=>{
+      elem.polyline.show=true
+      elem.polyline.material=CesiumColor.fromCssColorString(colorCSS)
+        // elem.polyline=new CesiumPolylineGraphics({
+        //   positions:elem.polygon.hierarchy._value.positions.map(
+        //    (point)=> CesiumCartographic.toCartesian({
+        //      ...CesiumCartographic.fromCartesian(point), 
+        //      height:1
+        //    })
+        //    ),
+        //   //clampToGround:false,
+        //   width:10,
+        //   material:CesiumColor.fromCssColorString(colorCSS),
+        //   zIndex:5
      
-         })
+        //  })
       })
       //console.log(22)
       //console.timeLog(time1)
-      //console.timeLog(time1)
-      //console.timeEnd(time1)
+      // console.log('конц 3')
+      // console.timeLog(time1)
+      // console.timeEnd(time1)
     return idOldObjects
   }
+  
   //console.timeEnd(time1)
 }
 
@@ -611,8 +639,10 @@ function CreateGeoJsonComponent(props){
   const showStat=props.show//!==undefined?props.show:true
   const layerRef= props.layerRef
   const sceneRef=props.sceneRef
+  
   //console.log(props)
   let lookSelector=!!props.obj.lookSelector
+  let listOKSUnique=undefined
   let geoJson =undefined
 
   //let handler = new ScreenSpaceEventHandlerCesium(scene.current.cesiumElement.canvas);
@@ -661,7 +691,7 @@ function CreateGeoJsonComponent(props){
           //console.log(inputObj.prototype, params.show, inputObj.defaultChecked)
           switch(inputObj.prototype){
           case "dptOKS" :
-            setDptOKS(params,props.classifier,props.obj)
+            listOKSUnique = setDptOKS(params,props.classifier,props.obj)
             break
           case "dptTerritorySketch" :
             setDptTerritorySketch(params,props.classifier,props.obj)
@@ -713,7 +743,7 @@ function CreateGeoJsonComponent(props){
             setDptStructure(params,  props.classifier)
             break
           case "3DTrees" :
-            console.log(props.obj.ref)
+            //console.log(props.obj.ref)
             const class3D = setClassifer3DTrees(props.classifier)
             //console.log(class3D)
             set3DTrees(params, class3D, props.obj)
@@ -737,12 +767,23 @@ function CreateGeoJsonComponent(props){
   
 
   if (inputObj.prototype==="dptOKS"){
-    let mouse = undefined
-    props.mousePosition.setInputAction((elem)=>{
-      !lookSelector?(idOldObjects=mouseMove(elem.endPosition, props.mousePosition, props.sceneRef, idOldObjects, '#f00',idOldObjectsSelect)):console.log()
-      }, ScreenSpaceEventTypeCesium.MOUSE_MOVE)
+    //let mouse = undefined
+    // props.mousePosition.setInputAction((elem)=>{
+    //   if (CesiumCartesian2.distance(elem.startPosition,elem.endPosition)>30){
+    //     !lookSelector?(
+    //       console.log(props.sceneRef?.current?.cesiumElement.pick(elem.endPosition))
+    //       //console.log(CesiumCartesian2.distance(elem.startPosition,elem.endPosition))
+    //       ):console.log()
+    //   }
+    //   //!lookSelector?(idOldObjects=mouseMove(elem.endPosition, props.mousePosition, props.sceneRef, listOKSUnique,  idOldObjects, '#f00',idOldObjectsSelect)):console.log()
+    //   // !lookSelector?(
+    //   //   //console.log(props.sceneRef?.current?.cesiumElement.pick(elem.endPosition))
+    //   //   console.log(CesiumCartesian2.distance(elem.startPosition,elem.endPosition))
+    //   //   ):console.log()
+    //   //!lookSelector?(console.log(elem.endPosition)):console.log()
+    //   }, ScreenSpaceEventTypeCesium.MOUSE_MOVE)
      props.mousePosition.setInputAction((elem)=>{
-      !lookSelector?(idOldObjectsSelect=mouseMove(elem.position, props.mousePosition, props.sceneRef, idOldObjectsSelect,'#0f0')):console.log()
+      !lookSelector?(idOldObjectsSelect=mouseMove(elem.position, props.mousePosition, props.sceneRef, listOKSUnique, idOldObjectsSelect,'#0f0')):console.log()
       }, ScreenSpaceEventTypeCesium.LEFT_CLICK)
     //console.log(inputObj)
     geoJson = (
@@ -758,7 +799,7 @@ function CreateGeoJsonComponent(props){
         //!lookSelector?(
         //  idOldObjectsSelect=mouseMove(elem.position, props.mousePosition, props.sceneRef, idOldObjectsSelect,'#0f0')):console.log()
       }}
-      onMouseMove={(elem)=>{
+      //onMouseMove={(elem)=>{
         //mouse=elem;
         // !lookSelector?(
         //   idOldObjects=mouseMove(elem.endPosition, 
@@ -770,7 +811,7 @@ function CreateGeoJsonComponent(props){
         //     )
         //     )
         //     :console.log()
-      }}
+      //}}
       //data={data}
       />
     )

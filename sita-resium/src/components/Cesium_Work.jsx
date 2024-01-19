@@ -5,7 +5,7 @@ import NavBarLayer from "./workerComponents/NavBarLayer"
 //import CreateGeoJsonComponents from "./workerComponents/CreateGeoJsonComponents"
 import CreateGeoJsonComponent from "./workerComponents/CreateGeoJsonComponent"
 import {objToList,objToList2,listToObj2} from './workerComponents/objList.js'
-
+//import asss from './css/InfoBox.css'
 import {
     createRef, 
     Component, 
@@ -49,6 +49,7 @@ import {
     PostProcessStageLibrary as PostProcessStageLibraryCesium,
     Cesium3DTileStyle,
     InfoBox as InfoBoxCesium,
+    InfoBoxViewModel as InfoBoxViewModelCesium,
     GeoJsonDataSource as GeoJsonDataSourceCesium,
     CesiumTerrainProvider as CesiumTerrainProviderCesium,
     SelectionIndicator as SelectionIndicatorCesium,
@@ -56,10 +57,11 @@ import {
     Resource as ResourceCesium,
     ModelGraphics as CesiumModelGraphics,
     DistanceDisplayCondition as DistanceDisplayConditionCesium,
+    buildModuleUrl as buildModuleUrlCesium,
     //Resource as ResourceCesium,
     Color,
 } from 'cesium'
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
 
 
 class DJeemyComponentCesium extends Component{
@@ -70,7 +72,8 @@ class DJeemyComponentCesium extends Component{
           layersParams:listToObj2(objToList2(props.scene))[0],
           layers:[],
           listGeoJSON:[],
-          mousePosition:undefined
+          mousePosition:undefined,
+          infoBox:true
         }
 
         this.viewerRef = createRef();
@@ -140,6 +143,16 @@ class DJeemyComponentCesium extends Component{
       functionMouse(elem=this.state.mousePosition){
         //console.log(elem)
         return elem
+      }
+      setInfoBox(){
+        console.log(this.state)
+        /* this.setState({
+          infoBox:!this.state.infoBox
+        }) */
+      }
+      onClickInfoBox(setInfoBox=this.setInfoBox){
+        console.log(this.state)
+        setInfoBox()
       }
       updeteScene(setState=this.setState){
         const setLayers=[]
@@ -272,13 +285,13 @@ class DJeemyComponentCesium extends Component{
             // viewer.current.cesiumElement.resolutionScale =0.5
             const shadowMap = viewer.current.cesiumElement.shadowMap
             shadowMap.softShadows=false
-            shadowMap.maximumDistance=10000
+            shadowMap.maximumDistance=5000
             shadowMap.size=1024*5
             shadowMap.darkness=0.4
-            console.log(this.state.scene.id)
-            if (this.state.scene.id===3){
-              console.log(this.state.scene.id)
-            }
+            //console.log(this.state.scene.id)
+            // if (this.state.scene.id===3){
+            //   console.log(this.state.scene.id)
+            // }
             //viewer.current.cesiumElement.shadowMap.softShadows=true
             //viewer.current.cesiumElement.shadowMap.softShadows=true
             //console.log()
@@ -346,10 +359,29 @@ class DJeemyComponentCesium extends Component{
             }
            //.info-bar
            try{
-            const info = new InfoBoxCesium(document.querySelector('div.info-bar'))
-            console.log(info)
+            //const info = new InfoBoxCesium(document.querySelector('div.info-bar'))
+            //const infoView = new InfoBoxViewModelCesium()
             //viewer.current.cesiumElement.infoBox=info
-            console.log(viewer.current.cesiumElement.infoBox)
+            //console.log(info)
+            //console.log(viewer.current.cesiumElement.infoBox._element)
+            //viewer.current.cesiumElement.infoBox._element=document.querySelector('div.info-bar')
+            const frame=viewer.current.cesiumElement.infoBox.frame
+            frame.addEventListener('load', function (elem) {
+                //console.log(elem)
+                const infoBar=document.querySelector('div.info-bar')
+                console.log(frame)
+                console.log(infoBar)
+                //console.log(frame.children )
+                //frame.appendChild(infoBar)
+          //     var cssLink = frame.contentDocument.createElement('link');
+          //     cssLink.href = buildModuleUrlCesium('./components/css/InfoBox.css');
+          //     cssLink.rel = 'stylesheet';
+          //     cssLink.type = 'text/css';
+          //     frame.contentDocument.head.appendChild(cssLink);
+           }, false)
+            
+            //console.log(viewer.current.cesiumElement.infoBox)
+
           }
           catch{console.log('ошибка2')}
             //console.log(viewer.current.cesiumElement.infoBox)
@@ -748,14 +780,16 @@ class DJeemyComponentCesium extends Component{
                   layersParams={this.state.layersParams}
                   viewerRef={this.viewerRef} 
                   startPosition={this.startPosition}
+                  infoBoxSwith={this.state.infoBox}
+                  setInfoBoxSwith={this.onClickInfoBox}
               /> 
             </div>
-            
+            <div className='info-bar'></div>
             <div className="viewerBox">
               <div>
                 
               </div>
-              <div className='info-bar'></div>
+              
                 <div>
                     <Viewer 
                       className="viewer-class"
@@ -780,7 +814,7 @@ class DJeemyComponentCesium extends Component{
                       
                         <Camera ref={this.cameraRef} />
                         <Scene ref={this.sceneRef} shadows={true}/>
-                        <Cesium3DTileset 
+                        {/* <Cesium3DTileset 
                         //ref={this.tileset}
                         url={'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/geojson_tilesets/tileset.json'} 
                         style={
@@ -793,7 +827,7 @@ class DJeemyComponentCesium extends Component{
                         //onReady={tileset => {
                         //  //this.tileset.current?.cesiumElement?.zoomTo(tileset);
                         //}}
-                        />
+                        /> */}
                         {/* <Entity ref={this.pointRef} />  */}
                         <>
                             {this.state.listGeoJSON}
