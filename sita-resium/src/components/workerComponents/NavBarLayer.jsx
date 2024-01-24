@@ -2,6 +2,7 @@ import {createRef, useRef, useState, useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import {InputChekboxFunction} from "./InputChecked"
+import InfoBar from "./InfoBar"
 /*  */
 
 function  NavListGeoJSON(props){
@@ -259,7 +260,8 @@ function NavBarLayer(props) {
     const startPosition=props.startPosition
   //console.log()
 
-  return (
+  return (<>
+  
     
     <div className='tooldar-out'>
       <Collapse 
@@ -294,18 +296,18 @@ function NavBarLayer(props) {
           className={'sita-button sita-button-info'}
           onClick={(elem)=>{
             console.log(elem)
-            const infobox=document.querySelector('.cesium-viewer-infoBoxContainer')
-            const button=document.querySelector('.sita-button-info')
-            if (openInfoBox==='block'){
-              setOpenInfoBox('none')
-              infobox.style.cssText =`display:none`
-              button.style.cssText =`border-style:solid`
-            }else{
-              setOpenInfoBox('block')
-              infobox.style.cssText =`display:block`
-              button.style.cssText =`border-style:none`
-            }
-            console.log(infobox)
+            // const infobox=document.querySelector('.cesium-viewer-infoBoxContainer')
+            // const button=document.querySelector('.sita-button-info')
+            // if (openInfoBox==='block'){
+            //   setOpenInfoBox('none')
+            //   infobox.style.cssText =`display:none`
+            //   button.style.cssText =`border-style:solid`
+            // }else{
+            //   setOpenInfoBox('block')
+            //   infobox.style.cssText =`display:block`
+            //   button.style.cssText =`border-style:none`
+            // }
+            // console.log(infobox)
             //viewerRef.current.cesiumElement.constructor('infoBox', false)
             //console.log( viewerRef.current.cesiumElement.constructor('infoBox', false))
             //viewerRef.current.cesiumElement.constructor({infoBox:false})
@@ -334,10 +336,12 @@ function NavBarLayer(props) {
         />
 
       </div>
-      
-      
-      
     </div>
+    {/* <div className='info-bar'>
+      <InfoBar/>
+            
+    </div> */}
+    </>
   );
 }
 

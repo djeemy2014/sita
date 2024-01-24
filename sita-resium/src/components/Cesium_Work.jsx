@@ -4,6 +4,7 @@ import testCesiumElemet from './testCesiumElemet'
 import NavBarLayer from "./workerComponents/NavBarLayer"
 //import CreateGeoJsonComponents from "./workerComponents/CreateGeoJsonComponents"
 import CreateGeoJsonComponent from "./workerComponents/CreateGeoJsonComponent"
+import InfoBar from "./workerComponents/InfoBar"
 import {objToList,objToList2,listToObj2} from './workerComponents/objList.js'
 //import asss from './css/InfoBox.css'
 import {
@@ -58,10 +59,13 @@ import {
     ModelGraphics as CesiumModelGraphics,
     DistanceDisplayCondition as DistanceDisplayConditionCesium,
     buildModuleUrl as buildModuleUrlCesium,
+    JulianDate as JulianDateCesium,
     //Resource as ResourceCesium,
     Color,
 } from 'cesium'
+import {autobind} from "core-decorators"
 //import Button from 'react-bootstrap/Button';
+
 
 
 class DJeemyComponentCesium extends Component{
@@ -73,7 +77,10 @@ class DJeemyComponentCesium extends Component{
           layers:[],
           listGeoJSON:[],
           mousePosition:undefined,
-          infoBox:true
+          infoBox:true,
+          infoBarId:undefined,
+          infoBarName:undefined,
+          infoBarBody:undefined
         }
 
         this.viewerRef = createRef();
@@ -82,6 +89,8 @@ class DJeemyComponentCesium extends Component{
         //this.pointRef = createRef()
         this.startPosition = Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 10000);
         this.server = props.server
+        this.handler = new ScreenSpaceEventHandlerCesium(this.sceneRef?.current?.cesiumElement.canvas);
+        this.handlerAll = new ScreenSpaceEventHandlerCesium(this.sceneRef?.current?.cesiumElement.canvas);
         //this.layersParams=
         //this.layersParams2=objToList2(props.scene)//перерработать!!
         //this.layersParams=listToObj2(objToList2(props.scene))[0]//перерработать!!
@@ -89,6 +98,10 @@ class DJeemyComponentCesium extends Component{
         //this.listGeoJSON=[]
         //console.log(props.scene)
         //console.log(listToObj2(objToList2(props.scene))[0])
+        //здание стабильных this
+        this.setInfoBox = this.setInfoBox.bind(this)
+
+
         /* objToList2(this.props.scene.list).forEach(
           (elem, index)=>{elem.index=index; 
               elem.ref=createRef(); 
@@ -100,7 +113,8 @@ class DJeemyComponentCesium extends Component{
               onClicker={(elem)=>{this.desubleSelect(elem)}}
               />;
           }) */
-          this.handler = new ScreenSpaceEventHandlerCesium(this.sceneRef?.current?.cesiumElement.canvas);
+          //this.handler = new ScreenSpaceEventHandlerCesium(this.sceneRef?.current?.cesiumElement.canvas);
+          //this.handlerAll = new ScreenSpaceEventHandlerCesium(this.sceneRef?.current?.cesiumElement.canvas);
           //console.log(sceneRef.current.cesiumElement)
           // handler?.setInputAction((elem)=>{
           //   //this.setMousePosition(elem)
@@ -144,16 +158,74 @@ class DJeemyComponentCesium extends Component{
         //console.log(elem)
         return elem
       }
-      setInfoBox(){
-        console.log(this.state)
+      
+      setDataInfoBox(entity){
+        console.log(entity)
         /* this.setState({
           infoBox:!this.state.infoBox
         }) */
       }
-      onClickInfoBox(setInfoBox=this.setInfoBox){
-        console.log(this.state)
-        setInfoBox()
+      updateinfoBar(){}
+      setInfoBox(id,name,inform,state=this.state, setState=this.setState){
+        this.setState({
+          infoBarId:id,
+          infoBarName:name,
+          infoBarBody:inform
+        })
+        console.log(state.infoBarBody)
+        //console.log('1234')
       }
+      selectedPick(position, scene){
+        // const feature = scene.pick(position);
+        //   console.log( feature)
+      }
+      setPickEntity(sceneRef=this.sceneRef,setInfoBox=this.setInfoBox){
+        // function Pick(elem,sceneRef){
+        //   console.log(sceneRef)
+        //   const entityPick = sceneRef.current.cesiumElement.pick(elem)
+        //   console.log(entityPick)
+        // }
+        // testCesiumElemet(this.sceneRef).then((scene)=>{
+          
+        //   this.handler.setInputAction((elem)=>{
+        //     console.log(elem)
+        //     Pick(elem, scene)
+        //     //this.setDataInfoBox()
+            
+        //     console.log(scene)
+        //     //console.log(this.setDataInfoBox)
+        //     console.log(elem)
+        //     }, ScreenSpaceEventTypeCesium.RIGHT_CLICK)
+        // })
+        
+        this.handlerAll.setInputAction(function(movement) {
+          //console.log(sceneRef)
+          //const feature = sceneRef?.current?.cesiumElement.pick(movement.position);
+          //console.log( feature.id)
+          const feature = sceneRef?.current?.cesiumElement.pick(movement.position);
+          const dataJ = new JulianDateCesium.fromDate(new Date())
+          //console.log(feature?.id.description.valueOf())
+          //console.log(feature?.id.description)
+          //console.log(dataJ)
+          console.log(feature?.id)
+          const uid=feature?.id.id
+          const name=feature?.id.name
+          const htmlData=feature?.id.description.getValue(new JulianDateCesium.fromDate(new Date()))
+          setInfoBox(uid,name,htmlData)
+          
+          //if(!!selectedPick){
+          //  selectedPick(movement.position, sceneRef?.current?.cesiumElement)
+          //}
+          
+          // if (feature instanceof Cesium.Cesium3DTileFeature) {
+          //     feature.color = Cesium.Color.YELLOW;
+          // }
+      }, ScreenSpaceEventTypeCesium.LEFT_CLICK)
+      }
+      // onClickInfoBox(){
+      //   console.log(this.state)
+      //   //setInfoBox()
+      // }
       updeteScene(setState=this.setState){
         const setLayers=[]
         const setListGeoJSON=[]
@@ -216,7 +288,7 @@ class DJeemyComponentCesium extends Component{
         //console.log(this.state.mousePosition)
         //return elem
       }
-
+      
       // selectedEntityChangedSetColor(entity){//,viewerRef=this.viewerRef
       //   //console.log(entity)
       //   //testCesiumElemet(viewerRef)
@@ -271,6 +343,7 @@ class DJeemyComponentCesium extends Component{
  */
       componentDidMount() {
         this.updeteScene()
+        //this.setPickEntity()
 
         Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NzJjNjYzYi1jMmMzLTQ4YmMtYjQ3OC0zOTFhZjE4MWFlNmMiLCJpZCI6NjQyMjUsImlhdCI6MTY5Mzk5ODY4NX0.ptWchwMm8LuwnypYqoS1T4hSZ2JxKFxAcioki5FZczU";
         testCesiumElemet(this.viewerRef)
@@ -390,7 +463,7 @@ class DJeemyComponentCesium extends Component{
         testCesiumElemet(this.sceneRef)
         .then(async (scene)=>{
           //SelectionIndicatorCesium()
-
+          this.setPickEntity()
           // if (PostProcessStageLibraryCesium.isSilhouetteSupported(scene.current.cesiumElement)){
             
           //   console.log() 
@@ -642,8 +715,10 @@ class DJeemyComponentCesium extends Component{
           console.log(prevProps.scene) */
           console.log('updateScene')
           this.updeteScene()
+          //this.setPickEntity()
           
         }
+        //this.setPickEntity()
         // if (this.state.scene.id===3){
         //   function setClassifer3DTrees(classifier3d){
             
@@ -781,13 +856,17 @@ class DJeemyComponentCesium extends Component{
                   viewerRef={this.viewerRef} 
                   startPosition={this.startPosition}
                   infoBoxSwith={this.state.infoBox}
-                  setInfoBoxSwith={this.onClickInfoBox}
+                  //setInfoBoxSwith={this.onClickInfoBox}
               /> 
             </div>
-            <div className='info-bar'></div>
+                <InfoBar 
+                infoBarId={this.state.infoBarId}
+                infoBarName={this.state.infoBarName}
+                infoBarBody={this.state.infoBarBody}
+                //setInfoBar={this.setState}
+                />
             <div className="viewerBox">
               <div>
-                
               </div>
               
                 <div>
@@ -804,7 +883,7 @@ class DJeemyComponentCesium extends Component{
                       shadows={true}
                       terrainShadows={3}
                       //projectionPicker={true} //включение и выключение ортогональности
-                      //infoBox={false} //бокс отображения информакции об объекте
+                      infoBox={false} //бокс отображения информакции об объекте
                       sceneModePicker={false}
                       navigationHelpButton={false}
                       //creditContainer='<p>dsfdfsdc</p>'

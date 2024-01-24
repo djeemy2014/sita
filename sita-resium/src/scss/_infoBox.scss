@@ -1,46 +1,70 @@
 @import "./header";
 
 $hToolbar:calc(90vh - 2px - $hHeader);
-//.info-bar
-//, .cesium-viewer-infoBoxContainer
-//, 
-.cesium-viewer-infoBoxContainer
-{
+.info-bar{
     position:absolute;
     right:0px;
-    top: 6vh;
+    top: calc(6vh - 2px);
     width: 500px;//0
     height: $hToolbar;//0
-    background-color: rgba(0, 255, 255, 0.165);
+    background-color: $primary;
     z-index: 5;
-    
-}
-.cesium-viewer-infoBoxContainer{
-    *{
-        border: 2px solid rgb(0, 255, 0);
-    }
-    iframe{
-        //width:500px;
-        //height:500px
-    }
-}
-.cesium-infoBox, .cesium-infoBox-visible{
-    margin: auto;
-    right:0px;
-    top: 6vh;
-    left:0px;
-    bottom: 0px;
-    width: 500px;
-    height: $hToolbar;
+    padding: 0;
+    margin: 0;
+    color: #fff;
 }
 @media (max-width: 800px) {
-    .cesium-viewer-infoBoxContainer{
-        width: 100vw; 
+    .info-bar{
+        width: calc(100vw); 
+        height: $hToolbar
     }
 }
 @media (min-width: 800px) and (max-width: 1500px)  {
-    .cesium-viewer-infoBoxContainer{
-        width: 300px
+    .info-bar{
+        width: calc(300px); 
+        height: $hToolbar
     }
 }
+    //     
+//, .cesium-viewer-infoBoxContainer
+//, 
+// .cesium-viewer-infoBoxContainer
+// {
+//     position:absolute;
+//     right:0px;
+//     top: 6vh;
+//     width: 500px;//0
+//     height: $hToolbar;//0
+//     background-color: rgba(0, 255, 255, 0.165);
+//     z-index: 5;
+    
+// }
+// .cesium-viewer-infoBoxContainer{
+//     *{
+//         border: 2px solid rgb(0, 255, 0);
+//     }
+//     iframe{
+//         //width:500px;
+//         //height:500px
+//     }
+// }
+// .cesium-infoBox, .cesium-infoBox-visible{
+//     margin: auto;
+//     right:0px;
+//     top: 6vh;
+//     left:0px;
+//     bottom: 0px;
+//     width: 500px;
+//     height: $hToolbar;
+// }
+// @media (max-width: 800px) {
+//     .cesium-viewer-infoBoxContainer{
+//         width: 100vw; 
+//     }
+// }
+// @media (min-width: 800px) and (max-width: 1500px)  {
+//     .cesium-viewer-infoBoxContainer{
+//         width: 300px
+//     }
+// }
 

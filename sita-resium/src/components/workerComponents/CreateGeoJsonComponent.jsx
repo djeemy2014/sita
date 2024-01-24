@@ -352,57 +352,14 @@ function setDptTerritorySketch(params, classifier, obj){
 //MOUSE_MOVE
 
 function mouseMove(endPosition, mousePosition, scene, listOKSUnique,  idOldObjects, colorCSS, idOldObjectsSelect=undefined){
-  //console.log(endPosition)
-  //console.timeEnd(time1)
-  //const time1=console.time()
-  //console.timeLog(time1)
-  //нужно установить момент очистки. слишком быстро отрабатывает.
-  //idOldObjects?.forEach((elem)=>{
-  //  elem.polyline=undefined
-  // })
-  //const pickedObjects1 = scene.current.cesiumElement.pick(endPosition);
-  //console.timeLog(time1)
-  //console.log('старт')
+
   const pickedObjects = scene?.current?.cesiumElement.pick(endPosition);
-  //colorCSS==='#0f0'?console.log(idOldObjectsSelect,idOldObjects,pickedObjects):console.log()
-  //console.log(pickedObjects?.id?.id)
-  //console.timeLog(time1)
-  //console.log('конц 1')
-  // idOldObjects?.forEach((elem)=>{
-  //   elem.polyline.show=false
-  //  })
   if (!pickedObjects){
-    // console.log('очистка 1')
-    // console.timeLog(time1)
     idOldObjects?.forEach((elem)=>{
       elem.polyline.show=false
      })
     return undefined
   }
-
- // if (!!idOldObjects){
-    //console.log(2)
-    // idOldObjectsSelect?
-    // console.log(pickedObjects.id.id===idOldObjects[0]?.id, idOldObjects[0]?.id===idOldObjectsSelect[0]?.id)
-    // :
-    // console.log()
-    
-    // if ((idOldObjectsSelect?.length===idOldObjects?.length)
-    //   &&
-    //   (idOldObjectsSelect?.every((elem1)=>{
-    //     return !!idOldObjects?.find((elem2)=>elem1.id===elem2.id)
-    //   }))
-    //   ){
-
-    //     return undefined
-    //   }
-    //   if (!!idOldObjects?.find((elem2)=>pickedObjects.id.id===elem2.id)){
-    //     return idOldObjects
-    //   }
-
-    // idOldObjects?.forEach((elem)=>{
-    //   elem.polyline.show=false
-    //  })
     if (!!idOldObjectsSelect
       &&
       !!idOldObjects
@@ -412,7 +369,6 @@ function mouseMove(endPosition, mousePosition, scene, listOKSUnique,  idOldObjec
         return undefined
       }
       if (!!idOldObjects?.find((elem2)=>pickedObjects.id.id===elem2.id)){
-        console.log(1)
         return idOldObjects
       }
 
@@ -420,14 +376,8 @@ function mouseMove(endPosition, mousePosition, scene, listOKSUnique,  idOldObjec
       elem.polyline.show=false
      })
     
-  //}
   
   if (pickedObjects.id.entityCollection.owner.name==="dptOKS"){
-
-  //console.log(pickedObjects)
-  // let selectOKS=pickedObjects.id.entityCollection.values.filter((elem)=>{
-  //   return elem.properties.NUMBER.valueOf()===pickedObjects.id.properties.NUMBER.valueOf()
-  // })
 
   let selectOKS=selectKey(listOKSUnique, pickedObjects.id.properties.NUMBER.valueOf()).listObj
 
@@ -441,195 +391,42 @@ function mouseMove(endPosition, mousePosition, scene, listOKSUnique,  idOldObjec
       }
 
   if (!!idOldObjects){
-    //console.log('конц 3')
-      //console.timeLog(time1)
-      //console.timeEnd(time1)
     if (pickedObjects.id!==idOldObjects){
-      //console.log(11)
-      //idOldObjectsSelect?console.log(8):console.log()
-      //console.timeLog(time1)
       idOldObjects=selectOKS//[pickedObjects.id]
       selectOKS.forEach((elem)=>{
-        // elem.polyline=new CesiumPolylineGraphics({
-        //   positions:elem.polygon.hierarchy._value.positions.map(
-        //    (point)=> CesiumCartographic.toCartesian({
-        //      ...CesiumCartographic.fromCartesian(point), 
-        //      height:1
-        //    })
-        //    ),
-        //   width:10,
-        //   material:CesiumColor.fromCssColorString(colorCSS),
-        //   zIndex:5
-     
-        //  })
 
         elem.polyline.show=true
         elem.polyline.material=CesiumColor.fromCssColorString(colorCSS)
       })
     }
-    //console.log(12)
-    //console.timeLog(time1)
-    //console.log('выбран12',idOldObjects)
-    // console.log('конц 2')
-    // console.timeLog(time1)
-    // console.timeEnd(time1)
     return idOldObjects
   }else{
-    //console.log(21)
-    //console.timeLog(time1)
     idOldObjects=selectOKS//[pickedObjects.id]
     selectOKS.forEach((elem)=>{
       elem.polyline.show=true
       elem.polyline.material=CesiumColor.fromCssColorString(colorCSS)
-        // elem.polyline=new CesiumPolylineGraphics({
-        //   positions:elem.polygon.hierarchy._value.positions.map(
-        //    (point)=> CesiumCartographic.toCartesian({
-        //      ...CesiumCartographic.fromCartesian(point), 
-        //      height:1
-        //    })
-        //    ),
-        //   //clampToGround:false,
-        //   width:10,
-        //   material:CesiumColor.fromCssColorString(colorCSS),
-        //   zIndex:5
-     
-        //  })
       })
-      //console.log(22)
-      //console.timeLog(time1)
-      // console.log('конц 3')
-      // console.timeLog(time1)
-      // console.timeEnd(time1)
     return idOldObjects
   }
-  
-  //console.timeEnd(time1)
+}
 }
 
-  //console.log(pickedObjects.id.polygon??false)
+function mouseClick(endPosition, scene){
+  console.log(endPosition)
+  console.log(scene)
+ 
+  //try{
+    const pickedObjects = scene.current.cesiumElement.pick(endPosition);
+  console.log(pickedObjects)
+  //}
+  //catch{
+  //  console.log('err')
+  //}
+  //console.log(sceneRef?.current?.cesiumElement.pick(elem))
 }
-
 
 function ClassificationTerritorySketch(numClass, classifier){
-  // const classMatirial=[
-  //   {
-  //     CLASSID:900000010,	
-  //     nameClass:"Застройка",
-  //     color:"(RGB 250, 250, 250)"	,
-  //     colorCSS:"rgb(250, 250, 250)",
-  //   },
-  //   {
-  //     CLASSID:900000011,	
-  //     nameClass:"Пятно застройки капитальными объектами",	
-  //     color:"(RGB 250, 250, 250)",
-  //     colorCSS:"rgb(250, 250, 250)",			
-  //   },
-  //   {
-  //     CLASSID:900000012,	
-  //     nameClass:"Пятно застройки некапитальными объектами",	
-  //     color:"(RGB 237, 237, 237)",
-  //     colorCSS:"rgb(237, 237, 237)",			
-  //   },
-  //   {
-  //     CLASSID:900000020,	
-  //     nameClass:"Улично-дорожная сеть, внутриквартальные проезды/проходы",
-  //     color:"",
-  //     colorCSS:"rgb(0, 0, 0)",
-  //   },
-  //   {
-  //     CLASSID:900000021,	
-  //     nameClass:"Проезжая часть"	,
-  //     color:"(RGB 107, 107, 107)"	,
-  //     colorCSS:"rgb(107, 107, 107)",		
-  //   },
-  //   {
-  //     CLASSID:900000022,	
-  //     nameClass:"Велодорожка",
-  //     color:"	(RGB 165, 82, 0)",
-  //     colorCSS:"rgb(165, 82, 0)",
-  //   },
-  //   {
-  //     CLASSID:900000023,	
-  //     nameClass:"Тротуар (пешеходная дорожка) асфальто-бетонная",
-  //     color:"	(RGB 237, 237, 237)",
-  //     colorCSS:"rgb(200, 200, 200)",			
-  //   },
-  //   {
-  //     CLASSID:900000024,	
-  //     nameClass:"Тротуар (пешеходная дорожка) брусчатка/плитка",
-  //     color:"	(RGB 180, 170, 147)",
-  //     colorCSS:"rgb(180, 170, 147)",			
-  //   },
-  //   {
-  //     CLASSID:900000025,	
-  //     nameClass:"Гравийные садово-парковые дорожки",
-  //     color:"(RGB 138, 126, 96)",
-  //     colorCSS:"rgb(138, 126, 96)",			
-  //   },
-  //   {
-  //     CLASSID:900000030,	
-  //     nameClass:"Участок зеленых насаждений",
-  //     color:""		,
-  //     colorCSS:"rgb(0, 0, 0)",		
-  //   },
-  //   {
-  //     CLASSID:900000031,	
-  //     nameClass:"Газон, цветник (участок низкорослых зеленых насаждений: кустарники, травяное покрытие)",
-  //     color:"	(RGB 171, 187, 129)",
-  //     colorCSS:"rgb(171, 187, 129)",		
-  //     },	
-  //   {
-  //     CLASSID:900000032,	
-  //     nameClass:"Сад, лес (участок высокорослых зеленых насаждений: древесная растительность)",
-  //     color:"	(RGB 100, 106, 52)",
-  //     colorCSS:"rgb(100, 106, 52)",			
-  //   },
-  //   {
-  //     CLASSID:900000040,	
-  //     nameClass:"Площадка",
-  //     color:"",
-  //     colorCSS:"rgb(0, 0, 0)",
-  //   },
-  //   {
-  //     CLASSID:900000041,	
-  //     nameClass:"Площадка (детская)",
-  //     color:"(RGB 180, 170, 147)",
-  //     colorCSS:"rgb(180, 170, 147)",			
-  //   },
-  //   {
-  //     CLASSID:900000042,	
-  //     nameClass:"Площадка (хозяйственная)",
-  //     color:"(RGB 138, 126, 96)",
-  //     colorCSS:"rgb(138, 126, 96)",
-  //   },
-  //   {
-  //     CLASSID:900000043,	
-  //     nameClass:"Площадка (отдыха взрослого населения)",
-  //     color:"(RGB 237, 237, 237)",
-  //     colorCSS:"rgb(237, 237, 237)",
-  //   },
-  //   {
-  //     CLASSID:900000044,	
-  //     nameClass:"Площадка (спортивная)",
-  //     color:"(RGB 87, 105, 224)",
-  //     colorCSS:"rgb(87, 105, 224)",
-  //   },
-  //   {
-  //     CLASSID:900000050,	
-  //     nameClass:"Пляж",
-  //     color:"	(RGB 252, 238, 181)"	,
-  //     colorCSS:"rgb(252, 238, 181)",		
-  //   },
-  //   {
-  //     CLASSID:900000060,	
-  //     nameClass:"Водоем (бассейн)",
-  //     color:"	(RGB 173, 214, 255)",
-  //     colorCSS:"rgb(173, 214, 255)",
-  //   },
-  //   ]
-    //console.log(classMatirial.filter((num)=>num.CLASSID===numClass)[0])
-    //console.log(classMatirial.filter((num)=>num===numClass).colorCSS)
-    //console.log(CesiumColor.fromCssColorString(classMatirial.filter((num)=>num===numClass).colorCSS))
+  
   return classifier.description.filter((num)=>num.CLASSID===numClass)[0]
 }
 
@@ -688,6 +485,7 @@ function CreateGeoJsonComponent(props){
           //console.log(elem)
           //let params = layer.current.cesiumElement
           params.show=inputObj.defaultChecked
+          params.lookSelector=lookSelector
           //console.log(inputObj.prototype, params.show, inputObj.defaultChecked)
           switch(inputObj.prototype){
           case "dptOKS" :
@@ -783,8 +581,23 @@ function CreateGeoJsonComponent(props){
     //   //!lookSelector?(console.log(elem.endPosition)):console.log()
     //   }, ScreenSpaceEventTypeCesium.MOUSE_MOVE)
      props.mousePosition.setInputAction((elem)=>{
-      !lookSelector?(idOldObjectsSelect=mouseMove(elem.position, props.mousePosition, props.sceneRef, listOKSUnique, idOldObjectsSelect,'#0f0')):console.log()
-      }, ScreenSpaceEventTypeCesium.LEFT_CLICK)
+      
+      //!lookSelector?
+      (
+        idOldObjectsSelect=mouseMove(elem.position, props.mousePosition, props.sceneRef, listOKSUnique, idOldObjectsSelect,'#0f0')
+        )
+        //:
+        //console.log()
+      //const pickedObjects = props.sceneRef?.current?.cesiumElement.pick(elem);
+      //console.log(pickedObjects)
+    }, ScreenSpaceEventTypeCesium.LEFT_CLICK)
+    /*  props.mousePosition.setInputAction((elem)=>{
+      console.log(elem)
+      !lookSelector?(
+        mouseClick(elem.position, props.sceneRef)
+         //console.log(CesiumCartesian2.distance(elem.startPosition,elem.endPosition))
+         ):console.log()
+      }, ScreenSpaceEventTypeCesium.MIDDLE_CLICK) */
     //console.log(inputObj)
     geoJson = (
       <GeoJsonDataSource 
