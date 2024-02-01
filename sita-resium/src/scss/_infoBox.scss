@@ -1,21 +1,74 @@
 @import "./header";
+@import "./toolbar";
 
 $hToolbar:calc(90vh - 2px - $hHeader);
+$hInfoBarHeader: 6em;
+$wToolbar:calc(100vw / 5);
+.collapsing {
+    -webkit-transition-delay: 10.8s;
+    transition-delay: 10.8s;
+    transition: width 10.8s ease;
+  }
+//.info-bar{
+//    display: inline-block;
+//    position: sticky;
+    //position: absolute;
+    //height: $hToolbar;
+
 .info-bar{
-    position:absolute;
+    display: inline-block;
+    position: absolute;
     right:0px;
     top: calc(6vh - 2px);
-    width: 500px;//0
+    width: $wToolbar;//0
     height: $hToolbar;//0
     background-color: $primary;
     z-index: 5;
     padding: 0;
     margin: 0;
     color: #fff;
+    
+    h3{
+        text-align: center;
+    }
+    h6{
+        text-align: center;
+    }
+    .info-bar-header{
+        height: $hInfoBarHeader
+    }
+    .info-bar-window{
+        //width: auto;
+        height: calc($hToolbar - $hInfoBarHeader);
+        overflow: 'auto';
+        
+    }
+    .infoBarBody{
+        border: 2px solid black;
+        *{
+            border: 2px solid black;
+        }
+    }
+    
+
 }
+.info-bar-viwer{
+    right:0px;
+    left: auto;
+    width: $wToolbar;
+    height: $hToolbar;
+    padding: 0;
+    margin: 0;
+}
+//}
 @media (max-width: 800px) {
     .info-bar{
         width: calc(100vw); 
+        height: $hToolbar
+    
+    }
+    .info-bar-viwer{
+        width: calc(100vw);
         height: $hToolbar
     }
 }
@@ -24,6 +77,23 @@ $hToolbar:calc(90vh - 2px - $hHeader);
         width: calc(300px); 
         height: $hToolbar
     }
+    .info-bar-viwer{
+        width: calc(300px); 
+        height: $hToolbar
+    }
+}
+.sita-button{
+    height: $sizeButton;
+    width: $sizeButton;
+    padding: 5px;
+    //background: rgb(94, 255, 0);
+    
+}
+.sita-button-close{
+     background: url(
+         '../components/workerComponents/icon/white/x-square-svgrepo-com.svg'
+         )  no-repeat center/80% $primary;
+    //background: aqua;
 }
     //     
 //, .cesium-viewer-infoBoxContainer

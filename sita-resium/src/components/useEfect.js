@@ -166,11 +166,19 @@ const ExampleComponent = () => {
 class MyClass extends Component{
   constructor(props){
     super(props);
+    //this.arrayWithElements = []
+    //this.arrayWithElements2 = []
+    //this.arrayWithElements3 =this.arrayWithElements2.bind(this)
     this.state={
       counter:1,
-      obj:{status:true, string:10}
+      obj:{status:true, string:10},
+      arrayWithElements:[]
     }
+    this.clickListener=this.clickListener.bind(this)
+    document.onclick = this.clickListener;
+    console.log(this.state.arrayWithElements)
   }
+  //arrayWithElements = [];
   setCounter(val){
     this.setState({
       ...this.state,
@@ -188,10 +196,62 @@ class MyClass extends Component{
 
   }
 
+  clickListener(e, arrayWithElements =this.state.arrayWithElements, setState=this.setState) {
+    let clickedElement;
+    if(e == null) {
+        clickedElement = e.srcElement;
+    } else {
+        clickedElement = e.target;
+    }
+    console.log(e)
+    //console.log(a)
+    console.log(arrayWithElements)
+    //console.log(this)
+    arrayWithElements.push(clickedElement)
+    this.setState({arrayWithElements:arrayWithElements})
+    //arrayWithElements.push(clickedElement)
+    //alert(arrayWithElements);
+    console.log(arrayWithElements)
+  }
   render(){
+
+    
+
     return(
       <div>
-        <h1>Привет!</h1>
+        <h1>Привет1</h1>
+        <div style={{width:'400px',  height:'400px'}}>
+          <div 
+          onClick={()=>{console.log('red')}}
+          style={{width:'200px', 
+          height:'200px', 
+          backgroundColor:'red', 
+          opacity:'0.5',
+          position:'absolute',
+          zIndex:'5'}}>
+            <canvas style={{width:'200px', 
+          height:'200px', backgroundColor:'red'}} >
+
+            </canvas>
+          </div>
+          <div 
+          onClick={()=>{console.log('green')}}
+          style={{width:'200px', 
+          height:'200px', 
+          backgroundColor:'green', 
+          opacity:'0.5',
+          position:'absolute',
+          top:'100px', 
+          left:'100px',
+          
+          }}>
+            <canvas style={{width:'200px', 
+          height:'200px', }}>
+              
+              </canvas>
+          </div>
+        </div>
+        <h1>Привет2</h1>
         <p>{this.state.obj.status.toString()}</p>
         <p>{this.state.obj.string+1}</p>
         {/* <button onClick={this.handleClick}>Clic</button>

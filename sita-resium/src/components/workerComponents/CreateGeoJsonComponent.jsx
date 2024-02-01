@@ -39,6 +39,7 @@ import{
     ScreenSpaceEventType as ScreenSpaceEventTypeCesium,
     DistanceDisplayCondition as DistanceDisplayConditionCesium,
     Material as MaterialCesium,
+    defined as definedCesium,
     //HeightReference as HeightReferenceCesium,
     Cartographic as CesiumCartographic,
     //GeoJsonDataSource as GeoJsonDataSourceCesium
@@ -351,9 +352,13 @@ function setDptTerritorySketch(params, classifier, obj){
 }
 //MOUSE_MOVE
 
-function mouseMove(endPosition, mousePosition, scene, listOKSUnique,  idOldObjects, colorCSS, idOldObjectsSelect=undefined){
-
+function mouseMove(endPosition, mousePosition,DOMElementCanvas, scene, listOKSUnique,  idOldObjects, colorCSS, idOldObjectsSelect=undefined){
+  //console.log(DOMElementCanvas)
+  //if(!DOMElementCanvas){
+  //  return undefined
+  //}
   const pickedObjects = scene?.current?.cesiumElement.pick(endPosition);
+  //console.log(definedCesium(pickedObjects))
   if (!pickedObjects){
     idOldObjects?.forEach((elem)=>{
       elem.polyline.show=false
@@ -412,12 +417,12 @@ function mouseMove(endPosition, mousePosition, scene, listOKSUnique,  idOldObjec
 }
 
 function mouseClick(endPosition, scene){
-  console.log(endPosition)
-  console.log(scene)
+  //console.log(endPosition)
+  //console.log(scene)
  
   //try{
     const pickedObjects = scene.current.cesiumElement.pick(endPosition);
-  console.log(pickedObjects)
+  //console.log(pickedObjects)
   //}
   //catch{
   //  console.log('err')
@@ -436,12 +441,12 @@ function CreateGeoJsonComponent(props){
   const showStat=props.show//!==undefined?props.show:true
   const layerRef= props.layerRef
   const sceneRef=props.sceneRef
-  
+  const [dom,setDom]=useState(props.DOMElementCanvas)
   //console.log(props)
   let lookSelector=!!props.obj.lookSelector
   let listOKSUnique=undefined
   let geoJson =undefined
-
+  
   //let handler = new ScreenSpaceEventHandlerCesium(scene.current.cesiumElement.canvas);
   // let handler = new ScreenSpaceEventHandlerCesium(sceneRef?.current?.cesiumElement.canvas);
   // //console.log(sceneRef.current.cesiumElement)
@@ -456,6 +461,7 @@ function CreateGeoJsonComponent(props){
   let idOldObjectsSelect = undefined
   let url = server+'/'+inputObj.path
   //console.log(props)
+  
   let data=fetch(url)
     .then((res) => res.json())
 
@@ -560,11 +566,23 @@ function CreateGeoJsonComponent(props){
     .catch(err=>{console.log('props.obj.ref',err)})
 
   //},[])
-
+ /*  useEffect(()=>{
+    //setinform(props.infoBar+'AA')
+    //props.setInfoBar(props.infoBar+'')
+    //console.log(1)
+    console.log(props.DOMElementCanvas)
+    if (dom!==props.DOMElementCanvas){
+        setDom(props.DOMElementCanvas)
+    }
+    
+    //console.log(!props.selectLookSelector)
+    //console.log(1)
+},[props]) */
 
   
 
   if (inputObj.prototype==="dptOKS"){
+    
     //let mouse = undefined
     // props.mousePosition.setInputAction((elem)=>{
     //   if (CesiumCartesian2.distance(elem.startPosition,elem.endPosition)>30){
@@ -584,7 +602,7 @@ function CreateGeoJsonComponent(props){
       
       //!lookSelector?
       (
-        idOldObjectsSelect=mouseMove(elem.position, props.mousePosition, props.sceneRef, listOKSUnique, idOldObjectsSelect,'#0f0')
+        idOldObjectsSelect=mouseMove(elem.position, props.mousePosition,dom, props.sceneRef, listOKSUnique, idOldObjectsSelect,'#0f0')
         )
         //:
         //console.log()
@@ -599,6 +617,7 @@ function CreateGeoJsonComponent(props){
          ):console.log()
       }, ScreenSpaceEventTypeCesium.MIDDLE_CLICK) */
     //console.log(inputObj)
+    
     geoJson = (
       <GeoJsonDataSource 
       //ref={props.obj.ref} 

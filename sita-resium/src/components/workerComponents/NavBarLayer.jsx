@@ -266,7 +266,7 @@ function NavBarLayer(props) {
     <div className='tooldar-out'>
       <Collapse 
         in={open} 
-        dimension={'width'}
+        dimension={'width'}//'width'}
         appear={true}
       >  
         <div className='div-collapse'>
@@ -295,7 +295,9 @@ function NavBarLayer(props) {
           aria-controls="example-collapse-text" 
           className={'sita-button sita-button-info'}
           onClick={(elem)=>{
-            console.log(elem)
+            
+            props.setInfoBoxSwith(!props.infoBoxSwith)
+            console.log(props.infoBoxSwith)
             // const infobox=document.querySelector('.cesium-viewer-infoBoxContainer')
             // const button=document.querySelector('.sita-button-info')
             // if (openInfoBox==='block'){
