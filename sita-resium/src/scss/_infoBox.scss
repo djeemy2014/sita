@@ -41,6 +41,7 @@ $wToolbar:calc(100vw / 5);
         //width: auto;
         height: calc($hToolbar - $hInfoBarHeader);
         overflow: 'auto';
+        margin: 5px;
         
     }
     .infoBarBody{
@@ -85,11 +86,12 @@ $wToolbar:calc(100vw / 5);
 .sita-button{
     height: $sizeButton;
     width: $sizeButton;
-    margin: 5px;
+    
     //background: rgb(94, 255, 0);
     
 }
 .sita-button-close{
+    margin: 5px;
      background: url(
          '../components/workerComponents/icon/white/x-square-svgrepo-com.svg'
          )  no-repeat center/80% $primary;
