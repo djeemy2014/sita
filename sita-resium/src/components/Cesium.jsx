@@ -1,4 +1,4 @@
-import {useRef, createRef} from 'react'
+import {useRef, createRef, useEffect} from 'react'
 import testCesiumElemet from './testCesiumElemet'
 import { Viewer as CesiumViewer, 
   Cesium3DTileStyle, 
@@ -52,7 +52,7 @@ export default function Cesium() {
 
 testCesiumElemet(sceneRef)
 .then((scena)=>{
-  const scen = scena.current.cesiumElement
+  /* const scen = scena.current.cesiumElement
   console.log(scen)
   try {
     CesiumCesium3DTileset.fromUrl(
@@ -63,17 +63,50 @@ testCesiumElemet(sceneRef)
     });
     //scen.primitives.add(tileset);
   } catch (error) {
-    console.error(`Error creating tileset: ${error}`);
-  }
+    console.error(`scena Error creating tileset: ${error}`);
+  } */
 })
 .catch(err=>{console.log('cElemRef',err, sceneRef)})
-/* testCesiumElemet(ref2)
+
+testCesiumElemet(ref2)
           .then((tiles)=>{
+            console.log(tiles)
+            try {
+              CesiumCesium3DTileset.fromUrl(
+                 "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json"
+              ).then((tile)=>{
+                const scen = sceneRef.current.cesiumElement
+                scen.primitives.add(tile)
+                console.log(tile)
+              });
+              //scen.primitives.add(tileset);
+            } catch (error) {
+              console.error(`scena Error creating tileset: ${error}`);
+            }
             try{
-              let tiles3d=tiles.current.cesiumElement
-              tiles3d = new CesiumCesium3DTileset.fromUrl(
-                'http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json')
-              console.log(tiles3d)
+             // CesiumCesium3DTileset.fromUrl(
+             //   "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json"
+             //).then((tile)=>{
+             // //tiles.current.cesiumElement = tile
+             // //tiles.current.cesiumElement=tile
+             //  //scen.primitives.add(tile)
+             //  //console.log(tile)
+             //});
+            //   console.log(tiles3d)
+                //let tiles3d=tiles.current.cesiumElement
+                //tiles3d._url="http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json"
+                
+                //    console.log(tiles3d)
+            //    tiles3d.fromUrl(
+            //     "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json"
+            //  )//.then((tile)=>{
+            //   //sceneRef.primitives.add(tile)
+            //    console.log(tile)
+            //  });
+              // tiles3d = new CesiumCesium3DTileset.fromUrl(
+              //   'http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json')
+              // console.log(tiles3d)
+              console.log(tiles?.current?.cesiumElement)
             }
             catch{
               console.log(tiles)
@@ -81,7 +114,8 @@ testCesiumElemet(sceneRef)
             
             //tiles.cu CesiumCesium3DTile.from
           }
-          ) */
+          )
+          .catch(err=>{console.log('tiles3d',err, ref2)})
     //setTimeout(()=>(testCesiumElemet(cameraRef)
     //      .then(async (camera)=>{
     //          //настройка cameraRef
@@ -96,26 +130,68 @@ testCesiumElemet(sceneRef)
     //                }
     //          )          
     //      })),200)
+    // useEffect(()=>{
+    //   testCesiumElemet(ref2)
+    //       .then((tiles)=>{
+    //         //console.log(tiles)
+    //         try{
+    //           CesiumCesium3DTileset.fromUrl(
+    //             "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json"
+    //          ).then((tile)=>{
+    //           //tiles.current.cesiumElement = tile
+    //           //tiles.current.cesiumElement=tile
+    //            //scen.primitives.add(tile)
+    //            //console.log(tile)
+    //          });
+    //         //   console.log(tiles3d)
+    //             //let tiles3d=tiles.current.cesiumElement
+    //             //tiles3d._url="http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json"
+                
+    //             //    console.log(tiles3d)
+    //         //    tiles3d.fromUrl(
+    //         //     "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json"
+    //         //  )//.then((tile)=>{
+    //         //   //sceneRef.primitives.add(tile)
+    //         //    console.log(tile)
+    //         //  });
+    //           // tiles3d = new CesiumCesium3DTileset.fromUrl(
+    //           //   'http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json')
+    //           // console.log(tiles3d)
+    //           console.log(tiles?.current?.cesiumElement)
+    //         }
+    //         catch{
+    //           console.log(tiles)
+    //         }
+            
+    //         //tiles.cu CesiumCesium3DTile.from
+    //       }
+    //       )
+    //       .catch(err=>{console.log('tiles3d',err, ref2)})
+    // },[])
   return (
     <Viewer full ref={ref} >
-      {/* <Cesium3DTileset
-        ref={ref2}
-        url='http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json'
-        onTileLoad={tileset=>{
-          console.log(tileset)
-        }}
-        onTileFailed={error=>{
-          console.log(error)
-        }}
-        onLoad={tileset=>{
-          console.log(tileset)
-        }}
-      //onReady={tileset => {
-      //  ref.current?.cesiumElement?.zoomTo(tileset);
-      //}}
-      /> */}
+      <Cesium3DTileset
+        //ref={ref2}
+        //url='http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json'
+        //uri='http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json'
+        //  onTileLoad={()=>{
+        //    console.log(111)
+        //  }}
+        //  onTileFailed={()=>{
+        //   console.log(222)
+        //  }}
+        //  onReady ={()=>{
+        //   console.log(333)
+        //  }}
+        // onLoad={tileset=>{
+        //   console.log(tileset)
+        // }}
+        // onReady={tileset => {
+        //  ref.current?.cesiumElement?.zoomTo(tileset);
+        // }}
+      />
       <Scene ref={sceneRef}/>
-      <Camera ref={cameraRef} position={startPosition} />
+      <Camera ref={cameraRef} position={startPosition}  />
       
     </Viewer >
   )

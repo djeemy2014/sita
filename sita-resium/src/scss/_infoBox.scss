@@ -35,18 +35,21 @@ $wToolbar:calc(100vw / 5);
         text-align: center;
     }
     .info-bar-header{
-        height: $hInfoBarHeader
+        height: $hInfoBarHeader;
+        margin-bottom: 15px;
+        
     }
     .info-bar-window{
         //width: auto;
-        height: calc($hToolbar - $hInfoBarHeader);
+        height: calc($hToolbar - $hInfoBarHeader - 15px);
         overflow: 'auto';
-        margin: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
         
     }
     .infoBarBody{
-        border: 2px solid black;
-        *{
+        //border: 2px solid black;
+        th, td{
             border: 2px solid black;
         }
     }
