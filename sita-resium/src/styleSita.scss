@@ -3,7 +3,15 @@
 @import "./scss/viewer";
 @import "./scss/footer";
 @import "./scss/infoBox";
-$primary: #6f5f9ca4 ; //обводка кнопок #d33eba #6f5f9ca4
+$mirproect10: #A38BC0a4;
+$mirproect1: #A38BC0;
+$mirproect2: #675E7C;
+$mirproect3: #211D17;
+$mirproect31: #000000;
+$mirproect4: #FFFFFF;
+$mirproect5: #8bc1becb;
+
+$primary: #6f5f9ca4;//#6f5f9ca4 ; //обводка кнопок #d33eba #6f5f9ca4
 $secondary: #9ab6da;
 $dark: #386086;
 $light: #f2efee;
@@ -11,6 +19,7 @@ $success: #5ece45;
 $info: #9ab6da;
 $warning: #e49b1f;
 $danger: #f44336;
+
 
 body{
     margin: 0;

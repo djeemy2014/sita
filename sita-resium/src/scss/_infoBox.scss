@@ -50,7 +50,10 @@ $wToolbar:calc(100vw / 5);
     .infoBarBody{
         //border: 2px solid black;
         th, td{
-            border: 2px solid black;
+            border: 2px solid $info;
+        }
+        table{
+            background-color: $dark;
         }
     }
     
@@ -67,12 +70,12 @@ $wToolbar:calc(100vw / 5);
 //}
 @media (max-width: 800px) {
     .info-bar{
-        width: calc(100vw); 
+        width: calc(100vw - $sizeButton); 
         height: $hToolbar
     
     }
     .info-bar-viwer{
-        width: calc(100vw);
+        width: calc(100vw - $sizeButton);
         height: $hToolbar
     }
 }
@@ -94,7 +97,10 @@ $wToolbar:calc(100vw / 5);
     
 }
 .sita-button-close{
+    position: relative;
     margin: 5px;
+    right:0px;
+    left: auto;
      background: url(
          '../components/workerComponents/icon/white/x-square-svgrepo-com.svg'
          )  no-repeat center/80% $primary;

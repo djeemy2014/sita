@@ -47,7 +47,43 @@ import{
 } from 'cesium'
 import {saturation,opasityMix,gray} from './ColorFunction'
 
+function clicDocumentType(){
+  document.onclick = clickListener
+  //console.log(document.onclick)
+  return document.onclick
+}
+function clickListener(e, arrayWithElements =[], canvasType=false){
+  let clickedElement;
+        if(e == null) {
+            clickedElement = e.srcElement;
+        } else {
+            clickedElement = e.target;
+        }
+        //console.log(e)
+        //console.log(a)
+        //console.log(arrayWithElements)
+        //console.log(this)
+        arrayWithElements.push(clickedElement)
+        if (arrayWithElements[0]?.nodeName==="CANVAS"
+        &&
+        arrayWithElements[0]?.parentNode?.className==="cesium-widget"){
+          
+          //setState({DOMElementCanvas:true})
+          //this.setState({selectLookSelector:false})
+          //console.log(this.state.DOMElementCanvas)
+          canvasType=true
+        }else{
+          canvasType=false
+          //setState({DOMElementCanvas:false})
+          // this.setState({selectLookSelector:true})
+          //console.log(this.state.DOMElementCanvas)
+          //console.log(document.onclick)
+        }
+        console.log(e)
 
+        console.log(arrayWithElements)
+        return canvasType
+      }
 
 //classifiers
 function setClassifer3DTrees(classifier3d){
@@ -357,6 +393,23 @@ function mouseMove(endPosition, mousePosition,DOMElementCanvas, scene, listOKSUn
   //if(!DOMElementCanvas){
   //  return undefined
   //}
+  const domElem = document.elementFromPoint(endPosition.x, endPosition.y)
+  //console.log(domElem)
+  //баг? 
+  if (!(domElem.nodeName==="CANVAS"
+        &&
+        domElem.parentNode?.className==="cesium-widget")){
+          
+          //setState({DOMElementCanvas:true})
+          //this.setState({selectLookSelector:false})
+          //console.log(true)
+          //canvasType=true
+          return idOldObjects
+        }else{
+          
+        }
+  
+  //console.log(CesiumTransforms.northWestUpToFixedFrame( scene?.current?.cesiumElement.pickPosition(endPosition)))
   const pickedObjects = scene?.current?.cesiumElement.pick(endPosition);
   //console.log(definedCesium(pickedObjects))
   if (!pickedObjects){
@@ -580,8 +633,39 @@ function CreateGeoJsonComponent(props){
 },[props]) */
 
   
-
   if (inputObj.prototype==="dptOKS"){
+    // let a=undefined
+    // function clickListener(e, arrayWithElements =[], setState=setDom){
+    //   let clickedElement;
+    //         if(e == null) {
+    //             clickedElement = e.srcElement;
+    //         } else {
+    //             clickedElement = e.target;
+    //         }
+    //         //console.log(e)
+    //         //console.log(a)
+    //         //console.log(arrayWithElements)
+    //         //console.log(this)
+    //         arrayWithElements.push(clickedElement)
+    //         if (arrayWithElements[0]?.nodeName==="CANVAS"
+    //         &&
+    //         arrayWithElements[0]?.parentNode?.className==="cesium-widget"){
+              
+    //           //setState({DOMElementCanvas:true})
+    //           //this.setState({selectLookSelector:false})
+    //           //console.log(this.state.DOMElementCanvas)
+    //           a=true
+    //         }else{
+    //           a=false
+    //           //setState({DOMElementCanvas:false})
+    //           // this.setState({selectLookSelector:true})
+    //           //console.log(this.state.DOMElementCanvas)
+    //           //console.log(document.onclick)
+    //         }
+    //         console.log(arrayWithElements)
+    
+    // }
+     
     
     //let mouse = undefined
     // props.mousePosition.setInputAction((elem)=>{
@@ -598,14 +682,18 @@ function CreateGeoJsonComponent(props){
     //   //   ):console.log()
     //   //!lookSelector?(console.log(elem.endPosition)):console.log()
     //   }, ScreenSpaceEventTypeCesium.MOUSE_MOVE)
+    
      props.mousePosition.setInputAction((elem)=>{
-      
-      //!lookSelector?
+      // document.onclick = clickListener
+      //clickListener(elem)
+       //console.log(props.DOMElementCanvas)
+       //console.log(clicDocumentType())
+      !lookSelector?
       (
         idOldObjectsSelect=mouseMove(elem.position, props.mousePosition,dom, props.sceneRef, listOKSUnique, idOldObjectsSelect,'#0f0')
         )
-        //:
-        //console.log()
+        :
+        console.log()
       //const pickedObjects = props.sceneRef?.current?.cesiumElement.pick(elem);
       //console.log(pickedObjects)
     }, ScreenSpaceEventTypeCesium.LEFT_CLICK)

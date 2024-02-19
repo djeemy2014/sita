@@ -341,7 +341,7 @@ class DJeemyComponentCesium extends Component{
               //console.log(!!viewer.current.cesiumElement.selectionIndicator)
               let selector = viewer.current.cesiumElement?.selectionIndicator 
               if (!selector.isDestroyed()){
-                //selector.destroy()
+                selector.destroy()
               }
             }
             catch{
@@ -428,6 +428,7 @@ class DJeemyComponentCesium extends Component{
         if (prevState.DOMElementCanvas!==this.state.DOMElementCanvas){
           //console.log(prevState.DOMElementCanvas)
           //console.log(this.state.DOMElementCanvas)
+          //this.updeteScene()
         }
         if (this.props.scene.uid!==this.state.scene.uid){
           console.log('updateScene')
@@ -484,7 +485,7 @@ class DJeemyComponentCesium extends Component{
                       className="viewer-class"
                       id="viewer"  
                       ref={this.viewerRef} 
-                      //animation={false}
+                      animation={false}
                       baseLayerPicker={false}
                       fullscreenButton={false}
                       geocoder={false}

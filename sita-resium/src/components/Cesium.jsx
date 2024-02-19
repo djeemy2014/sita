@@ -4,7 +4,9 @@ import { Viewer as CesiumViewer,
   Cesium3DTileStyle, 
   Math as MathCesium, 
   Cartesian3 as Cartesian3Cesium, 
-  Cesium3DTileset as CesiumCesium3DTileset 
+  Cesium3DTileset as CesiumCesium3DTileset,
+  Transforms as TransformsCesium,
+  Cartographic,
 } from "cesium";
 import { 
   Viewer ,
@@ -19,8 +21,8 @@ export default function Cesium() {
   const sceneRef = useRef(null);
   const sceneRef2 = useRef(null);
   const cameraRef = useRef(null)
-  //const startPosition= Cartesian3Cesium.fromDegrees(-1.3197004795898053, 0.6988582109, 40);
-  const startPosition= Cartesian3Cesium.fromRadians(-1.3197004795898053, 0.6988582109, 1000);
+  const startPosition= Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 10000); 
+  //const startPosition= Cartesian3Cesium.fromRadians(-1.3197004795898053, 0.6988582109, 1000);
 //   cameraRef.current?.cesiumElement.setView(
 //     {
 //         destination : startPosition,
@@ -52,9 +54,9 @@ export default function Cesium() {
 
 testCesiumElemet(sceneRef)
 .then((scena)=>{
-  /* const scen = scena.current.cesiumElement
+  const scen = scena.current.cesiumElement
   console.log(scen)
-  try {
+  /* try {
     CesiumCesium3DTileset.fromUrl(
        "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json"
     ).then((tile)=>{
@@ -73,8 +75,28 @@ testCesiumElemet(ref2)
             console.log(tiles)
             try {
               CesiumCesium3DTileset.fromUrl(
-                 "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json"
-              ).then((tile)=>{
+                 "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json",
+                 {debugShowBoundingVolume: true,}
+                 ).then((tile)=>{
+                const scen = sceneRef.current.cesiumElement
+                scen.primitives.add(tile)
+                console.log(tile)
+              });
+              //scen.primitives.add(tileset);
+            } catch (error) {
+              console.error(`scena Error creating tileset: ${error}`);
+            }
+            try {
+              CesiumCesium3DTileset.fromUrl(
+                 "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/MyTileCreat_3DTILES/tileset.json",
+                  {debugShowBoundingVolume: true,}
+                 ).then((tile)=>{
+                //tile.modelMatrix = TransformsCesium.eastNorthUpToFixedFrame(
+                //  Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 0)
+                //);
+                console.log(tile.modelMatrix)
+                console.log(Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 0))
+                console.log(Cartographic.fromDegrees(48.20366195893176, 42.19013569656324, 0))
                 const scen = sceneRef.current.cesiumElement
                 scen.primitives.add(tile)
                 console.log(tile)
@@ -116,6 +138,20 @@ testCesiumElemet(ref2)
           }
           )
           .catch(err=>{console.log('tiles3d',err, ref2)})
+    testCesiumElemet(cameraRef)
+          .then((camera)=>{
+            camera.current.cesiumElement.setView(
+              {
+                  destination : startPosition,
+                  orientation : {
+                    heading : MathCesium.toRadians(0), // east, default value is 0.0 (north)
+                    pitch : MathCesium.toRadians(-90),    // default value (looking down)
+                    roll : 0.0 
+                  }
+                }
+          )        
+          })
+          .catch(err=>{console.log('camera',err, cameraRef)})
     //setTimeout(()=>(testCesiumElemet(cameraRef)
     //      .then(async (camera)=>{
     //          //настройка cameraRef
@@ -171,7 +207,7 @@ testCesiumElemet(ref2)
   return (
     <Viewer full ref={ref} >
       <Cesium3DTileset
-        //ref={ref2}
+        ref={ref2}
         //url='http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json'
         //uri='http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json'
         //  onTileLoad={()=>{

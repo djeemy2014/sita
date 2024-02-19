@@ -13,8 +13,11 @@ import AssetMap from './components/Problem_2020'
 
 function App() {
   return(
+    
+
+    
   <div>
-    {/* <h1>Начнем с нуля</h1> */}
+    {/* <h1>Добро пожаловать</h1> */}
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />} />
@@ -32,7 +35,7 @@ function App() {
     </BrowserRouter>
     
   </div>
-  
+ 
   )
 }
 
@@ -40,8 +43,15 @@ export default App;
 
 function Layout(){
   return(
-    <div>
-
+    <div className='perentStartList'>
+    <div className='startList'>
+      <div>
+        <img src='logo--circle--sita----is-a-hindu-goddess-and-the-f.svg'></img>
+      </div>
+      <div>
+      <h1>Добро пожаловать</h1>
+      </div>
+    
     
     <nav>
         <ul>
@@ -52,17 +62,21 @@ function Layout(){
             <Link to="/startCesium">Проект отработки алгоритмов Cesium</Link>
           </li>
           <li>
-            <Link to="/testCesium">Первый проект на Cesium</Link>
-          </li>
-          <li>
             <Link to="/useEfect">Проект отработки алгоритмов React</Link>
           </li>
           <li>
-            <a href='file:///O:/1_%D0%9E%D0%B1%D0%BC%D0%B5%D0%BD/%D0%91%D1%83%D1%85%D0%B0%D1%80%D0%B8%D0%BD%20%D0%98.%D0%90/Cesium/FirstStep/GetStarted.htm'>Проект Бухарин</a>
-            {/* <Link to="file:///O:/1_%D0%9E%D0%B1%D0%BC%D0%B5%D0%BD/%D0%91%D1%83%D1%85%D0%B0%D1%80%D0%B8%D0%BD%20%D0%98.%D0%90/Cesium/FirstStep/GetStarted.htm">Проект Бухарин</Link> */}
+            <Link to="/">Проект отработки алгоритмов Аутантификации</Link>
           </li>
+          <li>
+            <Link to="/testCesium">Первый проект на Cesium, ТРК Каспийский кластер</Link>
+          </li>
+          {/* <li>
+            <a href='file:///O:/1_%D0%9E%D0%B1%D0%BC%D0%B5%D0%BD/%D0%91%D1%83%D1%85%D0%B0%D1%80%D0%B8%D0%BD%20%D0%98.%D0%90/Cesium/FirstStep/GetStarted.htm'>Проект Бухарин</a>
+            <Link to="file:///O:/1_%D0%9E%D0%B1%D0%BC%D0%B5%D0%BD/%D0%91%D1%83%D1%85%D0%B0%D1%80%D0%B8%D0%BD%20%D0%98.%D0%90/Cesium/FirstStep/GetStarted.htm">Проект Бухарин</Link> 
+          </li> */}
         </ul>
       </nav>
+      </div>
       </div>
   )
 }

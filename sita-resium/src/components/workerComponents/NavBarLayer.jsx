@@ -238,7 +238,7 @@ function NumberList(props) {
     <>
       <h6>Сцена: {props.layersParams.name}</h6>
       <p>Описание: {props.layersParams.description}</p>
-      <h6>Список слоёв</h6>
+      <h6>Условные обозначения</h6>
       <NavListGeoJSON 
       comprops={
           props.layersParams
