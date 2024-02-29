@@ -10,6 +10,8 @@ $mirproect3: #211D17;
 $mirproect31: #000000;
 $mirproect4: #FFFFFF;
 $mirproect5: #8bc1becb;
+$mirproect6: #ffff00;
+$mirproect7: #ffff98;
 
 $primary: #6f5f9ca4;//#6f5f9ca4 ; //обводка кнопок #d33eba #6f5f9ca4
 $secondary: #9ab6da;
@@ -20,11 +22,14 @@ $info: #9ab6da;
 $warning: #e49b1f;
 $danger: #f44336;
 
+//--bs-btn-bg: #ffffff00;
+
 
 body{
     margin: 0;
     padding: 0;
     bottom: 0;
+    --bs-btn-bg: #ffffff00;
 }
 
 .sita-img{

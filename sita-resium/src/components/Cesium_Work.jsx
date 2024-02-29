@@ -62,6 +62,7 @@ import {
     DistanceDisplayCondition as DistanceDisplayConditionCesium,
     buildModuleUrl as buildModuleUrlCesium,
     JulianDate as JulianDateCesium,
+    SelectionIndicatorViewModel as SelectionIndicatorViewModelCesium,
     //Resource as ResourceCesium,
     Color,
 } from 'cesium'
@@ -337,18 +338,28 @@ class DJeemyComponentCesium extends Component{
             //viewer.current.cesiumElement.terrainProvider= await createWorldTerrainAsync()
             //viewer.current.cesiumElement.terrainProvider= await CesiumTerrainProviderCesium.fromIonAssetId(2279465)
             //viewer.current.cesiumElement.selectionIndicator 
-            try{
-              //console.log(!!viewer.current.cesiumElement.selectionIndicator)
-              let selector = viewer.current.cesiumElement?.selectionIndicator 
-              if (!selector.isDestroyed()){
-                selector.destroy()
-              }
-            }
-            catch{
-              //console.log(!!viewer.current.cesiumElement.selectionIndicator) 
-              console.log('ошибка')
+            //let selectorNewViewModel = new SelectionIndicatorViewModelCesium()
+                
+            // try{
+            //   //console.log(!!viewer.current.cesiumElement.selectionIndicator)
+            //   let selector = viewer.current.cesiumElement?.selectionIndicator 
               
-            }
+              
+            //   if (!selector.isDestroyed()){
+            //     //selector=undefined
+                
+            //     console.log(selector)
+            //     //selector.destroy()
+            //   }else{
+            //     console.log(0,selector)
+            //   }
+            //   //console.log(selector)
+            // }
+            // catch{
+            //   //console.log(!!viewer.current.cesiumElement.selectionIndicator) 
+            //   console.log('ошибка')
+              
+            // }
            //.info-bar
            try{
             //const info = new InfoBoxCesium(document.querySelector('div.info-bar'))
@@ -383,6 +394,12 @@ class DJeemyComponentCesium extends Component{
         .then(async (scene)=>{
           //SelectionIndicatorCesium()
           this.setPickEntity()
+          // if (!!scene.current.cesiumElement){
+          //   //console.log(1)
+          //   new SelectionIndicatorCesium('', scene.current.cesiumElement)
+          // }else{
+          //   console.log(0)
+          // }
         }
         ).catch(err=>{console.log('sceneRef',err)})
         testCesiumElemet(this.cameraRef)
@@ -485,6 +502,7 @@ class DJeemyComponentCesium extends Component{
                       className="viewer-class"
                       id="viewer"  
                       ref={this.viewerRef} 
+                      selectionIndicator={false}
                       animation={false}
                       baseLayerPicker={false}
                       fullscreenButton={false}

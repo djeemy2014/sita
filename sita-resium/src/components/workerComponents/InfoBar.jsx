@@ -30,7 +30,7 @@ useEffect(()=>{
     //setinform(props.infoBar+'AA')
     //props.setInfoBar(props.infoBar+'')
     //console.log(1)
-    console.log(props.DOMElementCanvas)
+    //console.log(props.DOMElementCanvas)
     if (dom!==props.DOMElementCanvas){
         setDom(props.DOMElementCanvas)
     }

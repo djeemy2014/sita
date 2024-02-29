@@ -49,7 +49,44 @@ div.tooldar-out{
 
 }
 
+.work-list{
+    display: grid;
+    .nameScene{
+        display: grid;
+    }
+    .discriptionScene{
+        position: static;
+        //transition: display 4s ;
+        transition-duration: 0.4s;
+        overflow-y: auto ;
 
+    }
+    .legendScene{
+        position: static;
+        transition-duration: 0.4s;
+        overflow-y: auto ;
+    }
+    .layersScen{
+        position: static;
+        transition-duration: 0.4s;
+        overflow-y: auto ;
+    }
+    //.sita-button-settings:active{
+    //    .discriptionScene{ display: none;}
+    //}
+}
+.open{
+    height:calc($hToolbar - 32px);
+    //transition-duration: 4s;
+}
+
+.close{
+    //transition-duration: 4s;
+    //scale: 1 0;
+    //size: 0;
+    //text-transform: none;
+    height: 0;
+}
 .div-button{
     display: inline-block;
     position: sticky;
@@ -66,14 +103,18 @@ div.tooldar-out{
     button{
         display: absolute;
         //margin-bottom: 1px;
+        //border-width: 0px;
         border-radius: 0% 25% 25% 0%;
         
     };
+    
     .sita-button{
         height: $sizeButton;
         width: $sizeButton;
         //top: 20px;
+        
     }
+    
     //.sita-button-list{
         .list-open{
             background: url(
@@ -92,6 +133,11 @@ div.tooldar-out{
             '../components/workerComponents/icon/white/home-svgrepo-com.svg'
             )  no-repeat center/80% $primary;
     }
+    .sita-button-discriptionScene{
+        background: url(
+            '../components/workerComponents/icon/white/fill-195-svgrepo-com.svg'
+            )  no-repeat center/80% $primary;
+    }
     .sita-button-settings{
         background: url(
             '../components/workerComponents/icon/white/settings-svgrepo-com.svg'
@@ -105,11 +151,28 @@ div.tooldar-out{
     }
     .sita-button-legend{
         background: url(
+            '../components/workerComponents/icon/white/list-svgrepo-com.svg'
+            )  no-repeat center/80% $primary;
+    }
+    .sita-button-layers{
+        background: url(
             '../components/workerComponents/icon/white/layers-svgrepo-com.svg'
             )  no-repeat center/80% $primary;
     }
+    .button-on{
+        border-color: #3a3546;
+        border-width: 1px;
+        background-color: #675E7C;
+        //background-color: #675E7C;
+    }
+    .button-off{
+        //border-color: #ce45b7;
+        //border-width: 2px;
+        
+    }
     
 }
+
 .div-collapse-list{
     width: calc(100vw / 5); 
     height: $hToolbar;

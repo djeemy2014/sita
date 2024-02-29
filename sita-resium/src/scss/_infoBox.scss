@@ -1,6 +1,6 @@
 @import "./header";
 @import "./toolbar";
-
+//@import "styleSita.scss";
 $hToolbar:calc(90vh - 2px - $hHeader);
 $hInfoBarHeader: 6em;
 $wToolbar:calc(100vw / 5);
@@ -41,18 +41,32 @@ $wToolbar:calc(100vw / 5);
     }
     .info-bar-window{
         //width: auto;
+        //display: grid;
+        //align-items: center;
+        
         height: calc($hToolbar - $hInfoBarHeader - 15px);
         overflow: 'auto';
         margin-left: 5px;
         margin-right: 5px;
+        max-height: min-content
         
     }
     .infoBarBody{
         //border: 2px solid black;
+        //width:100%;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
+        display: grid;
+        justify-content: center;
+        
         th, td{
             border: 2px solid $info;
         }
         table{
+            //min-width: 300px;
+            width: calc($wToolbar - 20px);
+            //max-width: 100%;
             background-color: $dark;
         }
     }
@@ -71,7 +85,12 @@ $wToolbar:calc(100vw / 5);
 @media (max-width: 800px) {
     .info-bar{
         width: calc(100vw - $sizeButton); 
-        height: $hToolbar
+        height: $hToolbar;
+        .infoBarBody{
+            table{
+                width:calc(100vw - $sizeButton - 20px);
+            }
+        }
     
     }
     .info-bar-viwer{
@@ -82,7 +101,12 @@ $wToolbar:calc(100vw / 5);
 @media (min-width: 800px) and (max-width: 1500px)  {
     .info-bar{
         width: calc(300px); 
-        height: $hToolbar
+        height: $hToolbar;
+        .infoBarBody{
+            table{
+                width:calc(280px);
+            }
+        }
     }
     .info-bar-viwer{
         width: calc(300px); 
@@ -101,9 +125,11 @@ $wToolbar:calc(100vw / 5);
     margin: 5px;
     right:0px;
     left: auto;
-     background: url(
+    background-color: #ffffff00;
+    background: url(
          '../components/workerComponents/icon/white/x-square-svgrepo-com.svg'
-         )  no-repeat center/80% $primary;
+         )  no-repeat center/80% #ffffff00;
+    
     //background: aqua;
 }
     //     

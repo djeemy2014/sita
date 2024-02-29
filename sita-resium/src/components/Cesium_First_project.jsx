@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {useSearchParams} from "react-router-dom";
 import DJeemyComponentCesium from "./Cesium_Work";
 
 
@@ -7,7 +8,9 @@ import DJeemyComponentCesium from "./Cesium_Work";
 
 export default function CesiumProgert(props){
     const server = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'
-    const nameProject = 'project_1'
+    const [searchParams] = useSearchParams();
+    const requestObject = Object.fromEntries([...searchParams])
+    const nameProject = requestObject.uid??'project_1'
     const projectURL = './project.json'
     const [project, setProject]=useState(null)
     const [scene, setScene]=useState(null)
