@@ -67,10 +67,10 @@ export function InputChekboxFunction(props){
           type="checkbox" 
           onChange={()=>props.setShowStat(!props.showStat)}
           />
-          <button 
+          {/* <button 
             className={open?'collapse-li plus':'collapse-li minus'}
             onClick={()=>setOpen(!open)}
-            ></button>
+            ></button> */}
           {/* <button style={{width: '50px'}} onClick={()=>props.setShowStat(!props.showStat)}>Li</button> */}
           {/* {props.greny===undefined?null:(props.greny&&props.showStat).toString()}
           {props.showStat} */}
@@ -79,7 +79,7 @@ export function InputChekboxFunction(props){
           {/* showStat.toString() */}
           
           {/* <button onClick={()=>props.setGreny(listLi+10)}>Li2</button> */}
-          <Collapse
+          {/* <Collapse
                 in={open} 
                 appear={true}
             >
@@ -87,7 +87,7 @@ export function InputChekboxFunction(props){
                 <LegendLayer classifiers={props.classifiers} obj={props.comprops}></LegendLayer> 
                 </div>
                 
-            </Collapse>
+            </Collapse> */}
         </li>
 
 

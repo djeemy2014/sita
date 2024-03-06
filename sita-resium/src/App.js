@@ -84,16 +84,6 @@ function Layout(){
             <Link to="/projects">Список проектов на Cesium</Link>
           </li>
           <li>
-            <Link to="/params?sort=uid">Отработка строкового запроса</Link>
-          </li>
-          <li>
-            <Link to="/testCesium">Первый проект на Cesium, ТРК Каспийский кластер, v0.1</Link>
-          </li>
-          <li>
-            <Link to="/testCesium?uid=26f844ac-33ad-4660-a085-58263d903b20">Первый проект на Cesium, ТРК Каспийский кластер, v0.1.1</Link>
-          </li>
-          
-          <li>
             <Link to="/TVSCesium">Проект на Cesium, ТРК Каспийский кластер, v0.2</Link>
           </li>
           {/* <li>

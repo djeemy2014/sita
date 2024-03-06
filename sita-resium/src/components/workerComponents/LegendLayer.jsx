@@ -8,6 +8,23 @@ import {
 } from 'react'
 import {Color} from 'cesium'
 import {saturation} from './ColorFunction'
+async function awaitClassifiers(classifiers, i=0){
+    return new Promise((res,rej)=>{
+        if(!!classifiers?.description){
+            res(classifiers)
+        } else if (i<1000){
+            i++;
+            setTimeout(()=>{
+                awaitClassifiers(classifiers, i).then(res).catch(rej)
+            },10)
+        }else{
+            
+            rej(new Error(`Waiting more than ${1000*10/1000} seconds.${classifiers.name}`))
+        }
+    })
+
+    
+}
 
 function casePoligon(obj,classifiers,resalt=undefined){
     if (obj.noClassifing){
@@ -359,32 +376,82 @@ function caseWall(obj, classifiers, resalt=undefined){
 
 
 
-export default function LegendLayer(props,resalt=undefined){
-
+export default function LegendLayer(props){
+const [resalt, setResalt]=useState((<></>))
+//let resalt
+//console.log(props)
+useEffect(()=>{
+    //console.log(props.classifiers.description)
+    awaitClassifiers(props.classifiers)
+        .then(()=>{
+            if(!!props.classifiers.description){
+                switch(props.classifiers.geometryType){
+                    case("Polygon"):
+                    setResalt(casePoligon(props.obj,props.classifiers))
+                        break
+                    case("25D"):
+                    setResalt(case25D(props.obj, props.classifiers))
+                        break
+                    case("Wall"):
+                    setResalt(caseWall(props.obj, props.classifiers))
+                        break
+                    default:
+                        setResalt((<>
+                            <p>{props.obj.name}</p>
+                        </>))
+                        break
+                }    
+            }
+        })
+        .catch(
+            (err)=>{
+                console.log(err)
+            }
+        )
     
-    if(!!props.classifiers.description){
-        switch(props.classifiers.geometryType){
-            case("Polygon"):
-            resalt=casePoligon(props.obj,props.classifiers)
-                break
-            case("25D"):
-                resalt = case25D(props.obj, props.classifiers)
-                break
-            case("Wall"):
-                resalt = caseWall(props.obj, props.classifiers)
-                break
-            default:
-                resalt=(<>
-                    <p>{props.obj.name}</p>
-                </>)
-                break
+    //else{
+    //    resalt=(<>
+    //        <p>Привет</p>
+    //    </>)
+    //}
+},[])    
+useEffect(()=>{
+    awaitClassifiers(props.classifiers)
+    .then(()=>{
+        if(!!props.classifiers.description){
+            switch(props.classifiers.geometryType){
+                case("Polygon"):
+                setResalt(casePoligon(props.obj,props.classifiers))
+                    break
+                case("25D"):
+                setResalt(case25D(props.obj, props.classifiers))
+                    break
+                case("Wall"):
+                setResalt(caseWall(props.obj, props.classifiers))
+                    break
+                default:
+                    setResalt((<>
+                        <p>{props.obj.name}</p>
+                    </>))
+                    break
+            }    
         }
-        
-    }else{
-        resalt=(<>
-            <p>Привет</p>
-        </>)
-    }
+    })
+    .catch(
+        (err)=>{
+            console.log(err)
+        }
+    )
+    // else{
+    //     resalt=(<>
+    //         <p>Привет</p>
+    //     </>)
+    // }
+},[
+    props.classifiers.name,props.classifiers.description,props.obj,props.classifiers
+    //props.obj,props.classifiers
+])    
+    
     
     return resalt
 }

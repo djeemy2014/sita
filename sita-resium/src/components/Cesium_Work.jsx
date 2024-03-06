@@ -63,6 +63,9 @@ import {
     buildModuleUrl as buildModuleUrlCesium,
     JulianDate as JulianDateCesium,
     SelectionIndicatorViewModel as SelectionIndicatorViewModelCesium,
+    Timeline as TimelineCesium,
+    Credit as CreditCesium,
+    CreditDisplay as CreditDisplayCesium,
     //Resource as ResourceCesium,
     Color,
 } from 'cesium'
@@ -281,6 +284,16 @@ class DJeemyComponentCesium extends Component{
             shadowMap.maximumDistance=5000
             shadowMap.size=1024*5
             shadowMap.darkness=0.4
+            const credit = new CreditCesium(`<a href="https://cesium.com/" target="_blank"><h1>ПРивет</h1></a>`, true);
+            //const credit2 = new CreditDisplayCesium(document.querySelector('.titel-header'));
+            //viewer.current.cesiumElement.creditDisplay=credit2
+            console.log(viewer.current.cesiumElement.creditDisplay)
+            viewer.current.cesiumElement.creditDisplay._cesiumCreditContainer=document.createElement("div")
+            viewer.current.cesiumElement.creditDisplay._expandLink=document.createElement("p")
+            //console.log(credit2)
+            //viewer.current.cesiumElement.creditDisplay.addStaticCredit(credit);
+            //viewer.current.cesiumElement.creditDisplay.destroy();
+            //viewer.current.cesiumElement.creditDisplay
             //console.log(this.state.scene.id)
             // if (this.state.scene.id===3){
             //   console.log(this.state.scene.id)
@@ -465,7 +478,8 @@ class DJeemyComponentCesium extends Component{
       //console.log(TransformsCesium.northEastDownToFixedFrame(Cartesian3Cesium.fromDegrees(90,0)))
       //console.log(TransformsCesium.northEastDownToFixedFrame(Cartesian3Cesium.fromDegrees(0,90)))
       //console.log(TransformsCesium.northEastDownToFixedFrame(Cartesian3Cesium.fromDegrees(180,0)))
-      //console.log(TransformsCesium.northEastDownToFixedFrame(Cartesian3Cesium.fromDegrees(45,45)))
+      //console.log(TransformsCesium.northEastDownToFixedFrame(Cartesian3Cesium.fromDegrees(45,45)))3
+      //let abc = (<div><p>gjhgjhkjh</p></div>)
         return (
           <>
             <div className="toolbar">
@@ -515,7 +529,7 @@ class DJeemyComponentCesium extends Component{
                       infoBox={false} //бокс отображения информакции об объекте
                       sceneModePicker={false}
                       navigationHelpButton={false}
-                      //creditContainer='<p>dsfdfsdc</p>'
+                      //creditContainer={abc}
 
                       //navigationInstructionsInitiallyVisible={false}
                     >

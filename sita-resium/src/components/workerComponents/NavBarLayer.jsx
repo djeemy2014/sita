@@ -2,9 +2,116 @@ import {createRef, useRef, useState, useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import {InputChekboxFunction} from "./InputChecked"
+import LegendLayer from './LegendLayer'
 import InfoBar from "./InfoBar"
 /*  */
-
+function NavLegendGeoJSON(props){
+  const comprops=props.comprops
+  //const [showStat, setShowStat]=useState(comprops.defaultChecked===undefined?true:comprops.defaultChecked) //comprops.defaultChecked===undefined?true:comprops.defaultChecked
+  const [open,setOpen]=useState(true)
+  const [resalt,setResalt]=useState(<></>)
+  
+  useEffect(()=>{
+    if (!Array.isArray(comprops.list)){
+      //comprops.defaultChecked=showStat
+      setResalt(
+        
+        <li key={props.id}>
+           <button 
+             className={open?'collapse-li plus':'collapse-li minus'}
+             onClick={()=>setOpen(!open)}
+             ></button>
+           {/* <button style={{width: '50px'}} onClick={()=>props.setShowStat(!props.showStat)}>Li</button> */}
+           {/* {props.greny===undefined?null:(props.greny&&props.showStat).toString()}
+           {props.showStat} */}
+           {/* {' '} */}
+           <p>{props.comprops.name}</p>
+           {/* showStat.toString() */}
+  
+           {/* <button onClick={()=>props.setGreny(listLi+10)}>Li2</button> */}
+           <Collapse
+                 in={open} 
+                 appear={true}
+             >
+                 <div>
+                 <LegendLayer classifiers={props.classifiers} obj={props.comprops}></LegendLayer> 
+                 </div>
+  
+             </Collapse>
+         </li>
+        )
+      }else{
+        if (comprops.type==="scen"){
+          setResalt (<div>
+            <ul key={comprops.id}>
+            <div>
+              <div className='collapse-li'>
+              
+                {
+                  comprops.list.map((ev)=>{
+                    return <NavLegendGeoJSON 
+                    comprops={ev}
+                    classifiers={(props.classifiers.filter((elem)=>elem.prototype===ev.prototype)[0]??props.classifiers)}
+                    //greny={showStat}
+                    //setGreny={setShowStat}
+                    //listConnectGeoJSON={props.listConnectGeoJSON}
+                    />
+                  })
+                }
+              </div>
+              </div>
+            </ul>
+          </div>)
+        }else{
+  
+        
+        //comprops.defaultChecked=showStat
+        setResalt (
+          <div>
+          <ul key={comprops.id}>
+            {/* <input 
+            checked={showStat} 
+            type="checkbox" 
+            onChange={
+              ()=>{
+                setShowStat(!showStat)
+              }
+              }/> */}
+            <button 
+            className={open?'collapse-li plus':'collapse-li minus'}
+            onClick={()=>setOpen(!open)}
+            ></button>
+              <p>{comprops.name}</p>
+            <Collapse 
+              in={open} 
+              appear={true}
+            >  
+            <div>
+              <div className='collapse-li'>
+                {
+                  comprops.list.map((ev)=>{
+                    return <NavLegendGeoJSON 
+                    comprops={ev}
+                    classifiers={(props.classifiers.filter((elem)=>elem.prototype===ev.prototype)[0]??props.classifiers)}
+                    //greny={showStat}
+                    //setGreny={setShowStat}
+                    //listConnectGeoJSON={props.listConnectGeoJSON}
+                    />
+                  })
+                }
+              </div>
+              </div>
+            </Collapse>
+          </ul>
+          </div>
+        )
+        }
+      }
+  },[
+    open,props.classifiers,comprops, props.comprops, props.id
+  ])
+  return (resalt)
+}
 function  NavListGeoJSON(props){
   const comprops=props.comprops
   const [showStat, setShowStat]=useState(comprops.defaultChecked===undefined?true:comprops.defaultChecked) //comprops.defaultChecked===undefined?true:comprops.defaultChecked
@@ -87,6 +194,7 @@ function  NavListGeoJSON(props){
       )
       }
     }
+    
 }
 
 
@@ -119,13 +227,20 @@ function NumberList(props) {
     <div className={`legendScene ${props.switchInfo===1?'open':'close'}`}>
       <div>
         <h6>Условные обозначения</h6>
+        <NavLegendGeoJSON 
+        comprops={
+            props.layersParams
+          } 
+        classifiers={props.classifiers}
+          />
       </div>
       </div>
   </div>)
   },
   [
-    props.switchInfo
+    props.switchInfo,props.layersParams,props.classifiers
   ])
+  //console.log(document.querySelector('.nameScene')?.style.height)
   return ( 
     resalt
    
@@ -138,7 +253,7 @@ function NavBarLayer(props) {
   const [open, setOpen] = useState(false);
   const [openInfoBox, setOpenInfoBox] = useState('block');
   const [scenName, setScenName] = useState(true);
-  const [switchInfo, setSwitchInfo] = useState(5);
+  const [switchInfo, setSwitchInfo] = useState(0);
   // const [discriptionScene, setDiscriptionScene] = useState(false);
   // const [legendScene, setLegendScene] = useState(false);
   // const [layersScen, setLayersScen] = useState(false);

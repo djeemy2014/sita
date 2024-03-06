@@ -17,6 +17,7 @@ $danger: #f44336;
 $step:20px;
 $sizeButton:30px;
 $hToolbar:calc(90vh - 2px - $hHeader);
+$hNameScene: 64px;
 
 
 
@@ -53,6 +54,10 @@ div.tooldar-out{
     display: grid;
     .nameScene{
         display: grid;
+        overflow:hidden;
+        height: $hNameScene;
+        align-content:center;
+        //justify-content: flex-end
     }
     .discriptionScene{
         position: static;
@@ -76,8 +81,9 @@ div.tooldar-out{
     //}
 }
 .open{
-    height:calc($hToolbar - 32px);
+    height:calc($hToolbar - $hNameScene);
     //transition-duration: 4s;
+    
 }
 
 .close{
@@ -162,7 +168,7 @@ div.tooldar-out{
     .button-on{
         border-color: #3a3546;
         border-width: 1px;
-        background-color: #675E7C;
+        background-color: #35303f;
         //background-color: #675E7C;
     }
     .button-off{
