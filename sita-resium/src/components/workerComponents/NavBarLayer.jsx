@@ -15,7 +15,6 @@ function NavLegendGeoJSON(props){
     if (!Array.isArray(comprops.list)){
       //comprops.defaultChecked=showStat
       setResalt(
-        
         <li key={props.id}>
            <button 
              className={open?'collapse-li plus':'collapse-li minus'}
