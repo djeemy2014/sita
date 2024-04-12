@@ -1,23 +1,7 @@
 @import "./checkbox";
 @import "./header";
-$paramBorder: solid 1px #00000088;
-//$colorBackground: $primary2;
-$primary: $colorBackground;
-$white: #ffffff;
-$black: #000000;
-$listButton:#88888888;
-// цвет кнопок сейрый
-$secondary: #9ab6da;
-$dark: #386086;
-$light: #f2efee;
-$success: #5ece45;
-$info: #9ab6da;
-$warning: #e41fc3;
-$danger: #f44336;
-$step:20px;
-$sizeButton:30px;
-$hToolbar:calc(90vh - 2px - $hHeader);
-$hNameScene: 64px;
+@import "./variables";
+
 
 
 

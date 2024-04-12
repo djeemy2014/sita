@@ -1,0 +1,27 @@
+//header
+$primary2:#A38BC0a4;// #d08cd9 ;
+$colorBackground: #A38BC0a4;//#7c7298aa; //#7c729855
+$hHeader:calc(6vh - 2px);
+//footer
+$hListScene:150px;
+$hTimeLineDiv:2.5em;
+//toolbar
+$paramBorder: solid 1px #00000088;
+//$colorBackground: $primary2;
+$primary: $colorBackground;
+$white: #ffffff;
+$black: #000000;
+$listButton:#88888888;
+// цвет кнопок сейрый
+$secondary: #9ab6da;
+$dark: #386086;
+$light: #f2efee;
+$success: #5ece45;
+$info: #9ab6da;
+$warning: #e41fc3;
+$danger: #f44336;
+$step:20px;
+$sizeButton:30px;
+$hToolbar:calc(100vh - 2px - $hHeader - $hListScene);
+$hNameScene: 64px;
+

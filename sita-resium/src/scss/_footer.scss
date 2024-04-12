@@ -1,4 +1,7 @@
 @import "./header";
+@import "./variables";
+
+
 
 footer{
     position:absolute;
@@ -6,16 +9,31 @@ footer{
     top:0;
     left:0;
     right:0;
-    bottom: 10vh;
+    bottom: 0;
     //align-content: end;
     //vertical-align: middle;
-    //background-color: rgba(0, 255, 255, 0.144);
+    background-color: rgba(0, 255, 255, 0.144);
     //border:solid 2px gray;
-    height: max-content;
-    width: 50vw;
+    height: calc($hListScene + $hTimeLineDiv + 2.5em);
+    width: 100%;
     z-index: 5;
-    display: flex;
+    display: grid;
+    place-items: center;
     overflow: auto;
+    .footer-time-line{
+        width: 100%;
+        height:$hTimeLineDiv
+    }
+    .footer-switch{
+        width: 2.5em;
+        height: 2.5em;
+        background-color: brown;
+    }
+    .footer-list-scene{
+        display:flex;
+        width: 100%;
+        height: $hListScene;
+    }
     .scene-button{
         width: 2.5em;
         height: 2.5em;
