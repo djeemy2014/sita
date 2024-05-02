@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
-import DJeemyComponentCesium from "./Cesium_Work";
+import TVSComponentCesium from "./Cesium_Work";
 
 
 
@@ -148,14 +148,14 @@ export default function CesiumProgert(props){
         <></>
         const contener = !project&&!!scene?<>
             {header}
-            <DJeemyComponentCesium file={project} scene={scene} server={server+nameProject}/>
+            {/* <DJeemyComponentCesium file={project} scene={scene} server={server+nameProject}/> */}
             {footer}
         </>:
         <></>
 
         setSceneHTML(<>
             {header}
-            <DJeemyComponentCesium file={project} scene={scene} server={server+nameProject} project={project}/>
+            <TVSComponentCesium file={project} scene={scene} server={server+nameProject} project={project}/>
             {footer}
         </>
             )

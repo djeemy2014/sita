@@ -6,7 +6,9 @@ import Cesium from './components/Cesium'
 import Test_Scene from './components/TestComponent.js'
 import ExampleComponent from './components/useEfect.js'
 import DJeemyComponentCesium from './components/Cesium_Work.jsx'
+//import DJeemyComponentCesium from './componentsTVS/Cesium_Work.jsx'
 import CesiumProgert from './components/Cesium_First_project';
+import CesiumProgertTVS from './componentsTVS/Cesium_First_project';
 import ListProjekt from './components/ListProject.tsx'
 import AssetMap from './components/Problem_2020'
 
@@ -31,6 +33,11 @@ function App() {
         {/* <Route path="/testCesium" element={<Test_Scene />} /> */}
         <Route path="/testCesium" element={
         <CesiumProgert
+          
+        />
+        } />
+        <Route path="/TVSCesium" element={
+        <CesiumProgertTVS
           
         />
         } />
