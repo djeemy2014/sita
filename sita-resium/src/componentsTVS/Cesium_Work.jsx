@@ -1077,7 +1077,7 @@ class TVSComponentCesium extends Component{
                         {/* <Entity ref={this.pointRef} />  */}
                         <>
                         {/* { this.updeteScene()} */}
-                            {this.state.listGeoJSON}
+                            {/* {this.state.listGeoJSON} */}
                             {/* {this.listGeoJSON2} */}
                         </>
                         

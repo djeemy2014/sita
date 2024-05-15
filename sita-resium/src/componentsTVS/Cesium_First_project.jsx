@@ -8,6 +8,7 @@ import TVSComponentCesium from "./Cesium_Work";
 
 export default function CesiumProgert(props){
     const server = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'
+    const server2 = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/ALL/'
     const [searchParams] = useSearchParams();
     const requestObject = Object.fromEntries([...searchParams])
     const nameProject = requestObject.uid??'project_1'
@@ -34,6 +35,18 @@ export default function CesiumProgert(props){
             })
             //console.log(data)
             setScene(data)
+        })
+        fetch(server2+'First.json').then(data=>data.json()).then(data=>{
+            console.log(Object.keys(data))
+            //console.log(server2+data[Object.keys(data)[0]].Folder+'/'+Object.keys(data)[0]+'.json')
+            Object.keys(data).forEach((elem)=>{
+                fetch(server2+data[elem].Folder+'/'+elem+'.json')
+                .then(data=>data.json())
+                .then(data=>{
+                    console.log(data)
+                })
+
+            })
         })
         
     }
