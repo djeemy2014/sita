@@ -38,7 +38,7 @@ function App() {
           <Users />
         } />
         <Route path="/projects" element={
-            <ListProjekt url={'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/projects.json'} />
+            <ListProjekt url={'http://localhost:18077/cesium_test/geodata/testModel/geojson/projects.json'} />
         
         } />
         <Route path="/useEfect" element={<ExampleComponent />} />

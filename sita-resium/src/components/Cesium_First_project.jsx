@@ -7,7 +7,7 @@ import DJeemyComponentCesium from "./Cesium_Work";
 
 
 export default function CesiumProgert(props){
-    const server = 'http://10.0.5.190:18077/cesium_test/geodata/testModel/geojson/'
+    const server = 'http://localhost:18077/cesium_test/geodata/testModel/geojson/'
     const [searchParams] = useSearchParams();
     const requestObject = Object.fromEntries([...searchParams])
     const nameProject = requestObject.uid??'project_1'

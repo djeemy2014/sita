@@ -7,6 +7,12 @@ import { Viewer as CesiumViewer,
   Cesium3DTileset as CesiumCesium3DTileset,
   Transforms as TransformsCesium,
   Cartographic,
+  ImageryLayer as CesiumImageryLayer,
+  UrlTemplateImageryProvider,
+  GeographicTilingScheme,
+  OpenStreetMapImageryProvider,
+  ScreenSpaceEventHandler,
+  ScreenSpaceEventType
 } from "cesium";
 import { 
   Viewer ,
@@ -21,7 +27,10 @@ export default function Cesium() {
   const sceneRef = useRef(null);
   const sceneRef2 = useRef(null);
   const cameraRef = useRef(null)
-  const startPosition= Cartesian3Cesium.fromDegrees(48.20366195893176, 42.19013569656324, 10000); 
+  //let lon = 37.62144589;
+  //let lat = 55.75252130;
+  //let h = 149.02;
+  const startPosition= Cartesian3Cesium.fromDegrees(37.62144589, 55.75252130, 1000000  ); 
   //const startPosition= Cartesian3Cesium.fromRadians(-1.3197004795898053, 0.6988582109, 1000);
 //   cameraRef.current?.cesiumElement.setView(
 //     {
@@ -56,6 +65,12 @@ testCesiumElemet(sceneRef)
 .then((scena)=>{
   const scen = scena.current.cesiumElement
   console.log(scen)
+  const handler = new ScreenSpaceEventHandler(scen.canvas);
+  console.log(handler)
+  handler.setInputAction((elem)=>{
+    console.log(elem)
+    scen.pick(elem);
+  }, ScreenSpaceEventType.LEFT_CLICK)
   /* try {
     CesiumCesium3DTileset.fromUrl(
        "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json"
@@ -69,24 +84,102 @@ testCesiumElemet(sceneRef)
   } */
 })
 .catch(err=>{console.log('cElemRef',err, sceneRef)})
-
+testCesiumElemet(ref)
+          .then((viewer)=>{
+            const osm = new OpenStreetMapImageryProvider({
+              url : 'https://a.tile.openstreetmap.org/'
+          });
+          const tms = new UrlTemplateImageryProvider({
+            url :'http://localhost:18077/cesium_test/geodata/gdal_tiles2/{z}/{x}/{reverseY}.png',
+            tilingScheme : new GeographicTilingScheme(),
+            maximumLevel : 8
+        });
+          viewer.current.cesiumElement.imageryLayers.addImageryProvider(osm);
+          viewer.current.cesiumElement.imageryLayers.addImageryProvider(tms);
+          
+          
+        })
+          .catch(err=>{console.log('camera',err, cameraRef)})
 testCesiumElemet(ref2)
           .then((tiles)=>{
             console.log(tiles)
             try {
+              const TILESET_OPTIONS = {
+                show: true,
+                cacheBytes: 536870912,
+                skipLevelOfDetail: true,
+                immediatelyLoadDesiredLevelOfDetail: true,
+                maximumCacheOverflowBytes: 636870912,
+                dynamicScreenSpaceErrorDensity: 0.0002,
+                dynamicScreenSpaceErrorFactor: 24,
+                dynamicScreenSpaceError: true,
+              }
+              const optionTile = {
+                ...TILESET_OPTIONS,
+                maximumScreenSpaceError: 16,
+                //featureIdLabel: uniqueId(ID_PREFIX.TILE),
+                skipLevelOfDetail: true,
+                foveatedScreenSpaceError: true,
+                foveatedTimeDelay: 0.0,
+                baseScreenSpaceError: 64,
+                skipLevels: 4,
+                immediatelyLoadDesiredLevelOfDetail: false,
+                dynamicScreenSpaceError: true,
+                dynamicScreenSpaceErrorDensity: 2.0e-4,
+                dynamicScreenSpaceErrorFactor: 24.0,
+                dynamicScreenSpaceErrorHeightFalloff: 0.25,
+                debugShowBoundingVolume: true,
+              }
+              /* const osm = new Cesium.OpenStreetMapImageryProvider({
+                url : 'https://a.tile.openstreetmap.org/'
+            }); */
+              /* const tms = new UrlTemplateImageryProvider({
+                url :'http://localhost:18077/cesium_test/geodata/gdal_tiles2/{z}/{x}/{reverseY}.png',
+                tilingScheme : new GeographicTilingScheme(),
+                maximumLevel : 8
+            });
+              const baseLayer = new CesiumImageryLayer.fromProviderAsync(tms);
+              ref.current.cesiumElement.imageryLayers.addImageryProvider(tms); */
+              
               CesiumCesium3DTileset.fromUrl(
-                 "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json",
-                 {debugShowBoundingVolume: true,}
+                 //"http://localhost:18077/cesium_test/geodata/tileset_17792_6/tileset_6.json",
+                 //"http://localhost:18077/cesium_test/geodata/tileset_17768/tileset.json",
+                 "http://localhost:18077/cesium_test/geodata/tileset_18824/tileset_6.json",
+                 optionTile
                  ).then((tile)=>{
                 const scen = sceneRef.current.cesiumElement
                 scen.primitives.add(tile)
                 console.log(tile)
+                tile.debugColorizeTiles = true;
               });
+              CesiumCesium3DTileset.fromUrl(
+                 //"http://localhost:18077/cesium_test/geodata/tileset_17792_6/tileset_6.json",
+                 //"http://localhost:18077/cesium_test/geodata/tileset_17768/tileset.json",
+                 "http://localhost:18077/cesium_test/geodata/tileset_18830/tileset_6.json",
+                 optionTile
+                 ).then((tile)=>{
+                const scen = sceneRef.current.cesiumElement
+                scen.primitives.add(tile)
+                console.log(tile)
+                console.log(ref.current.cesiumElement)
+                //viewer.scene.primitives.add(tileset);
+                tile.debugColorizeTiles = true;
+                ref.current.cesiumElement.scene.camera.moveEnd.addEventListener(() => {
+                ref.current.cesiumElement.scene.camera.moveStart.addEventListener(() => {
+                  tile.debugFreezeFrame = true;
+                });
+                 
+                ref.current.cesiumElement.scene.camera.moveEnd.addEventListener(() => {
+                  tile.debugFreezeFrame = false;
+                });
+             });
+              });
+              
               //scen.primitives.add(tileset);
             } catch (error) {
               console.error(`scena Error creating tileset: ${error}`);
             }
-            try {
+            /* try {
               CesiumCesium3DTileset.fromUrl(
                  "http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/MyTileCreat_3DTILES/tileset.json",
                   {debugShowBoundingVolume: true,}
@@ -132,7 +225,7 @@ testCesiumElemet(ref2)
             }
             catch{
               console.log(tiles)
-            }
+            } */
             
             //tiles.cu CesiumCesium3DTile.from
           }
@@ -205,7 +298,11 @@ testCesiumElemet(ref2)
     //       .catch(err=>{console.log('tiles3d',err, ref2)})
     // },[])
   return (
-    <Viewer full ref={ref} >
+    <Viewer full ref={ref} 
+      imageryProvider = {new OpenStreetMapImageryProvider({
+        url : 'https://a.tile.openstreetmap.org/'
+      })} 
+      >
       <Cesium3DTileset
         ref={ref2}
         //url='http://10.0.5.190:18077/cesium_test/geodata/testModel/3dtiles/TilesetWithTreeBillboards/tileset.json'
